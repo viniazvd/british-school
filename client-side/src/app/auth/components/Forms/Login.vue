@@ -12,7 +12,7 @@
 				<input type="password" v-model="user.password" class="form-control">
 			</div>
 
-			<button type="submit" class="btn btn-default" :disabled="!isValid">Submit</button>
+			<button type="submit" @click="doLogin" class="btn btn-default" :disabled="!isValid">Submit</button>
 		</div>
 	</div>
 </template>
@@ -29,6 +29,13 @@ export default {
 			}
 		}
 	},
+
+	methods: {
+		doLogin () {
+			this.$router.push('/')
+		}
+	},
+
 	computed: {
 		isValid () {
 			const user = this.user
