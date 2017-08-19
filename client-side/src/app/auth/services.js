@@ -7,7 +7,3 @@ export const postLogin = (matricula, senha) => {
    })
 }
 
-export const tryLogout = () => {
-	return http.get('http://localhost:3000/api/logout')
-}
-

@@ -1,5 +1,7 @@
 import * as types from './mutations-types'
-import { postLogin, tryLogout } from '../services'
+import { postLogin } from '../services'
+import http from '../../../http'
+
 
 export const attemptLogin = (context, payload) => {
 	return postLogin(payload.matricula, payload.senha)
@@ -12,10 +14,8 @@ export const attemptLogin = (context, payload) => {
 }
 
 export const attemptLogout = (context) => {
-	return tryLogout()
-		.then(() => {
-			localStorage.removeItem('token')
-			context.commit(types.setToken, '')
-			context.commit(types.setUser, '')
-		})
+	localStorage.removeItem('token')
+	context.commit(types.setToken, '')
+	context.commit(types.setUser, '')
+	return http.get('http://localhost:3000/api/logout')
 }
