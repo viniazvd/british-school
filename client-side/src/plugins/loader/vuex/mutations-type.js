@@ -1,1 +1,0 @@
-export const setShow = 'VINI_LOADER/setShow'

@@ -3,13 +3,13 @@
 		<div class="col-md-6">
 
 			<div class="form-group">
-				<label>E-mail</label>
-				<input type="email" v-model="user.email" class="form-control">
+				<label>Matricula</label>
+				<input type="matricula" v-model="user.matricula" class="form-control">
 			</div>
 
 			<div class="form-group">
-				<label>Password</label>
-				<input type="password" v-model="user.password" class="form-control">
+				<label>Senha</label>
+				<input type="password" v-model="user.senha" class="form-control">
 			</div>
 
 			<button type="submit" @click="doLogin" class="btn btn-default" :disabled="!isValid">Submit</button>
@@ -25,8 +25,8 @@ export default {
 	data () {
 		return {
 			user: {
-				email: '',
-				password: ''
+				matricula: '',
+				senha: ''
 			}
 		}
 	},
@@ -35,12 +35,10 @@ export default {
 		...mapActions(['attemptLogin']),
 
 		doLogin () {
-			this.$loader.show()
 			const user = this.user
 			this.attemptLogin({...user})
 				.then(() => {
 					this.$router.push('/')
-					this.$loader.hide()
 				})
 		}
 	},
@@ -48,7 +46,7 @@ export default {
 	computed: {
 		isValid () {
 			const user = this.user
-			return !isEmpty(user.email) && !isEmpty(user.password) 
+			return !isEmpty(user.matricula) && !isEmpty(user.senha) 
 		}
 	}
 
