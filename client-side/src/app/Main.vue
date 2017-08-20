@@ -1,9 +1,9 @@
 <template>
   <div id="app">
-    <RootHeader></RootHeader>
-		<div class="container">
-			<router-view></router-view>
-		</div>
+		<div name="container">
+			<RootHeader></RootHeader>
+			<div class="container"><router-view></router-view></div>
+			</div>
   </div>
 </template>
 
@@ -16,4 +16,6 @@ export default {
 }
 </script>
 
-<style src="../assets/sass/app.scss" lang="sass"></style>
+<style src="../assets/sass/app.scss" lang="sass">
+
+</style>

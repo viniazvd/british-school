@@ -1,10 +1,10 @@
 import store from '../vuex'
 
 const isAuthRoute = route => route.path.indexOf('/auth') !== -1
-const isLogged = () => store.getters.isLogged
+const isAuthenticated = () => store.getters.isAuthenticated
 
 export default (to, from, next) => {
-	if (!isAuthRoute(to) && !isLogged()) {
+	if (!isAuthRoute(to) && !isAuthenticated()) {
 		next('/auth')
 	} else {
 		next()

@@ -12,7 +12,15 @@
 				<input type="password" v-model="user.senha" class="form-control">
 			</div>
 
-			<button type="submit" @click="doLogin" class="btn btn-default" :disabled="!isValid">Submit</button>
+			<button type="submit" @click="doLogin" class="btn btn-success" :disabled="!isValid">Logar</button>
+
+			<!-- modal para reenvio de senha -->
+			<button class="btn btn-default" @click="showModalReenvioSenha=true">Esqueceu a senha?</button>
+			<modalReenvioSenha v-if="showModalReenvioSenha" @close="showModalReenvioSenha=false"></modalReenvioSenha>
+
+			<!-- modal para mudar a senha -->
+			<button class="btn btn-default" @click="showModalMudarSenha=true">Mudar a senha</button>
+			<modalMudarSenha v-if="showModalMudarSenha" @close="showModalMudarSenha=false"></modalMudarSenha>
 		</div>
 	</div>
 </template>
@@ -20,14 +28,23 @@
 <script>
 import { mapActions } from 'vuex'
 import { isEmpty } from 'lodash'
+import modalReenvioSenha from './../../../../components/root/modals/ReenvioSenha.vue'
+import modalMudarSenha from './../../../../components/root/modals/MudarSenha.vue'
 
 export default {
+
+	name: 'login',
+
+  components: { modalReenvioSenha, modalMudarSenha }, 
+
 	data () {
 		return {
 			user: {
 				matricula: '',
 				senha: ''
-			}
+			},
+			showModalReenvioSenha: false,
+			showModalMudarSenha: false
 		}
 	},
 
@@ -38,6 +55,8 @@ export default {
 			const user = this.user
 			this.attemptLogin({...user})
 				.then(() => {
+					this.user.matricula = ''
+					this.user.senha = ''
 					this.$router.push('/')
 				})
 		}
@@ -52,7 +71,3 @@ export default {
 
 }
 </script>
-
-<style scoped>
-
-</style>

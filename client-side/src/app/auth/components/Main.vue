@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<header class="page-header row">
-			<h2>Auth</h2>
+			<h2>Autenticação</h2>
 		</header>
 		<Login />
 	</div>
@@ -21,3 +21,4 @@ export default {
 	}
 }
 </script>
+

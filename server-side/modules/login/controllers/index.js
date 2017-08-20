@@ -10,11 +10,13 @@ controller.authenticate = (req, res) => {
 	const { matricula, senha } = req.body
 	const senhaDescrypt = crypto.createHash('md5').update(senha).digest('hex')
 
-	db.query(`SELECT * FROM usuarios usu, tblusers tbl WHERE usu.matricula = ${matricula} AND usu.senha = '${senhaDescrypt}'`, function (err, results) {
+	db.query(`SELECT usu.matricula, usu.idusuario, usu.senha, usu.nomeusuario, tbl.ver_todas_contas FROM usuarios usu, tblusers tbl WHERE usu.matricula = ${matricula} AND usu.login = tbl.username AND usu.senha = '${senhaDescrypt}'`, function (err, results) {
 		if (err) return res.status(400).json(err)
 
 		req.session.ver_todas_contas = results[0].ver_todas_contas
+		req.session.senha = results[0].senha
 		req.session.idusuario = results[0].idusuario
+		req.session.matricula = results[0].matricula
 
 		return res.status(200).send(results[0])
 	})
@@ -30,20 +32,21 @@ controller.logout = (req, res) => {
 // alterar senha do usuario no login
 controller.changepassword = (req, res, next) => {
 
-	const matricula = parseInt(req.body.matricula)
-	const currentpassword = parseInt(req.body.currentpassword)
-	const newpassword = req.body.newpassword
+	const matricula = req.body.matricula
+	const senha = req.body.senha
+	const novasenha = req.body.novasenha
 
-	db.query(`SELECT matricula FROM usuarios WHERE matricula = ${matricula} AND senha = md5(${currentpassword})`, function (err, results) {
-		if (err) return res.status(400).json(err)
+	db.query(`SELECT matricula FROM usuarios WHERE matricula = ${matricula}`, function (err, results) {
+		if (err) return res.status(400).send('Erro change password sql')
 
 		if (results.length === 0) {
 			res.status(400).send('Senha inválida')
 		} else {
-			db.query(`UPDATE usuarios SET senha = md5(${newpassword}), primeiroacesso = 1, AttemptLogin = 0, date_last_change_pass = NOW() WHERE Matricula = ${matricula}`, function (err, results) {
-				if (err) return res.status(400).json(err)
+			db.query(`UPDATE usuarios SET senha = md5(${novasenha}), primeiroacesso = 1, AttemptLogin = 0, date_last_change_pass = NOW() WHERE matricula = ${matricula}`, function (err, results) {
+				if (err) return res.status(400).send('Erro no update do change password')
 
-				return res.status(200).send('Senha alterada')
+				// return res.status(200).send('Senha alterada')
+				return res.status(200).send(results[0])
 			})
 		}
 	})
