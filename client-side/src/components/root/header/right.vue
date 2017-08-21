@@ -2,16 +2,16 @@
 	<div>
 		<ul class="nav navbar-nav navbar-right">
 			<router-link to="/auth" tag="li" v-if="!isAuthenticated">
-				<a>Login</a>
+				<a><strong>Login</strong></a>
 			</router-link>
 			<li class="dropdown" :class="{ open: isOpenUser }" v-if="isAuthenticated">
-				<a href="javascript:;" @click="toggleUserMenu" class="dropdown-toggle">{{ currentMatricula }} <span class="caret"></span></a>
+				<a href="javascript:;" @click="toggleUserMenu" class="dropdown-toggle">{{ currentMatricula }}<span class="caret"></span></a>
 				<ul class="dropdown-menu">
 					<li><a href="javascript:;" @click="showModalMudarSenha=true">Mudar a senha</a></li>
 					<li><a href="javascript:;">Action2</a></li>
 					<li><a href="javascript:;">Action3</a></li>
 					<li role="separator" class="divider"></li>
-					<li><a href="javascript:;" @click="logout">Logout</a></li>
+					<li><a href="javascript:;" @click="logout"><strong>Logout</strong></a></li>
 				</ul>
 			</li>
 		</ul>

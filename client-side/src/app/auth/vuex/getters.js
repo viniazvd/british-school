@@ -16,3 +16,4 @@
 export const currentMatricula = (state) => !state.user ? state.user = localStorage.getItem('username') : localStorage.getItem('username')
 
 export const isAuthenticated = (state) => state.token != null
+

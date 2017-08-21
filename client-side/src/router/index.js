@@ -5,7 +5,7 @@ import beforeEach from './beforeEach'
 
 Vue.use(VueRouter)
 
-const router = new VueRouter({ routes, linkActiveClass: 'active' })
+const router = new VueRouter({ routes, linkActiveClass: 'active', mode: 'history' })
 
 router.beforeEach(beforeEach)
 

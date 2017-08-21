@@ -17,10 +17,6 @@
 			<!-- modal para reenvio de senha -->
 			<button class="btn btn-default" @click="showModalReenvioSenha=true">Esqueceu a senha?</button>
 			<modalReenvioSenha v-if="showModalReenvioSenha" @close="showModalReenvioSenha=false"></modalReenvioSenha>
-
-			<!-- modal para mudar a senha -->
-			<button class="btn btn-default" @click="showModalMudarSenha=true">Mudar a senha</button>
-			<modalMudarSenha v-if="showModalMudarSenha" @close="showModalMudarSenha=false"></modalMudarSenha>
 		</div>
 	</div>
 </template>

@@ -13,12 +13,16 @@ controller.authenticate = (req, res) => {
 	db.query(`SELECT usu.matricula, usu.idusuario, usu.senha, usu.nomeusuario, tbl.ver_todas_contas FROM usuarios usu, tblusers tbl WHERE usu.matricula = ${matricula} AND usu.login = tbl.username AND usu.senha = '${senhaDescrypt}'`, function (err, results) {
 		if (err) return res.status(400).json(err)
 
-		req.session.ver_todas_contas = results[0].ver_todas_contas
-		req.session.senha = results[0].senha
-		req.session.idusuario = results[0].idusuario
-		req.session.matricula = results[0].matricula
+		if (results.length === 0) {
+			res.status(400).send('Senha inválida')
+		} else {
+			req.session.ver_todas_contas = results[0].ver_todas_contas
+			req.session.senha = results[0].senha
+			req.session.idusuario = results[0].idusuario
+			req.session.matricula = results[0].matricula
 
-		return res.status(200).send(results[0])
+			return res.status(200).send(results[0])
+		}
 	})
 }
 
