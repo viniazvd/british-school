@@ -1,6 +1,7 @@
 const db = require('./../../../config/db')
 const crypto = require('crypto')
 const nodemailer = require('nodemailer')
+const jwt = require('jsonwebtoken')
 
 let controller = {}
 
@@ -16,12 +17,18 @@ controller.authenticate = (req, res) => {
 		if (results.length === 0) {
 			res.status(400).send('Senha inválida')
 		} else {
+
+			const token = jwt.sign({ matricula: matricula, senha: senha }, 'mengaomaiordobrasil')
+
 			req.session.ver_todas_contas = results[0].ver_todas_contas
 			req.session.senha = results[0].senha
 			req.session.idusuario = results[0].idusuario
 			req.session.matricula = results[0].matricula
 
-			return res.status(200).send(results[0])
+			return res.status(200).send({
+				result: results[0],
+				token: token
+			})
 		}
 	})
 }

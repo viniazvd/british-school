@@ -1,7 +1,9 @@
+const app = require('./config/middlewares.js')
+
+var jwt = require('jsonwebtoken');
+
 const login = require('./modules/login/routes')
 const relatorios = require('./modules/relatorios/routes')
-
-const app = require('./config/middlewares.js')
 
 app.use('/api/', login)
 app.use('/api/', relatorios)

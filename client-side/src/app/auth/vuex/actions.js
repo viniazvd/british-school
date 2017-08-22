@@ -2,14 +2,13 @@ import * as types from './mutations-types'
 import { autenticacao, postEmail, postPassword } from '../services'
 import http from '../../../http'
 
-
 export const attemptLogin = (context, payload) => {
 	return autenticacao(payload.matricula, payload.senha)
 		.then(res => res.data)
 		.then(data => {
-			context.commit(types.setUsername, data.matricula)
-			context.commit(types.setToken, data.senha)
-			context.commit(types.setUser, data)
+			context.commit(types.setUsername, data.result.matricula)
+			context.commit(types.setToken, data.token)
+			context.commit(types.setUser, data.result)
 		})
 }
 
