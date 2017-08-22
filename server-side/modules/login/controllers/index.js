@@ -70,7 +70,7 @@ controller.emailForgetPassword = (req, res) => {
 			service: 'Gmail', // Vamos usar o Gmail
 			auth: {
 				user: 'viniazvd@gmail.com', // Basta dizer qual o nosso usuário
-				pass: 'sutp3afn'             // e a senha da nossa conta
+				pass: 'xxxxxx'             // e a senha da nossa conta
 			}
 		})
 
