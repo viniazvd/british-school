@@ -1,7 +1,7 @@
 <template>
 	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 		<div class="container">
-			<Brand @toggle="onToggleMenu" />
+			<!--<Brand @toggle="onToggleMenu" />-->
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" :class="{ in: isOpen }">
 				<Left />
 				<Right />

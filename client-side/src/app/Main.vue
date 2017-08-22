@@ -2,7 +2,9 @@
   <div id="app">
 		<div name="container">
 			<RootHeader></RootHeader>
-			<div class="container"><router-view></router-view></div>
+			<div class="container">
+				<router-view></router-view>
+			</div>
 			</div>
   </div>
 </template>
