@@ -1,12 +1,20 @@
-import Main from './components/Main'
+// import Main from './components/Main'
+import Relatorios from './../relatorios/components/Main'
+import Adiantamento from './../adiantamento/components/Main'
+import Cancelamento from './../cancelamento/components/Main'
+import PrestacaoContas from './../prestacao-contas/components/Main'
+import Reembolso from './../reembolso/components/Main'
+import Pagamento from './../pagamento/components/Main'
+import DepositoOrcamento from './../deposito-orcamento/components/Main'
+import DespesasAlunos from './../despesas-alunos/components/Main'
 
 export default [
-	{ path: '/dashboard/adiantamento', component: Main, name: 'dashboard.adiantamento' },
-	{ path: '/dashboard/prestacaoContas', component: Main, name: 'dashboard.prestacaoContas' },
-	{ path: '/dashboard/reembolso', component: Main, name: 'dashboard.reembolso' },
-	{ path: '/dashboard/pagamento', component: Main, name: 'dashboard.pagamento' },
-	{ path: '/dashboard/depositoOrcamento', component: Main, name: 'dashboard.depositoOrcamento' },
-	{ path: '/dashboard/despesasAlunos', component: Main, name: 'dashboard.despesasAlunos' },
-	{ path: '/dashboard/relatórios', component: Main, name: 'dashboard.relatórios' },
-	{ path: '/dashboard/cancelamento', component: Main, name: 'dashboard.cancelamento' }
+	{ path: 'adiantamento', component: Adiantamento, name: 'adiantamento' },
+	{ path: 'prestacaoContas', component: PrestacaoContas, name: 'prestacaoContas' },
+	{ path: 'reembolso', component: Reembolso, name: 'reembolso' },
+	{ path: 'pagamento', component: Pagamento, name: 'pagamento' },
+	{ path: 'depositoOrcamento', component: DepositoOrcamento, name: 'depositoOrcamento' },
+	{ path: 'despesasAlunos', component: DespesasAlunos, name: 'despesasAlunos' },
+	{ path: 'relatorios', component: Relatorios, name: 'relatorios' },
+	{ path: 'cancelamento', component: Cancelamento, name: 'cancelamento' }
 ]	
