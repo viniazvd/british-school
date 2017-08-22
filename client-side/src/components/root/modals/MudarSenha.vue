@@ -15,7 +15,7 @@
 							<slot name="body">
 							<!--default body-->
 								<div class="form-group">
-									<input type="text" v-model="user.matricula" class="form-control" placeholder="Confirme o nº da matricula">
+									<input type="number" v-model="user.matricula" class="form-control" placeholder="Confirme o nº da matricula">
 								</div>
 								<div class="form-group">
 									<input type="text" v-model="user.senha" class="form-control" placeholder="Confirme a senha atual">
@@ -33,6 +33,14 @@
 								<button class="btn btn-success" @click="mudarSenha" :disabled="!isValid">Enviar</button>
 							</slot>
 						</div>
+
+					<sweet-modal icon="success" ref="modalSucess" @close="redirectPage">
+					Senha alterada com sucesso!
+					</sweet-modal>
+					<sweet-modal icon="warning" ref="modalFail">
+						Dados incorretos. Tente novamente.
+					</sweet-modal>
+
 					</div>
 				</div>
 			</div>
@@ -42,10 +50,13 @@
 <script>
 import { mapActions } from 'vuex'
 import { isEmpty } from 'lodash'
+import { SweetModal, SweetModalTab } from 'sweet-modal-vue'
 
 export default {
 
 	name: 'mudarSenha',
+
+	components: { SweetModal, SweetModalTab }, 
 
 	data () {
 		return {
@@ -63,7 +74,21 @@ export default {
 		mudarSenha () {
 			const user = this.user
 			this.changeUserPassword({...user})
+				.then(() => {
+						this.$refs.modalSucess.open()
+					})
+					.catch(() => {
+						this.$refs.modalFail.open()
+					})
+		},
+
+		fecharModal () {
 			this.$emit('close')
+		},
+
+		redirectPage () {
+			this.$emit('close')
+			this.$router.push('/auth')
 		}
 	},
 

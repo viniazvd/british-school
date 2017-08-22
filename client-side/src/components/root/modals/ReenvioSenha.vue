@@ -15,7 +15,7 @@
 							<slot name="body">
 							<!--default body-->
 								<div class="form-group">
-									<input type="text" v-model="user.matricula" class="form-control" placeholder="Confirme o nº da matricula">
+									<input type="number" v-model="user.matricula" class="form-control" placeholder="Confirme o nº da matricula">
 								</div>
 							</slot>
 						</div>
@@ -23,10 +23,18 @@
 						<div class="modal-footer">
 							<slot name="footer">
 								<!--default footer-->
-								<button class="btn btn-default" @click="$emit('close')">Cancelar</button>
+								<button class="btn btn-default" @click="fecharModal">Cancelar</button>
 								<button class="btn btn-success" @click="rememberPassword" :disabled="!isValid">Enviar</button>
 							</slot>
 						</div>
+
+					<sweet-modal icon="success" ref="modalSucess" @close="redirectPage">
+						E-mail enviado com a nova senha!
+					</sweet-modal>
+					<sweet-modal icon="warning" ref="modalFail">
+						Dados incorretos. Tente novamente.
+					</sweet-modal>
+
 					</div>
 				</div>
 			</div>
@@ -36,10 +44,13 @@
 <script>
 import { mapActions } from 'vuex'
 import { isEmpty } from 'lodash'
+import { SweetModal, SweetModalTab } from 'sweet-modal-vue'
 
 export default {
 
 	name: 'reenvioSenha',
+
+	components: { SweetModal, SweetModalTab }, 
 
 	data () {
 		return {
@@ -55,7 +66,21 @@ export default {
 		rememberPassword () {
 			const user = this.user
 			this.forgotPassword({...user})	
+				.then(() => {
+					this.$refs.modalSucess.open()
+				})
+				.catch(() => {
+					this.$refs.modalFail.open()
+				})
+		},
+
+		fecharModal () {
 			this.$emit('close')
+		},
+
+		redirectPage () {
+			this.$emit('close')
+			this.$router.push('/auth')
 		}
 	},
 

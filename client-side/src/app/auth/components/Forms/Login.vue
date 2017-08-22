@@ -14,6 +14,13 @@
 
 			<button type="submit" @click="doLogin" class="btn btn-success" :disabled="!isValid">Logar</button>
 
+			<sweet-modal icon="success" ref="modalSucess" @close="redirectPage">
+				Logado com sucesso!
+			</sweet-modal>
+			<sweet-modal icon="warning" ref="modalFail">
+				Dados incorretos. Tente novamente.
+			</sweet-modal>
+
 			<!-- modal para reenvio de senha -->
 			<button class="btn btn-default" @click="showModalReenvioSenha=true">Esqueceu a senha?</button>
 			<modalReenvioSenha v-if="showModalReenvioSenha" @close="showModalReenvioSenha=false"></modalReenvioSenha>
@@ -26,12 +33,13 @@ import { mapActions } from 'vuex'
 import { isEmpty } from 'lodash'
 import modalReenvioSenha from './../../../../components/root/modals/ReenvioSenha.vue'
 import modalMudarSenha from './../../../../components/root/modals/MudarSenha.vue'
+import { SweetModal, SweetModalTab } from 'sweet-modal-vue'
 
 export default {
 
 	name: 'login',
 
-  components: { modalReenvioSenha, modalMudarSenha }, 
+  components: { modalReenvioSenha, modalMudarSenha, SweetModal, SweetModalTab }, 
 
 	data () {
 		return {
@@ -52,9 +60,16 @@ export default {
 			this.attemptLogin({...user})
 				.then(() => {
 					this.user.matricula = ''
-					this.user.senha = ''
-					this.$router.push('/')
+					this.user.senha = ''	
+					this.$refs.modalSucess.open()		
 				})
+				.catch(() => {
+					this.$refs.modalFail.open()
+				})
+		},
+
+		redirectPage () {
+			this.$router.push('/dashboard')
 		}
 	},
 

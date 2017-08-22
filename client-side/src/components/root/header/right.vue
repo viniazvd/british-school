@@ -16,6 +16,10 @@
 			</li>
 		</ul>
 		<modalMudarSenha v-if="showModalMudarSenha" @close="showModalMudarSenha=false"></modalMudarSenha>
+
+		<sweet-modal icon="info" ref="modalLogou" @close="redirectPage">
+			Até breve!
+		</sweet-modal>
 	</div>
 </template>
 
@@ -23,10 +27,11 @@
 import { mapGetters } from 'vuex'
 import { mapActions } from 'vuex'
 import modalMudarSenha from './../modals/MudarSenha.vue'
+import { SweetModal, SweetModalTab } from 'sweet-modal-vue'
 
 export default {
 
-	components: { modalMudarSenha }, 
+	components: { modalMudarSenha, SweetModal, SweetModalTab }, 
 
 	data () {
 		return {
@@ -45,10 +50,15 @@ export default {
 
 		logout() {
 			this.attemptLogout()
+			this.$refs.modalLogou.open()	
 		},
 
 		toggleUserMenu() {
 			this.isOpenUser = !this.isOpenUser
+		},
+
+		redirectPage () {
+			this.$router.push('/auth')
 		}
 	},
 
