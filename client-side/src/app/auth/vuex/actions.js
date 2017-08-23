@@ -6,7 +6,10 @@ export const attemptLogin = (context, payload) => {
 	return autenticacao(payload.matricula, payload.senha)
 		.then(res => res.data)
 		.then(data => {
-			context.commit(types.setUsername, data.result.matricula)
+			context.commit(types.setUsername, data.result.nomeusuario)
+			context.commit(types.setDpto, data.result.depto)
+			context.commit(types.setVerContas, data.result.ver_todas_contas)
+			context.commit(types.setPerfil, data.result.id_perfil_sistema)
 			context.commit(types.setToken, data.token)
 			context.commit(types.setUser, data.result)
 		})

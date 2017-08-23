@@ -10,8 +10,20 @@ controller.authenticate = (req, res) => {
 
 	const { matricula, senha } = req.body
 	const senhaDescrypt = crypto.createHash('md5').update(senha).digest('hex')
+	const nomeSistema = 'Expense Report'
 
-	db.query(`SELECT usu.matricula, usu.idusuario, usu.senha, usu.nomeusuario, tbl.ver_todas_contas FROM usuarios usu, tblusers tbl WHERE usu.matricula = ${matricula} AND usu.login = tbl.username AND usu.senha = '${senhaDescrypt}'`, function (err, results) {
+	db.query(`SELECT c.nomeusuario,e.depto,e.ver_todas_contas,c.matricula,nomesistema,a.id_perfil_sistema
+						FROM tblusers e,usuario_controle_acesso a,sistemas b,usuarios c ,perfis_acesso_sistemas d 
+						WHERE a.id_sistema = b.idsistema 
+						AND c.idusuario = a.id_usuario 
+						AND a.id_sistema = d.id_sistema 
+						AND a.id_perfil_sistema = d.idperfilsistema 
+						AND c.matricula = ${matricula}
+						AND c.senha = '${senhaDescrypt}'
+						AND purchasing_id > 0 
+						AND purchasing_id = e.id_user 
+						AND b.nomesistema = '${nomeSistema}'`, function (err, results) {
+		
 		if (err) return res.status(400).json(err)
 
 		if (results.length === 0) {
@@ -21,8 +33,6 @@ controller.authenticate = (req, res) => {
 			const token = jwt.sign({ matricula: matricula, senha: senha }, 'mengaomaiordobrasil')
 
 			req.session.ver_todas_contas = results[0].ver_todas_contas
-			req.session.senha = results[0].senha
-			req.session.idusuario = results[0].idusuario
 			req.session.matricula = results[0].matricula
 
 			return res.status(200).send({

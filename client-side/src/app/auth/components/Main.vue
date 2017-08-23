@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<header class="page-header row">
-			<h2>Autenticação</h2>
+			<h2>Expense Report</h2>
 		</header>
 		<Login />
 	</div>

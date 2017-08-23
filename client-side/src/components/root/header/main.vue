@@ -1,9 +1,8 @@
 <template>
 	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 		<div class="container">
-			<!--<Brand @toggle="onToggleMenu" />-->
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" :class="{ in: isOpen }">
-				<Left />
+				<Itensmenu />
 				<Right />
 			</div>
 		</div>
@@ -11,14 +10,13 @@
 </template>
 
 <script>
-import Left from './left'
-import Brand from './brand'
+import Itensmenu from './itensmenu'
 import Right from './right'
 
 export default {
 	name: 'menu-header',
 	
-	components: { Left, Brand, Right },
+	components: { Itensmenu, Right },
 
 	data () {
 		return { 

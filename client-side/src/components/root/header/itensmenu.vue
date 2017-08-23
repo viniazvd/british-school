@@ -21,7 +21,7 @@
 		<router-link :to="{ name: 'relatorios' }" tag="li" exact>
 			<a>Relatórios</a>
 		</router-link>
-		<router-link :to="{ name: 'cancelamento' }" tag="li" exact>
+		<router-link v-if="allowAcess" :to="{ name: 'cancelamento' }" tag="li" exact >
 			<a>Cancelamento</a>
 		</router-link>		
 	</ul>
@@ -32,9 +32,20 @@ import { mapGetters } from 'vuex'
 
 export default {
 
-	computed: {
-		...mapGetters(['isAuthenticated'])
+	data () {
+		return { 
+			allowAcess: true
+		 }
 	},
-	
+
+	computed: {
+		...mapGetters(['isAuthenticated']),
+
+	},
+
+	beforeUpdate () {
+		const hasNotTotallyAcess = localStorage.getItem('perfil') == 42
+		hasNotTotallyAcess ? this.allowAcess = false : this.allowAcess = true
+	}
 }
 </script>

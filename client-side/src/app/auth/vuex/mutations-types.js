@@ -1,4 +1,7 @@
 export const setUser = 'auth/setUser'
 export const setUsername = 'auth/setUsername'
+export const setDpto = 'auth/setDpto'
+export const setVerContas = 'auth/setVerContas'
+export const setPerfil = 'auth/setPerfil'
 export const setToken = 'auth/setToken'
 export const removeToken = 'auth/removeToken'
