@@ -86,17 +86,17 @@ controller.emailForgetPassword = (req, res) => {
 		const transporte = nodemailer.createTransport({
 			service: 'Gmail', // Vamos usar o Gmail
 			auth: {
-				user: 'viniazvd@gmail.com', // Basta dizer qual o nosso usuário
-				pass: 'xxxxxx'             // e a senha da nossa conta
+				user: 'viniazvd@gmail.com', //  nosso usuário
+				pass: 'sutp3afn'             // senha da nossa conta
 			}
 		})
 
 		// Após configurar o transporte chegou a hora de criar um e-mail
 		// Para enviarmos, para isso basta criar um objeto com algumas configurações
 		const email = {
-			from: 'viniazvd@gmail.com', // Quem enviou este e-mail
-			to: 'vn1.job@gmail.com', // Quem receberá
-			//to: `${results[0].email}`, // Quem receberá
+			from: 'viniazvd@gmail.com', // quem enviou este e-mail
+			to: 'vn1.job@gmail.com', // quem receberá
+			//to: `${results[0].email}`, // quem receberá
 			subject: 'System Recover Password',  // Um assunto  
 			html: `Sua senha é: <strong>${results[0].senha}</strong>` // O conteúdo do e-mail
 		}

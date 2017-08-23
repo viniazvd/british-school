@@ -23,8 +23,8 @@
 						<div class="modal-footer">
 							<slot name="footer">
 								<!--default footer-->
-								<button class="btn btn-default" @click="fecharModal">Cancelar</button>
-								<button class="btn btn-success" @click="rememberPassword" :disabled="!isValid">Enviar</button>
+								<button id="buttonCancelar" class="btn btn-default" @click="fecharModal">Cancelar</button>
+								<button id="buttonEnviar" class="btn btn-success" @click="rememberPassword" :disabled="!isValid">{{ alreadyClicked ? 'Enviar' : 'Aguarde...' }}</button>
 							</slot>
 						</div>
 
@@ -56,7 +56,8 @@ export default {
 		return {
 			user: {
 				matricula: ''
-			}
+			},
+			alreadyClicked: true
 		}
 	},
 
@@ -64,6 +65,9 @@ export default {
 		...mapActions(['forgotPassword']),
 
 		rememberPassword () {
+			this.alreadyClicked = false
+			document.getElementById("buttonEnviar").disabled = true 
+			document.getElementById("buttonCancelar").disabled = true 
 			const user = this.user
 			this.forgotPassword({...user})	
 				.then(() => {
