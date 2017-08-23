@@ -7,9 +7,18 @@
 				<input type="matricula" v-model="user.matricula" class="form-control">
 			</div>
 
-			<div class="form-group">
+			<div class="form-group" v-if="showPassword">
+				<label>Senha</label>
+				<input type="text" v-model="user.senha" class="form-control">
+			</div>
+			<div class="form-group" v-else="showPassword">
 				<label>Senha</label>
 				<input type="password" v-model="user.senha" class="form-control">
+			</div>
+			
+			<div class="form-group">
+				<input type="checkbox" @click="changeType">
+				<label>Visualizar a senha ao digitar?</label>
 			</div>
 
 			<button type="submit" @click="doLogin" class="btn btn-success" :disabled="!isValid">Logar</button>
@@ -48,7 +57,8 @@ export default {
 				senha: ''
 			},
 			showModalReenvioSenha: false,
-			showModalMudarSenha: false
+			showModalMudarSenha: false,
+			showPassword: false
 		}
 	},
 
@@ -70,6 +80,10 @@ export default {
 
 		redirectPage () {
 			this.$router.push('/dashboard')
+		},
+
+		changeType () {
+			this.showPassword = !this.showPassword
 		}
 	},
 
