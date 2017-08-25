@@ -4,6 +4,7 @@ import * as actions from './actions'
 import * as getters from './getters'
 
 export default {
+
 	state,
 	actions,
 	mutations,

@@ -2,18 +2,18 @@
 	<div class="row">
 		<div class="col-md-6">
 
-			<div class="form-group">
-				<label>Matricula</label>
-				<input type="matricula" v-model="user.matricula" class="form-control">
+			<div style="margin-bottom: 25px" class="input-group">
+				<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+				<input type="matricula" v-model="user.matricula" class="form-control" placeholder="matricula">
 			</div>
 
-			<div class="form-group" v-if="showPassword">
-				<label>Senha</label>
-				<input type="text" v-model="user.senha" class="form-control">
+			<div style="margin-bottom: 25px" class="input-group" v-if="showPassword">
+				<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+				<input type="text" v-model="user.senha" class="form-control" placeholder="password">
 			</div>
-			<div class="form-group" v-else="showPassword">
-				<label>Senha</label>
-				<input type="password" v-model="user.senha" class="form-control">
+			<div style="margin-bottom: 25px" class="input-group" v-else="showPassword">
+				<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+				<input type="password" v-model="user.senha" class="form-control" placeholder="password">
 			</div>
 			
 			<div class="form-group">

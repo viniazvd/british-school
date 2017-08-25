@@ -4,9 +4,6 @@ export default {
 	[types.setUser](state, user) {
 		state.user = user
 	},
-	// [types.setToken](state, token) {
-		// state.token = token
-	// },
 	[types.setToken](state, token) {
 		state.token = token
 		localStorage.setItem("token", token)

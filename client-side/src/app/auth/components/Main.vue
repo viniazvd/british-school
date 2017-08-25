@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div id="centralizado">
 		<header class="page-header row">
 			<h2>Expense Report</h2>
 		</header>
@@ -21,4 +21,10 @@ export default {
 	}
 }
 </script>
+
+<style scoped>
+	#centralizado {
+  margin:0 auto;
+	}
+</style>
 

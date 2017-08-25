@@ -1,3 +1,5 @@
-export default {
-	
-}
+export const setContaOrcamentaria = 'adiantamento/setContaOrcamentaria'
+export const setAprovador = 'adiantamento/setAprovador'
+export const setMoeda = 'adiantamento/setMoeda'
+export const setUnidade = 'adiantamento/setUnidade'
+export const setPagamento = 'adiantamento/setPagamento'
