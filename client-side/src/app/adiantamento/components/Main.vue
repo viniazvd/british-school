@@ -6,7 +6,7 @@
 
 
 		<div class="row">
-			<div class="col-md-3 mb-3" >
+			<div class="col-md-3 mb-3">
 				<input type="date" class="form-control">
 			</div>
 			<div class="col-md-3 mb-3">
@@ -35,7 +35,7 @@
 		</div>
 
 		<div class="row" style="margin-top:30px;">
-			<div class="col-md-3 mb-3" >
+			<div class="col-md-3 mb-3">
 				<multiselect v-model="adiantamento.moedaSelected" 
 									:options="moedasArray" 
 									:close-on-select="true" 
@@ -69,6 +69,8 @@
 			</div>
 		</div>
 
+		<addRow />
+
 	</div>
 </template>
 
@@ -76,11 +78,12 @@
 import { mapActions } from 'vuex'
 import Multiselect from 'vue-multiselect'
 import http from '../../../http'
+import addRow from '../../../components/root/addRow'
 
 export default {
 	name: 'adiantamento',
 
-	components: { Multiselect },
+	components: { Multiselect, addRow },
 
 	data () {
 		return {
