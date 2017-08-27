@@ -12,7 +12,7 @@ controller.authenticate = (req, res) => {
 	const senhaDescrypt = crypto.createHash('md5').update(senha).digest('hex')
 	const nomeSistema = 'Expense Report'
 
-	db.query(`SELECT c.nomeusuario,e.depto,e.ver_todas_contas,c.matricula,nomesistema,a.id_perfil_sistema
+	db.query(`SELECT c.nomeusuario,e.depto,e.ver_todas_contas,c.matricula,nomesistema,a.id_perfil_sistema, c.idusuario
 						FROM tblusers e,usuario_controle_acesso a,sistemas b,usuarios c ,perfis_acesso_sistemas d 
 						WHERE a.id_sistema = b.idsistema 
 						AND c.idusuario = a.id_usuario 

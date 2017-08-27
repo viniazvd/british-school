@@ -12,12 +12,17 @@ export default {
 		state.token = null
 		localStorage.removeItem("token")
 		localStorage.removeItem("username")
+		localStorage.removeItem("iduser")
 		localStorage.removeItem("departamento")
 		localStorage.removeItem("vercontas")
 		localStorage.removeItem("perfil")
 	},
 	[types.setUsername](state, user) {
 		localStorage.setItem("username", user)
+		state.user = user
+	},
+	[types.setIdUser](state, user) {
+		localStorage.setItem("iduser", user)
 		state.user = user
 	},
 	[types.setDpto](state, user) {

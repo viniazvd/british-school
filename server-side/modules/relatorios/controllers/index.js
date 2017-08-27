@@ -5,20 +5,32 @@ let controller = {}
 
 controller.relatorios = (req, res) => {
 
-	const query = null
-	
-	if (req.session.ver_todas_contas == 1) {
-		console.log('===1')
-		query = `SELECT * FROM blueforms, itemadiantamento WHERE id_adiantamento = codigoblueform AND substring(dataregistro,1,4) = ${ano} AND (status in(0,1,10) OR categoriablueform in('pagamento','reembolso','despesaaluno','deporca')) ORDER BY dataregistro DESC`
+	const { ver_todas_contas, iduser } = req.body
+	let query = null
+
+	if (ver_todas_contas === 1) {
+		query = `SELECT i.id_adiantamento, b.categoriablueform, b.status, i.addata, b.evento  
+						 FROM blueforms b, itemadiantamento i
+						 WHERE i.id_adiantamento = b.codigoblueform 
+						 AND substring(dataregistro,1,4) = ${ano} 
+						 AND (b.status in(0,1,10) 
+						 OR b.categoriablueform 
+						 IN('pagamento','reembolso','despesaaluno','deporca'))`
 	} else {
-		console.log('!==1')
-	query = `SELECT * FROM blueforms, itemadiantamento WHERE id_adiantamento = codigoblueform AND substring(dataregistro,1,4) = ${ano} AND idusuario = ${req.session.idusuario} AND (status in(0,1,10) or categoriablueform in('pagamento','reembolso','despesaaluno','deporca')) ORDER BY dataregistro DESC`
+		query = `SELECT i.id_adiantamento, b.categoriablueform, b.status, i.addata, b.evento  
+						 FROM blueforms b, itemadiantamento i
+						 WHERE i.id_adiantamento = b.codigoblueform 
+						 AND substring(dataregistro,1,4) = ${ano} 
+						 AND (b.status in(0,1,10) 
+						 AND b.idusuario = ${iduser}
+						 OR b.categoriablueform 
+						 IN('pagamento','reembolso','despesaaluno','deporca'))`
 	}
 
 	db.query(query, function (err, results) {
 		if (err) return res.status(400).json(err)
 
-		return res.status(200).json(results[0])
+		return res.status(200).json(results)
 	})
 }
 

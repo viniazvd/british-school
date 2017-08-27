@@ -7,6 +7,7 @@ export const attemptLogin = (context, payload) => {
 		.then(res => res.data)
 		.then(data => {
 			context.commit(types.setUsername, data.result.nomeusuario)
+			context.commit(types.setIdUser, data.result.idusuario)
 			context.commit(types.setDpto, data.result.depto)
 			context.commit(types.setVerContas, data.result.ver_todas_contas)
 			context.commit(types.setPerfil, data.result.id_perfil_sistema)

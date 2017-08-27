@@ -1,4 +1,5 @@
 export const setUser = 'auth/setUser'
+export const setIdUser = 'auth/setIdUser'
 export const setUsername = 'auth/setUsername'
 export const setDpto = 'auth/setDpto'
 export const setVerContas = 'auth/setVerContas'
