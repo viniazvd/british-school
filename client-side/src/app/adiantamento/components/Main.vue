@@ -20,13 +20,13 @@
 			</multiselect>
 			</div>
 			<div class="col-md-3 mb-3">
-				<multiselect v-model="adiantamento.contaOrcamentariaSelected" 
-									:options="contaOrcamentariaArray" 
+				<multiselect v-model="idContaOrcamentoFiltraAprovadores" 
+									:options="aprovadoresArray" 
 									:close-on-select="true" 
-									@update="updateSelectContaOrcamentaria"
+									@update="updateSelectAprovador"
 									open-direction="below"
 									select-label=''
-									placeholder="Aprovador">
+									placeholder="Escolha um aprovador">
 			</multiselect>
 			</div>
 			<div class="col-md-3 mb-3">
@@ -71,6 +71,12 @@
 
 		<addRow />
 
+		<div class="row">
+			<div class="col-md-12 mb-12" style="margin-top:30px; text-align: center;">
+				<button type="button" class="btn btn-primary">Registrar adiantamento</button>
+			</div>
+		</div>
+
 	</div>
 </template>
 
@@ -79,6 +85,7 @@ import { mapActions } from 'vuex'
 import Multiselect from 'vue-multiselect'
 import http from '../../../http'
 import addRow from '../../../components/root/addRow'
+import { isEmpty } from 'lodash'
 
 export default {
 	name: 'adiantamento',
@@ -89,11 +96,14 @@ export default {
 		return {
 			adiantamento:{
 				contaOrcamentariaSelected: null,
+				aprovadorSelected: null,
 				moedaSelected: null,
 				unidadeSelected: null,
 				pagamentoSelected: null,
 			},
+			idContaOrcamentoFiltraAprovadores: 'Escolha um aprovador',
 			contaOrcamentaria: [],
+			aprovadores: [],
 			moedas: [],
 			unidades: [],
 			pagamento: ['Dinheiro', 'Depósito']
@@ -102,14 +112,35 @@ export default {
 	
 	created () {
 		this.fetchContaOrcamentaria()
+		// this.fetchAprovadores()
 		this.fetchUnidades()
 		this.fetchMoedas()
 	},
 
+	watch: {
+		'adiantamento.contaOrcamentariaSelected': function(newValue, oldValue) {
+			return http.post('http://localhost:3000/api/aprovadores',{ id_user: newValue })
+				.then(res => res.data)
+				.then(data => {
+					if (data.length > 0) { 
+						this.idContaOrcamentoFiltraAprovadores = 'Aprovadores disponíveis'
+					} else {
+						this.idContaOrcamentoFiltraAprovadores = 'Aprovadores indisponíveis'
+					}
+
+					this.aprovadores = data
+				})
+    }
+	},
+
 	computed: {		
 		contaOrcamentariaArray () {
-			const chave = value => value.chave
+			const chave = value => value.id
 			return this.contaOrcamentaria.map(chave)
+		},
+		aprovadoresArray () {
+			const aprovador = value => value.LName
+			return this.aprovadores.map(aprovador)
 		},
 		unidadesArray () {
 			const unidade = value => value.unidade
@@ -127,16 +158,32 @@ export default {
 
 	methods: {
     // ...mapActions(['getContaOrcamentaria_dpto1'], null, { root: true }),
-    ...mapActions(['getContaOrcamentaria_dpto1',
-									 'getContaOrcamentaria_dpto2_vercontas0',
-									 'getContaOrcamentaria_dpto2_vercontas1',
+    ...mapActions(['contaOrcamentaria_vercontas0',
+									 'contaOrcamentaria_vercontas1',
+									//  'getAprovadores',
 									 'getUnidades',
 									 'getMoedas']),
 
 		fetchContaOrcamentaria () {
-			this.getContaOrcamentaria_dpto2_vercontas1()
-				.then(data => this.contaOrcamentaria = data)
+			const vercontas = localStorage.getItem('vercontas')
+			if (vercontas === 0) {
+				this.contaOrcamentaria_vercontas0().then(data => this.contaOrcamentaria = data)
+			} else {
+				this.contaOrcamentaria_vercontas1().then(data => this.contaOrcamentaria = data)
+			}
 		},
+
+		// fetchAprovadores () {
+		// 	if (!isEmpty(this.idContaOrcamentoFiltraAprovadores)) {
+		// 		console.log('lista n ta vazia')
+		// 		return http.post('http://localhost:3000/api/aprovadores',{ id_user: this.idContaOrcamentoFiltraAprovadores })
+		// 			.then(res => res.data)
+		// 			.then(data => this.aprovadores = data)
+		// 	} else {
+		// 		console.log('lista vazia')
+		// 		return ''
+		// 	}
+		// },
 
 		fetchUnidades () {
 			this.getUnidades()
@@ -152,12 +199,16 @@ export default {
 			this.adiantamento.contaOrcamentariaSelected = newSelected
 		},
 
+		updateSelectAprovador (newSelected) {
+			this.adiantamento.aprovadorSelected = newSelected
+		},
+
 		updateSelectUnidade (newSelected) {
 			this.adiantamento.unidadeSelected = newSelected
 		},
 
 		updateSelectMoeda (newSelected) {
-			this.$store.commit('SET_UNIDADE', newSelected)
+			// this.$store.commit('SET_UNIDADE', newSelected)
 			this.adiantamento.moedaSelected = newSelected
 		}
   }

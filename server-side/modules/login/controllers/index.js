@@ -12,24 +12,25 @@ controller.authenticate = (req, res) => {
 	const senhaDescrypt = crypto.createHash('md5').update(senha).digest('hex')
 	const nomeSistema = 'Expense Report'
 
-	db.query(`SELECT c.nomeusuario,e.depto,e.ver_todas_contas,c.matricula,nomesistema,a.id_perfil_sistema, c.idusuario
-						FROM tblusers e,usuario_controle_acesso a,sistemas b,usuarios c ,perfis_acesso_sistemas d 
-						WHERE a.id_sistema = b.idsistema 
-						AND c.idusuario = a.id_usuario 
-						AND a.id_sistema = d.id_sistema 
-						AND a.id_perfil_sistema = d.idperfilsistema 
-						AND c.matricula = ${matricula}
-						AND c.senha = '${senhaDescrypt}'
-						AND purchasing_id > 0 
-						AND purchasing_id = e.id_user 
-						AND b.nomesistema = '${nomeSistema}'`, function (err, results) {
+	let query = `SELECT c.nomeusuario,e.depto,e.ver_todas_contas,c.matricula,nomesistema,a.id_perfil_sistema, c.purchasing_id
+							 FROM tblusers e,usuario_controle_acesso a,sistemas b,usuarios c ,perfis_acesso_sistemas d 
+							 WHERE a.id_sistema = b.idsistema 
+							 AND c.idusuario = a.id_usuario 
+							 AND a.id_sistema = d.id_sistema 
+							 AND a.id_perfil_sistema = d.idperfilsistema 
+							 AND c.matricula = ${matricula}
+							 AND c.senha = '${senhaDescrypt}'
+							 AND purchasing_id > 0 
+							 AND purchasing_id = e.id_user 
+							 AND b.nomesistema = '${nomeSistema}'`
+
+	db.query(query, function (err, results) {
 		
-		if (err) return res.status(400).json(err)
+		if (err) throw new Error('ERRO: ', err)
 
 		if (results.length === 0) {
-			res.status(400).send('Senha inválida')
+			throw new Error('Usuário inválido ou inexistente. Tente novamente.')
 		} else {
-
 			const token = jwt.sign({ matricula: matricula, senha: senha }, 'mengaomaiordobrasil')
 
 			req.session.ver_todas_contas = results[0].ver_todas_contas

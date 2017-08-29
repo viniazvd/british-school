@@ -2,17 +2,29 @@ import * as types from './mutations-types'
 // import { serviceContaOrcamentaria } from '../services'
 import http from '../../../http'
 
-export const getContaOrcamentaria_dpto1 = (context) => {
-	return http.get('http://localhost:3000/api/conta-orcamentaria-dpto1').then(res => res.data)
+export const contaOrcamentaria_vercontas0 = (context) => {
+	const purchasing_id = localStorage.getItem('purchasing_id')
+	const departamento = localStorage.getItem('departamento')
+	const vercontas = localStorage.getItem('vercontas')
+
+	return http.post('http://localhost:3000/api/conta-orcamentaria-vercontas0', 
+	{ 
+		purchasing_id: purchasing_id,
+		departamento: departamento,
+		vercontas: vercontas
+	}).then(res => res.data)
 }
 
-export const getContaOrcamentaria_dpto2_vercontas0 = (context) => {
-	return http.get('http://localhost:3000/api/conta-orcamentaria-dpto2-vercontas0').then(res => res.data)
+export const contaOrcamentaria_vercontas1 = (context) => {
+	return http.get('http://localhost:3000/api/conta-orcamentaria-vercontas1').then(res => res.data)
 }
 
-export const getContaOrcamentaria_dpto2_vercontas1 = (context) => {
-	return http.get('http://localhost:3000/api/conta-orcamentaria-dpto2-vercontas1').then(res => res.data)
-}
+// export const getAprovadores = (context) => {
+// 	return http.post('http://localhost:3000/api/aprovadores',
+// 	{
+// 		id_user: id_user
+// 	}).then(res => res.data).then(res => res.data)
+// }
 
 export const getUnidades = (context) => {
 	return http.get('http://localhost:3000/api/unidades').then(res => res.data)

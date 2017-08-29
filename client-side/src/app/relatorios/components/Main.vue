@@ -89,9 +89,7 @@ export default {
       const filter = this.configs.filter
       const list = _.orderBy(this.arrayRelatorio, this.configs.orderBy, this.configs.order)
 
-      if (_.isEmpty(filter)) {
-        return list
-      }
+      if (_.isEmpty(filter)) list
 
       return _.filter(list, array => array.evento.indexOf(filter) >= 0) 
     },

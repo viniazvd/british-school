@@ -12,7 +12,7 @@ export default {
 		state.token = null
 		localStorage.removeItem("token")
 		localStorage.removeItem("username")
-		localStorage.removeItem("iduser")
+		localStorage.removeItem("purchasing_id")
 		localStorage.removeItem("departamento")
 		localStorage.removeItem("vercontas")
 		localStorage.removeItem("perfil")
@@ -22,7 +22,7 @@ export default {
 		state.user = user
 	},
 	[types.setIdUser](state, user) {
-		localStorage.setItem("iduser", user)
+		localStorage.setItem("purchasing_id", user)
 		state.user = user
 	},
 	[types.setDpto](state, user) {
