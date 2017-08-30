@@ -79,7 +79,7 @@ export default {
 
 	mounted () {
 			const ver_todas_contas = localStorage.getItem('vercontas')
-			const iduser = localStorage.getItem('iduser')
+			const iduser = localStorage.getItem('purchasing_id')
 
 			return http.post('http://localhost:3000/api/cancelamento', { ver_todas_contas, iduser })
 			.then(res => res.data)
