@@ -21,7 +21,9 @@
 				<label>Visualizar a senha ao digitar?</label>
 			</div>
 
-			<button type="submit" @click="doLogin" class="btn btn-success" :disabled="!isValid">Logar</button>
+			<button type="submit" @click="doLogin" class="btn btn-success" :disabled="!isValid">Sign up</button>
+
+			<button type="button" class="btn btn-danger" @click="reset">Clear</button>
 
 			<sweet-modal icon="success" ref="modalSucess" @close="redirectPage">
 				Logado com sucesso!
@@ -33,6 +35,7 @@
 			<!-- modal para reenvio de senha -->
 			<button class="btn btn-default" @click="showModalReenvioSenha=true">Esqueceu a senha?</button>
 			<modalReenvioSenha v-if="showModalReenvioSenha" @close="showModalReenvioSenha=false"></modalReenvioSenha>
+
 		</div>
 	</div>
 </template>
@@ -76,6 +79,11 @@ export default {
 				.catch(() => {
 					this.$refs.modalFail.open()
 				})
+		},
+
+		reset () {
+			this.user.matricula = ''
+			this.user.senha = ''
 		},
 
 		redirectPage () {
