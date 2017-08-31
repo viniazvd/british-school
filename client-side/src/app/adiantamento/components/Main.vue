@@ -1,79 +1,97 @@
 <template>
 	<div class="container">
-		<header class="page-header row">
-			<h2>Adiantamento</h2>
-		</header>
+
+		<article>
+				<section class="page-header row">
+					<h2>Adiantamento</h2>
 
 
-		<div class="row">
-			<div class="col-md-3 mb-3">
-				<input type="date" class="form-control">
-			</div>
-			<div class="col-md-3 mb-3">
-			<multiselect v-model="adiantamento.contaOrcamentariaSelected" 
-									:options="contaOrcamentariaArray" 
-									:close-on-select="true" 
-									@update="updateSelectContaOrcamentaria"
-									open-direction="below"
-									select-label=''
-									placeholder="Escolha uma conta orçamentária">
-			</multiselect>
-			</div>
-			<div class="col-md-3 mb-3">
-				<multiselect v-model="idContaOrcamentoFiltraAprovadores" 
-									:options="aprovadoresArray" 
-									:close-on-select="true" 
-									@update="updateSelectAprovador"
-									open-direction="below"
-									select-label=''
-									placeholder="Escolha um aprovador">
-			</multiselect>
-			</div>
-			<div class="col-md-3 mb-3">
-				<input type="text" class="form-control" placeholder="Departamento">
-			</div>
-		</div>
+					<div class="row">
+						<div class="col-md-3 mb-3">
+							<input type="date" class="form-control" v-model="adiantamento.data">
+						</div>
+						<div class="col-md-3 mb-3">
+							<multiselect v-model="adiantamento.contaOrcamentariaSelected" 
+													:options="contaOrcamentariaArray" 
+													:close-on-select="true" 
+													@update="updateSelectContaOrcamentaria"
+													open-direction="below"
+													select-label=''
+													placeholder="Escolha uma conta orçamentária">
+							</multiselect>
+						</div>
+						<div class="col-md-3 mb-3">
+							<multiselect v-model="adiantamento.aprovadorSelected" 
+												:options="aprovadoresArray" 
+												:close-on-select="true" 
+												@update="updateSelectAprovador"
+												open-direction="below"
+												select-label=''
+												:placeholder="idContaOrcamentoFiltraAprovadores">
+							</multiselect>
+						</div>
+						<div class="col-md-3 mb-3">
+							<input type="text" class="form-control" placeholder="Departamento" v-model="adiantamento.departamento">
+						</div>
+					</div>
 
-		<div class="row" style="margin-top:30px;">
-			<div class="col-md-3 mb-3">
-				<multiselect v-model="adiantamento.moedaSelected" 
-									:options="moedasArray" 
-									:close-on-select="true" 
-									@update="updateSelectMoeda"
-									open-direction="below"
-									select-label=''
-									placeholder="Cotação da moeda">
-			</multiselect>
-			</div>
-			<div class="col-md-3 mb-3">
-			<multiselect v-model="adiantamento.unidadeSelected" 
-									:options="unidadesArray" 
-									:close-on-select="true" 
-									@update="updateSelectUnidade"
-									open-direction="below"
-									select-label=''
-									placeholder="Unidade">
-			</multiselect>
-			</div>
-			<div class="col-md-3 mb-3">
-				<multiselect v-model="adiantamento.pagamentoSelected" 
-									:options="pagamento" 
-									:close-on-select="true" 
-									open-direction="below"
-									select-label=''
-									placeholder="Forma de pagamento">
-			</multiselect>
-			</div>
-			<div class="col-md-3 mb-3">
-				<input type="text" class="form-control" placeholder="Evento">
-			</div>
-		</div>
+					<div class="row" style="margin-top:30px;">
+						<div class="col-md-3 mb-3">
+							<multiselect v-model="adiantamento.moedaSelected" 
+												:options="moedasArray" 
+												:close-on-select="true" 
+												@update="updateSelectMoeda"
+												open-direction="below"
+												select-label=''
+												placeholder="Cotação da moeda">
+							</multiselect>
+						</div>
+						<div class="col-md-3 mb-3">
+							<multiselect v-model="adiantamento.unidadeSelected" 
+												:options="unidadesArray" 
+												:close-on-select="true" 
+												@update="updateSelectUnidade"
+												open-direction="below"
+												select-label=''
+												placeholder="Unidade">
+							</multiselect>
+						</div>
+						<div class="col-md-3 mb-3">
+							<multiselect v-model="adiantamento.pagamentoSelected" 
+												:options="pagamento" 
+												:close-on-select="true" 
+												open-direction="below"
+												select-label=''
+												placeholder="Forma de pagamento">
+							</multiselect>
+						</div>
+						<div class="col-md-3 mb-3">
+							<input type="text" class="form-control" placeholder="Evento" v-model="adiantamento.evento">
+						</div>
+					</div>
+			</section>
+		</article>
 
-		<addRow />
+		<article>
+			<section class="page-header row">
+				<h2>Itens do adiantamento</h2>
 
+				<addItem v-model="itens"></addItem>
+
+				<div class="row" style="margin-top:20px;">
+					<div class="col-md-9 mb-9">.</div>
+					<div class="col-md-2 mb-2">
+						<money :value="somaTotalItens" v-bind="money" class="form-control" disabled></money>
+					</div>
+					<div class="col-md-1 mb-1"><strong>Valor total</strong></div>
+				</div>
+
+			</section>
+		</article>		
+		
 		<div class="row">
 			<div class="col-md-12 mb-12" style="margin-top:30px; text-align: center;">
-				<button type="button" class="btn btn-primary">Registrar adiantamento</button>
+				<button type="button" class="btn btn-primary" @click="registrarAdiantamento()">Registrar adiantamento</button>
 			</div>
 		</div>
 
@@ -81,44 +99,55 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { Money } from 'v-money'
 import Multiselect from 'vue-multiselect'
 import http from '../../../http'
-import addRow from '../../../components/root/addRow'
-import { isEmpty } from 'lodash'
+import addItem from '../../../components/root/item/add-item'
+import * as service from '../services'
 
 export default {
 	name: 'adiantamento',
 
-	components: { Multiselect, addRow },
+	components: { Multiselect, addItem, Money },
 
 	data () {
 		return {
-			adiantamento:{
+			adiantamento: {
+				data: '',
 				contaOrcamentariaSelected: null,
 				aprovadorSelected: null,
+				departamento: '',
 				moedaSelected: null,
 				unidadeSelected: null,
 				pagamentoSelected: null,
+				evento: ''
 			},
+
 			idContaOrcamentoFiltraAprovadores: 'Escolha um aprovador',
 			contaOrcamentaria: [],
 			aprovadores: [],
 			moedas: [],
 			unidades: [],
-			pagamento: ['Dinheiro', 'Depósito']
+			pagamento: ['Dinheiro', 'Depósito'],
+			
+			itens: [{ descricao: '', valor: '0,00' }],
+			money: {},
 		}
 	},
 	
 	created () {
 		this.fetchContaOrcamentaria()
-		// this.fetchAprovadores()
 		this.fetchUnidades()
 		this.fetchMoedas()
 	},
 
 	watch: {
 		'adiantamento.contaOrcamentariaSelected': function(newValue, oldValue) {
+
+			if (oldValue !== null) {
+				if (newValue !== oldValue) this.adiantamento.aprovadorSelected = ''
+			}
+
 			return http.post('http://localhost:3000/api/aprovadores',{ id_user: newValue })
 				.then(res => res.data)
 				.then(data => {
@@ -133,66 +162,54 @@ export default {
     }
 	},
 
-	computed: {		
+	computed: {	
+
+		somaTotalItens () {
+			const valores = item => parseFloat(item.valor)
+			const soma = (acc, item) => acc + item
+
+			return this.itens.map(valores).reduce(soma)
+		},
+
 		contaOrcamentariaArray () {
 			const chave = value => value.id
+
 			return this.contaOrcamentaria.map(chave)
 		},
 		aprovadoresArray () {
 			const aprovador = value => value.LName
+
 			return this.aprovadores.map(aprovador)
 		},
 		unidadesArray () {
 			const unidade = value => value.unidade
+
 			return this.unidades.map(unidade)
 		},
 		moedasArray () {
-			// const moeda = key => this.moedas[key]
-			// return Object.keys(this.moedas).map(moeda) 
-			// return Object.values(this.moedas)  
 			const valores = value => value.nome + ' - ' + value.valor
 			const moeda = obj => Object.assign(this.moedas[obj], [obj])
+
 			return Object.keys(this.moedas).map(moeda).map(valores)
 		}
 	},
 
 	methods: {
-    // ...mapActions(['getContaOrcamentaria_dpto1'], null, { root: true }),
-    ...mapActions(['contaOrcamentaria_vercontas0',
-									 'contaOrcamentaria_vercontas1',
-									//  'getAprovadores',
-									 'getUnidades',
-									 'getMoedas']),
-
 		fetchContaOrcamentaria () {
 			const vercontas = localStorage.getItem('vercontas')
-			if (vercontas === 0) {
-				this.contaOrcamentaria_vercontas0().then(data => this.contaOrcamentaria = data)
-			} else {
-				this.contaOrcamentaria_vercontas1().then(data => this.contaOrcamentaria = data)
-			}
+			
+			if (vercontas === 0) 
+				service.contaOrcamentaria_vercontas0().then(data => this.contaOrcamentaria = data)
+			else 
+				service.contaOrcamentaria_vercontas1().then(data => this.contaOrcamentaria = data)
 		},
 
-		// fetchAprovadores () {
-		// 	if (!isEmpty(this.idContaOrcamentoFiltraAprovadores)) {
-		// 		console.log('lista n ta vazia')
-		// 		return http.post('http://localhost:3000/api/aprovadores',{ id_user: this.idContaOrcamentoFiltraAprovadores })
-		// 			.then(res => res.data)
-		// 			.then(data => this.aprovadores = data)
-		// 	} else {
-		// 		console.log('lista vazia')
-		// 		return ''
-		// 	}
-		// },
-
 		fetchUnidades () {
-			this.getUnidades()
-				.then(data => this.unidades = data)
+			service.getUnidades().then(data => this.unidades = data)
 		},
 
 		fetchMoedas () {
-			this.getMoedas()
-				.then(data => this.moedas = data.valores)
+			service.getMoedas().then(data => this.moedas = data.valores)
 		},
 
 		updateSelectContaOrcamentaria (newSelected) {
@@ -208,10 +225,17 @@ export default {
 		},
 
 		updateSelectMoeda (newSelected) {
-			// this.$store.commit('SET_UNIDADE', newSelected)
 			this.adiantamento.moedaSelected = newSelected
+		},
+
+		registrarAdiantamento() {
+			console.log(this.adiantamento, this.itens)
+
+			// service.registraAdiantamento(this.adiantamento, this.itens)
 		}
   }
 }
+
+
 </script>
 

@@ -79,4 +79,21 @@ controller.unidades = (req, res) => {
 	})
 }
 
+//insere no banco os adiantamentos no blueforms e itens no itensadiantamento
+controller.registra_adiantamento = (req, res) => {
+
+	const { adiantamento, itens } = req.body
+
+	let queryAdiantamento = ``
+	
+	console.log(queryAdiantamento)
+
+	db.query(query, function (err, results) {
+		
+		if (err) return res.status(400).json(err)
+
+		return res.status(200).send(results)
+	})
+}
+
 module.exports = controller

@@ -72,7 +72,7 @@
 import http from '../../../http'
 import { orderBy, isEmpty } from 'lodash'
 import Paginate from 'vuejs-paginate'
-// import Pagination from '../../../components/root/Pagination'
+// import Pagination from '../../../components/root/paginacao/pagination'
 
 export default {
 	

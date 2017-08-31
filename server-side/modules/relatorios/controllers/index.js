@@ -30,7 +30,7 @@ controller.relatorios_total_pages = (req, res) => {
 						 OR b.categoriablueform 
 						 IN('pagamento','reembolso','despesaaluno','deporca'))`
 	}
-	console.log(query)
+	
 	db.query(query, function (err, results) {
 		if (err) return res.status(400).json(err)
 
@@ -38,17 +38,10 @@ controller.relatorios_total_pages = (req, res) => {
 	})
 }
 
-
-
-
-
-
-
 controller.relatorios = (req, res) => {
 
 	let { ver_todas_contas, iduser } = req.body
 	let page = req.param('page')
-	console.log('page', page)
 	if (page === undefined )	page = 1
 	const limit = 10
 
@@ -74,7 +67,7 @@ controller.relatorios = (req, res) => {
 						 IN('pagamento','reembolso','despesaaluno','deporca'))
 						 LIMIT ${limit} OFFSET ${page*limit}`
 	}
-	console.log(query)
+	
 	db.query(query, function (err, results) {
 		if (err) return res.status(400).json(err)
 
