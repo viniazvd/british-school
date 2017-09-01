@@ -1,1 +1,0 @@
-// export const getContaOrcamentaria = (state) => state.contaOrcamentaria

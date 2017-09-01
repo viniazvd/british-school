@@ -7,12 +7,8 @@ export const contaOrcamentaria_vercontas0 = () => {
 	const departamento = localStorage.getItem('departamento')
 	const vercontas = localStorage.getItem('vercontas')
 
-	return http.post('http://localhost:3000/api/conta-orcamentaria-vercontas0', 
-	{ 
-		purchasing_id: purchasing_id,
-		departamento: departamento,
-		vercontas: vercontas
-	}).then(res => res.data)
+	return http.post('http://localhost:3000/api/conta-orcamentaria-vercontas0', { purchasing_id, departamento, vercontas }) 
+		.then(res => res.data)
 }
 
 export const contaOrcamentaria_vercontas1 = () => {

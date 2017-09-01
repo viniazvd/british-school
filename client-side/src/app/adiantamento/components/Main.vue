@@ -6,7 +6,7 @@
 					<h2>Adiantamento</h2>
 
 
-					<div class="row">
+					<div class="row" style="margin-top:30px;">
 						<div class="col-md-3 mb-3">
 							<input type="date" class="form-control" v-model="adiantamento.data">
 						</div>
