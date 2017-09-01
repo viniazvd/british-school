@@ -2,6 +2,7 @@
 	<div>
 		<header class="page-header row">
 			<h2>Cancelamento</h2>
+			<h4>Ano do relatório: {{ ano }} - Total de registros: {{ totalRegistros }}</h4>
 
 			<div class="form-group">
 				<select class="form-control" v-model="configs.orderBy">
@@ -53,6 +54,19 @@
 					</tr>
 				</tbody>
 			</table>
+
+			<div class="text-center">
+				  <paginate
+						:page-count="parseInt(this.pagination.total)"
+						:page-range="3"
+						:margin-pages="2"
+						:click-handler="clickCallback"
+						:prev-text="'Prev'"
+						:next-text="'Next'"
+						:container-class="'pagination'"
+						:page-class="'page-item'">
+					</paginate>
+			</div>
 		
 		</header>
 	</div>
@@ -61,30 +75,64 @@
 <script>
 import http from '../../../http'
 import { orderBy, isEmpty } from 'lodash'
+import Paginate from 'vuejs-paginate'
 
 export default {
 	
 	name: 'cancelamento',
 
+	components: { Paginate },
+
 	data () {
 		return {
+			ano: '2017',
 			arrayCancelamento: [],
 			configs: {
 				orderBy: 'addata',
 				order: 'desc',
 				filter: ''
-			}
+			},
+			pagination: {
+				page: 1,
+				total: 0
+			},
+			totalRegistros: 0
 		}
+	},
+
+	created () {
+		const ver_todas_contas = localStorage.getItem('vercontas')
+		const iduser = localStorage.getItem('purchasing_id')
+		const limit = 10
+
+		return http.post('http://localhost:3000/api/cancelamento-total-pages', { ver_todas_contas, iduser })
+		.then(res => res.data)
+		.then(data => {		
+			this.pagination.total = Math.ceil(data.results.length / limit) - 1
+			this.totalRegistros = data.results.length
+		})
 	},
 
 	mounted () {
 			const ver_todas_contas = localStorage.getItem('vercontas')
 			const iduser = localStorage.getItem('purchasing_id')
+			const page = this.pagination.page
 
-			return http.post('http://localhost:3000/api/cancelamento', { ver_todas_contas, iduser })
+			return http.post('http://localhost:3000/api/cancelamento?page='+page, { ver_todas_contas, iduser })
 			.then(res => res.data)
-			.then(data => this.arrayCancelamento = data)
+			.then(data => this.arrayCancelamento = data.results)
 	},
+
+	methods: {
+		clickCallback (page) {
+			const ver_todas_contas = localStorage.getItem('vercontas')
+			const iduser = localStorage.getItem('purchasing_id')
+
+			return http.post('http://localhost:3000/api/cancelamento?page='+page, { ver_todas_contas, iduser })
+			.then(res => res.data)
+			.then(data => this.arrayCancelamento = data.results)
+    }
+  },
 
 	computed: {
   	list() {
@@ -94,8 +142,14 @@ export default {
       if (_.isEmpty(filter)) list
 
       return _.filter(list, array => array.evento.indexOf(filter) >= 0) 
-    },
-  }
+    }
+	}
 }
 </script>
 
+<style lang="css">
+.pagination {
+}
+.page-item {
+}
+</style>

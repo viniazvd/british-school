@@ -84,16 +84,17 @@ controller.registra_adiantamento = (req, res) => {
 
 	const { adiantamento, itens } = req.body
 
-	let queryAdiantamento = ``
+	console.log('adiantamento', adiantamento, 'itens', itens)
+	// let queryAdiantamento = ``
 	
-	console.log(queryAdiantamento)
+	// console.log(queryAdiantamento)
 
-	db.query(query, function (err, results) {
+	// db.query(query, function (err, results) {
 		
-		if (err) return res.status(400).json(err)
+	// 	if (err) return res.status(400).json(err)
 
-		return res.status(200).send(results)
-	})
+	// 	return res.status(200).send(results)
+	// })
 }
 
 module.exports = controller

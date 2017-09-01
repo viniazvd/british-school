@@ -2,7 +2,7 @@
 	<div>
 		<header class="page-header row">
 			<h2>Relatórios</h2>
-			<h4>Ano do relatório: {{ ano }}</h4>
+			<h4>Ano do relatório: {{ ano }} - Total de registros: {{ totalRegistros }}</h4>
 
 			<div class="form-group">
 				<select class="form-control" v-model="configs.orderBy">
@@ -92,7 +92,8 @@ export default {
 			pagination: {
 				page: 1,
 				total: 0
-			}
+			},
+			totalRegistros: 0
 		}
 	},
 
@@ -103,7 +104,10 @@ export default {
 
 		return http.post('http://localhost:3000/api/relatorios-total-pages', { ver_todas_contas, iduser })
 		.then(res => res.data)
-		.then(data => this.pagination.total = Math.ceil(data.results.length / limit) - 1)
+		.then(data => {		
+			this.pagination.total = Math.ceil(data.results.length / limit) - 1
+			this.totalRegistros = data.results.length
+		})
 	},
 
 	mounted () {
@@ -117,7 +121,6 @@ export default {
 	},
 
 	methods: {
-
 		clickCallback (page) {
 			const ver_todas_contas = localStorage.getItem('vercontas')
 			const iduser = localStorage.getItem('purchasing_id')

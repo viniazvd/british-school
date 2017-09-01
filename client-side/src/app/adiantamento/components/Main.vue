@@ -229,9 +229,7 @@ export default {
 		},
 
 		registrarAdiantamento() {
-			console.log(this.adiantamento, this.itens)
-
-			// service.registraAdiantamento(this.adiantamento, this.itens)
+			service.registraAdiantamento(this.adiantamento, this.itens)
 		}
   }
 }

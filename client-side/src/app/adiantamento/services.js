@@ -42,3 +42,4 @@ export const registraAdiantamento = (adiantamento, itens) => {
 		itens: itens
 	}).then(res => res.data)
 }
+
