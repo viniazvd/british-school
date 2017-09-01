@@ -76,6 +76,7 @@
 import http from '../../../http'
 import { orderBy, isEmpty } from 'lodash'
 import Paginate from 'vuejs-paginate'
+import * as service from '../services'
 
 export default {
 	
@@ -101,38 +102,26 @@ export default {
 	},
 
 	created () {
-		const ver_todas_contas = localStorage.getItem('vercontas')
-		const iduser = localStorage.getItem('purchasing_id')
 		const limit = 10
 
-		return http.post('http://localhost:3000/api/cancelamento-total-pages', { ver_todas_contas, iduser })
-		.then(res => res.data)
-		.then(data => {		
-			this.pagination.total = Math.ceil(data.results.length / limit) - 1
-			this.totalRegistros = data.results.length
-		})
+		service.totalPagesCancelamento()
+			.then(data => {		
+				this.pagination.total = Math.ceil(data.results.length / limit) - 1
+				this.totalRegistros = data.results.length
+			})
 	},
 
 	mounted () {
-			const ver_todas_contas = localStorage.getItem('vercontas')
-			const iduser = localStorage.getItem('purchasing_id')
-			const page = this.pagination.page
+		const page = this.pagination.page
 
-			return http.post('http://localhost:3000/api/cancelamento?page='+page, { ver_todas_contas, iduser })
-			.then(res => res.data)
-			.then(data => this.arrayCancelamento = data.results)
+		service.cancelamento(page).then(data => this.arrayCancelamento = data.results)
 	},
 
 	methods: {
 		clickCallback (page) {
-			const ver_todas_contas = localStorage.getItem('vercontas')
-			const iduser = localStorage.getItem('purchasing_id')
-
-			return http.post('http://localhost:3000/api/cancelamento?page='+page, { ver_todas_contas, iduser })
-			.then(res => res.data)
-			.then(data => this.arrayCancelamento = data.results)
-    }
-  },
+			service.cancelamento(page).then(data => this.arrayCancelamento = data.results)
+    },
+	},
 
 	computed: {
   	list() {
