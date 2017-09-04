@@ -1,28 +1,12 @@
 const mysql = require('mysql')
 
 const connection = mysql.createConnection({
-	host: 'localhost',
-	user: 'root',
-	password: 'root',
-	database: 'thebritishschool'
+	host: process.env.MYSQL_HOST,
+	user: process.env.MYSQL_USER,
+	password: process.env.MYSQL_PASSWORD,
+	database: process.env.MYSQL_DATABASE,
 })
 
-connection.connect( error => {
-	if( !!error ) {
-		console.log('Erro ao conectar')
-	} else {
-		console.log('Conectado!')
-	}
-})
- 
-connection.on('close', err => {
-  if (err) {
-    // fechamento inesperado da conexão, vamos reconectar de volta.
-    console.log('Conexão interrompida, tentando reconectar!')
-		connection = mysql.createConnection(connection)
-  } else {
-    console.log('Conexão encerrada!')
-  }
-})
+connection.connect( error => ( !!error ) ? console.log('Erro ao conectar') : console.log('Conectado!'))
 
 module.exports = connection

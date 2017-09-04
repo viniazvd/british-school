@@ -11,6 +11,12 @@ export const contaOrcamentaria_vercontas0 = () => {
 		.then(res => res.data)
 }
 
+export const getAprovadores = (newValue) => {
+
+	return http.post('http://localhost:3000/api/aprovadores', { id_user: newValue }) 
+		.then(res => res.data)
+}
+
 export const contaOrcamentaria_vercontas1 = () => {
 	return http.get('http://localhost:3000/api/conta-orcamentaria-vercontas1').then(res => res.data)
 }
@@ -30,12 +36,10 @@ export const getMoedas = () => {
 	return http.get('http://api.promasters.net.br/cotacao/v1/valores').then(res => res.data)
 } 
 
-export const registraAdiantamento = (adiantamento, itens) => {
+export const registraAdiantamento = (adiantamento, itens, valorTotalItens) => {
+	const purchasing_id = localStorage.getItem('purchasing_id')
 
-	return http.post('http://localhost:3000/api/registra-adiantamento', 
-	{ 
-		adiantamento: adiantamento,
-		itens: itens
-	}).then(res => res.data)
+	return http.post('http://localhost:3000/api/registra-adiantamento', { adiantamento, itens, purchasing_id, valorTotalItens })
+		.then(res => res.data)
 }
 

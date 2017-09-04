@@ -131,6 +131,7 @@ export default {
 			pagamento: ['Dinheiro', 'Depósito'],
 			
 			itens: [{ descricao: '', valor: '0,00' }],
+			valorTotalItens: 0,
 			money: {},
 		}
 	},
@@ -148,8 +149,7 @@ export default {
 				if (newValue !== oldValue) this.adiantamento.aprovadorSelected = ''
 			}
 
-			return http.post('http://localhost:3000/api/aprovadores',{ id_user: newValue })
-				.then(res => res.data)
+			service.getAprovadores(newValue)
 				.then(data => {
 					if (data.length > 0) { 
 						this.idContaOrcamentoFiltraAprovadores = 'Aprovadores disponíveis'
@@ -163,10 +163,11 @@ export default {
 	},
 
 	computed: {	
-
 		somaTotalItens () {
 			const valores = item => parseFloat(item.valor)
 			const soma = (acc, item) => acc + item
+
+			this.valorTotalItens = this.itens.map(valores).reduce(soma)
 
 			return this.itens.map(valores).reduce(soma)
 		},
@@ -229,7 +230,7 @@ export default {
 		},
 
 		registrarAdiantamento() {
-			service.registraAdiantamento(this.adiantamento, this.itens)
+			service.registraAdiantamento(this.adiantamento, this.itens, this.valorTotalItens)
 		}
   }
 }

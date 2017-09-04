@@ -1,7 +1,4 @@
 const db = require('./../../../config/db')
-const crypto = require('crypto')
-const nodemailer = require('nodemailer')
-const jwt = require('jsonwebtoken')
 const ano = require('./../../../config/ano-trabalho')
 
 let controller = {}
@@ -24,9 +21,8 @@ controller.contaOrcamentaria_vercontas0 = (req, res) => {
 								 AND tu.depto = ${departamento} 
 								 AND tu.ver_todas_contas = ${vercontas}
 							 )`
-					console.log(query)
-
-	db.query(query, function (err, results) {
+ 
+	db.query(query, (err, results) => {
 		
 		if (err) return res.status(400).json(err)
 
@@ -60,7 +56,7 @@ controller.aprovadores = (req, res) => {
 							 AND uab.ID_USER = ${id_user}`
 
 console.log(query)
-	db.query(query, function (err, results) {
+	db.query(query, (err, results) => {
 		
 		if (err) return res.status(400).json(err)
 
@@ -71,7 +67,7 @@ console.log(query)
 // carrega no select/option as unidades
 controller.unidades = (req, res) => {
 	
-	db.query(`SELECT unidade FROM unidades`, function (err, results) {
+	db.query(`SELECT unidade FROM unidades`, (err, results) => {
 		
 		if (err) return res.status(400).json(err)
 
@@ -82,14 +78,54 @@ controller.unidades = (req, res) => {
 //insere no banco os adiantamentos no blueforms e itens no itensadiantamento
 controller.registra_adiantamento = (req, res) => {
 
-	const { adiantamento, itens } = req.body
+	// const { adiantamento, itens, purchasing_id } = req.body
+	const { 
+		data, 
+		contaOrcamentariaSelected, 
+		aprovadorSelected, 
+		departamento, 
+		moedaSelected, 
+		unidadeSelected, 
+		pagamentoSelected, 
+		evento 
+	} = req.body.adiantamento
 
-	console.log('adiantamento', adiantamento, 'itens', itens)
-	// let queryAdiantamento = ``
+	const dataRegistro = `${data} 00:00:00`
+	const dadosMoeda = moedaSelected.split('-')
+	const moeda = dadosMoeda[0]
+	const cotacaoMoeda = dadosMoeda[1]
+
+	const itemDescricao = req.body.itens.map(x => x.descricao)
+	const itemValor = req.body.itens.map(x => x.valor)
+
+	const idusuario = req.body.purchasing_id
+
+	const valorTotalItens = req.body.valorTotalItens
+
+	// let queryCodigoBlueform = `SELECT codigoblueform FROM blueforms ORDER BY codigoblueform DESC LIMIT 1`
+	
+	// const codigoBlueform = db.query(queryCodigoBlueform, (err, result) => {
+	// 	if (err) return res.status(400).json(err)
+	// 	return { codigoBlueform: result } 
+	// })
+
+	// let queryAdiantamento = 
+	// `INSERT INTO blueforms 
+	//  (idadiantamento, categoriablueform, dataregistro, idusuario, codigoblueform, requisitadopor, 
+	//  autorizadopor, departamento, unidade, evento, moeda, moedacotacao, formaadiantamento,
+	//  tipoconta, cpfoucnpj, cpfoucnpjvalor, nomedeposito, banco, agencia, conta, status, totalblueform,
+	//  id_fornecedorpgto, fornecedornaocadastrado, cnpjfornncadastrado, codigoadiantamento, lido)
+	 
+	//  VALUES 
+
+	//  ('', 'adiantamento', '${dataRegistro}', ${idusuario}, '', ${contaOrcamentariaSelected}, 
+	//  '${aprovadorSelected}', '${departamento}', '${unidadeSelected}', '${evento}', '${moeda}', '${cotacaoMoeda}', '${pagamentoSelected}',
+	//  '', '', '', '', '', '', '', '', '${valorTotalItens}',
+	//  '', '', '', '', '')`
 	
 	// console.log(queryAdiantamento)
 
-	// db.query(query, function (err, results) {
+	// db.query(query, (err, results) => {
 		
 	// 	if (err) return res.status(400).json(err)
 
