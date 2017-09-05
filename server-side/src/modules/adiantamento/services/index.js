@@ -42,9 +42,9 @@ services.contaOrcamentaria_vercontas1 = (ano, callback) => {
 services.aprovadores = (id_user, callback) => {
 
 	const query = `SELECT tbl.Fname, tbl.LName
-							 FROM tblusers as tbl, user_approve_budget as uab
-							 WHERE tbl.ID_USER = uab.id_user
-							 AND uab.ID_USER = ${id_user}`
+							   FROM tblusers as tbl, user_approve_budget as uab
+							   WHERE tbl.ID_USER = uab.id_user
+							   AND uab.ID_USER = ${id_user}`
 
 	db.query(query, (err, results) => {
 		if (err) callback(err)

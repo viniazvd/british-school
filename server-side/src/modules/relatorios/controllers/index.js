@@ -1,36 +1,16 @@
 const db = require('../../../services/database/db')
-const ano = require('../../../../config/ano-trabalho')
+const service = require('../services')
 
 let controller = {}
 
 controller.relatorios_total_pages = (req, res) => {
 
 	let { ver_todas_contas, iduser } = req.body
-	let query = null
-
-	if (ver_todas_contas === 1) {
-		query = `SELECT i.id_adiantamento, b.categoriablueform, b.status, i.addata, b.evento  
-						 FROM blueforms b, itemadiantamento i
-						 WHERE i.id_adiantamento = b.codigoblueform 
-						 AND substring(dataregistro,1,4) = ${ano} 
-						 AND (b.status in(0,1,10) 
-						 OR b.categoriablueform 
-						 IN('pagamento','reembolso','despesaaluno','deporca'))`
-	} else {
-		query = `SELECT i.id_adiantamento, b.categoriablueform, b.status, i.addata, b.evento  
-						 FROM blueforms b, itemadiantamento i
-						 WHERE i.id_adiantamento = b.codigoblueform 
-						 AND substring(dataregistro,1,4) = ${ano} 
-						 AND (b.status in(0,1,10) 
-						 AND b.idusuario = ${iduser}
-						 OR b.categoriablueform 
-						 IN('pagamento','reembolso','despesaaluno','deporca'))`
-	}
 	
-	db.query(query, function (err, results) {
-		if (err) return res.status(400).json(err)
-
-		return res.status(200).json({ results: results })
+	service.relatorios_total_pages(ver_todas_contas, iduser, (err, results) => {
+		if (err) res.status(500).send()
+		
+		return res.status(200).send(results)
 	})
 }
 
@@ -43,35 +23,12 @@ controller.relatorios = (req, res) => {
 	
 	const limit = 10
 
-	let offset = page * limit
-	if (offset === 10) offset = 0 
+	let offset = 0
+	if(page > 1) offset = page * limit - limit
 
-	let query = null
-
-	if (ver_todas_contas === 1) {
-		query = `SELECT i.id_adiantamento, b.categoriablueform, b.status, i.addata, b.evento  
-						 FROM blueforms b, itemadiantamento i
-						 WHERE i.id_adiantamento = b.codigoblueform 
-						 AND substring(dataregistro,1,4) = ${ano} 
-						 AND (b.status in(0,1,10) 
-						 OR b.categoriablueform 
-						 IN('pagamento','reembolso','despesaaluno','deporca'))
-						 LIMIT ${limit} OFFSET ${offset}`
-	} else {
-		query = `SELECT i.id_adiantamento, b.categoriablueform, b.status, i.addata, b.evento  
-						 FROM blueforms b, itemadiantamento i
-						 WHERE i.id_adiantamento = b.codigoblueform 
-						 AND substring(dataregistro,1,4) = ${ano} 
-						 AND (b.status in(0,1,10) 
-						 AND b.idusuario = ${iduser}
-						 OR b.categoriablueform 
-						 IN('pagamento','reembolso','despesaaluno','deporca'))
-						 LIMIT ${limit} OFFSET ${offset}`
-	}
-	
-	db.query(query, function (err, results) {
-		if (err) return res.status(400).json(err)
-
+	service.relatorios(ver_todas_contas, iduser, page, limit, offset, (err, results) => {
+		if (err) res.status(500).send()
+		
 		return res.status(200).json({ results: results })
 	})
 }

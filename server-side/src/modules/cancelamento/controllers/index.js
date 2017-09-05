@@ -1,66 +1,33 @@
 const db = require('../../../services/database/db')
-const ano = require('../../../../config/ano-trabalho')
+const service = require('../services')
 
 let controller = {}
 
 controller.cancelamento_total_pages = (req, res) => {
 
-	let { ver_todas_contas, iduser } = req.body
-	let query = null
+	const { ver_todas_contas } = req.body
 
-	if (ver_todas_contas === 1) {
-		query = `SELECT codigoblueform, status, dataregistro, autorizadopor, requisitadopor, evento, advalor
-						 FROM blueforms, itemadiantamento 
-						 WHERE (id_adiantamento = codigoblueform 
-						 AND substring(dataregistro,1,4) = ${ano})
-						 AND (status in(0,1,10))`
-	} else {
-		query = `SELECT codigoblueform, status, dataregistro, autorizadopor, requisitadopor, evento, advalor
-						 FROM blueforms, itemadiantamento 
-						 WHERE (id_adiantamento = codigoblueform 
-						 AND substring(dataregistro,1,4) = ${ano})
-						 AND (status in(0,1,10))`
-	}
-
-	db.query(query, function (err, results) {
-		if (err) return res.status(400).json(err)
-
-		return res.status(200).json({ results: results })
+	service.cancelamento_total_pages(ver_todas_contas, (err, results) => {
+		if (err) res.status(500).send()
+		
+		return res.status(200).send(results)
 	})
 }
 
 controller.cancelamento = (req, res) => {
 
-	let { ver_todas_contas, iduser } = req.body
+	let { ver_todas_contas } = req.body
 	
 	let page = req.param('page')
 	if (page === undefined) page = 1
 	
 	const limit = 10
 
-	let offset = page * limit
-	if (offset === 10) offset = 0 
+	let offset = 0
+	if(page > 1) offset = page * limit - limit
 
-	let query = null
-
-	if (ver_todas_contas === 1) {
-		query = `SELECT codigoblueform, status, dataregistro, autorizadopor, requisitadopor, evento, advalor
-						 FROM blueforms, itemadiantamento 
-						 WHERE (id_adiantamento = codigoblueform 
-						 AND substring(dataregistro,1,4) = ${ano})
-						 AND (status in(0,1,10))
-						 LIMIT ${limit} OFFSET ${offset}`
-	} else {
-		query = `SELECT codigoblueform, status, dataregistro, autorizadopor, requisitadopor, evento, advalor
-						 FROM blueforms, itemadiantamento 
-						 WHERE (id_adiantamento = codigoblueform 
-						 AND substring(dataregistro,1,4) = ${ano})
-						 AND (status in(0,1,10))
-						 LIMIT ${limit} OFFSET ${offset}`
-	}
-
-	db.query(query, function (err, results) {
-		if (err) return res.status(400).json(err)
+	service.cancelamento(ver_todas_contas, page, limit, offset, (err, results) => {
+		if (err) res.status(500).send()
 
 		return res.status(200).json({ results: results })
 	})

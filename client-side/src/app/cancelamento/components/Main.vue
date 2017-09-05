@@ -106,8 +106,8 @@ export default {
 
 		service.totalPagesCancelamento()
 			.then(data => {		
-				this.pagination.total = Math.ceil(data.results.length / limit) - 1
-				this.totalRegistros = data.results.length
+				this.pagination.total = Math.ceil(data.length / limit) - 1
+				this.totalRegistros = data.length
 			})
 	},
 

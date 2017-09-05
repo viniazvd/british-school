@@ -102,8 +102,9 @@ export default {
 
 		service.totalPagesRelatorio()
 			.then(data => {		
-				this.pagination.total = Math.ceil(data.results.length / limit) - 1
-				this.totalRegistros = data.results.length
+				// this.pagination.total = Math.ceil(data.length / limit) - 1
+				this.pagination.total = Math.ceil(data.length / limit) 
+				this.totalRegistros = data.length
 			})
 	},
 
