@@ -56,7 +56,6 @@ services.relatorios = (ver_todas_contas, iduser, page, limit, offset, callback) 
 						 LIMIT ${limit} OFFSET ${offset}`
 	}
 
-	console.log(query)
 	db.query(query, (err, results) => {
 		if (err) callback(err)
 

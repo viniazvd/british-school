@@ -28,6 +28,7 @@ export const forgotPassword = (context, payload) => {
 		.then(data => {
 			context.commit(types.setUser, data)
 		})
+		.catch(err => console.log('AUHUAHUAHUAHUAHUAUHUHAH',err))
 }
 
 export const changeUserPassword = (context, payload) => {
