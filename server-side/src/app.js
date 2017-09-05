@@ -1,7 +1,7 @@
 require('dotenv').config()
-const app = require('./config/middlewares.js')
+const app = require('../config/middlewares.js')
 
-var jwt = require('jsonwebtoken');
+// const jwt = require('jsonwebtoken');
 
 const login = require('./modules/login/routes')
 const adiantamento = require('./modules/adiantamento/routes')

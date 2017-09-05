@@ -36,10 +36,12 @@ export const getMoedas = () => {
 	return http.get('http://api.promasters.net.br/cotacao/v1/valores').then(res => res.data)
 } 
 
-export const registraAdiantamento = (adiantamento, itens, valorTotalItens) => {
+// export const registraAdiantamento = (adiantamento, itens, valorTotalItens, deposito) => {
+export const registraAdiantamento = (adiantamento, valorTotalItens, deposito) => {
 	const purchasing_id = localStorage.getItem('purchasing_id')
 
-	return http.post('http://localhost:3000/api/registra-adiantamento', { adiantamento, itens, purchasing_id, valorTotalItens })
+	// return http.post('http://localhost:3000/api/registra-adiantamento', { adiantamento, itens, purchasing_id, valorTotalItens, deposito })
+	return http.post('http://localhost:3000/api/registra-adiantamento', { adiantamento, purchasing_id, valorTotalItens, deposito })
 		.then(res => res.data)
 }
 

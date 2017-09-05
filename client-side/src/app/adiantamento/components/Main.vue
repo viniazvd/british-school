@@ -2,73 +2,107 @@
 	<div class="container">
 
 		<article>
-				<section class="page-header row">
-					<h2>Adiantamento</h2>
+			<section class="page-header row">
+				<h2>Adiantamento</h2>
 
-
-					<div class="row" style="margin-top:30px;">
-						<div class="col-md-3 mb-3">
-							<input type="date" class="form-control" v-model="adiantamento.data">
-						</div>
-						<div class="col-md-3 mb-3">
-							<multiselect v-model="adiantamento.contaOrcamentariaSelected" 
-													:options="contaOrcamentariaArray" 
-													:close-on-select="true" 
-													@update="updateSelectContaOrcamentaria"
-													open-direction="below"
-													select-label=''
-													placeholder="Escolha uma conta orçamentária">
-							</multiselect>
-						</div>
-						<div class="col-md-3 mb-3">
-							<multiselect v-model="adiantamento.aprovadorSelected" 
-												:options="aprovadoresArray" 
-												:close-on-select="true" 
-												@update="updateSelectAprovador"
-												open-direction="below"
-												select-label=''
-												:placeholder="idContaOrcamentoFiltraAprovadores">
-							</multiselect>
-						</div>
-						<div class="col-md-3 mb-3">
-							<input type="text" class="form-control" placeholder="Departamento" v-model="adiantamento.departamento">
-						</div>
+				<div class="row" style="margin-top:30px;">
+					<div class="col-md-3 mb-3">
+						<input type="date" class="form-control" v-model="adiantamento.data">
 					</div>
-
-					<div class="row" style="margin-top:30px;">
-						<div class="col-md-3 mb-3">
-							<multiselect v-model="adiantamento.moedaSelected" 
-												:options="moedasArray" 
+					<div class="col-md-3 mb-3">
+						<multiselect v-model="adiantamento.contaOrcamentariaSelected" 
+												:options="contaOrcamentariaArray" 
 												:close-on-select="true" 
-												@update="updateSelectMoeda"
+												@update="updateSelectContaOrcamentaria"
 												open-direction="below"
 												select-label=''
-												placeholder="Cotação da moeda">
-							</multiselect>
-						</div>
-						<div class="col-md-3 mb-3">
-							<multiselect v-model="adiantamento.unidadeSelected" 
-												:options="unidadesArray" 
-												:close-on-select="true" 
-												@update="updateSelectUnidade"
-												open-direction="below"
-												select-label=''
-												placeholder="Unidade">
-							</multiselect>
-						</div>
-						<div class="col-md-3 mb-3">
-							<multiselect v-model="adiantamento.pagamentoSelected" 
-												:options="pagamento" 
-												:close-on-select="true" 
-												open-direction="below"
-												select-label=''
-												placeholder="Forma de pagamento">
-							</multiselect>
-						</div>
-						<div class="col-md-3 mb-3">
-							<input type="text" class="form-control" placeholder="Evento" v-model="adiantamento.evento">
-						</div>
+												placeholder="Escolha uma conta orçamentária">
+						</multiselect>
 					</div>
+					<div class="col-md-3 mb-3">
+						<multiselect v-model="adiantamento.aprovadorSelected" 
+											:options="aprovadoresArray" 
+											:close-on-select="true" 
+											@update="updateSelectAprovador"
+											open-direction="below"
+											select-label=''
+											:placeholder="idContaOrcamentoFiltraAprovadores">
+						</multiselect>
+					</div>
+					<div class="col-md-3 mb-3">
+						<input type="text" class="form-control" placeholder="Departamento" v-model="adiantamento.departamento">
+					</div>
+				</div>
+
+				<div class="row" style="margin-top:30px;">
+					<div class="col-md-3 mb-3">
+						<multiselect v-model="adiantamento.moedaSelected" 
+											:options="moedasArray" 
+											:close-on-select="true" 
+											@update="updateSelectMoeda"
+											open-direction="below"
+											select-label=''
+											placeholder="Cotação da moeda">
+						</multiselect>
+					</div>
+					<div class="col-md-3 mb-3">
+						<multiselect v-model="adiantamento.unidadeSelected" 
+											:options="unidadesArray" 
+											:close-on-select="true" 
+											@update="updateSelectUnidade"
+											open-direction="below"
+											select-label=''
+											placeholder="Unidade">
+						</multiselect>
+					</div>
+					<div class="col-md-3 mb-3">
+						<multiselect v-model="adiantamento.pagamentoSelected" 
+											:options="pagamento" 
+											:close-on-select="true" 
+											open-direction="below"
+											select-label=''
+											placeholder="Forma de pagamento">
+						</multiselect>
+					</div>
+					<div class="col-md-3 mb-3">
+						<input type="text" class="form-control" placeholder="Evento" v-model="adiantamento.evento">
+					</div>
+				</div>
+			</section>
+		</article>
+
+		<article v-if="isDeposito">
+			<section class="page-header row">
+				<h2>Dados do depósito</h2>
+
+				<div class="row" style="margin-top:30px;">
+					<div class="col-md-1 mb-1">
+						<select v-model="deposito.cpfoucnpj" class="form-control">
+							<option value="" disabled>CPF ou CNPJ?</option>
+							<option value="CPF">CPF</option>
+							<option value="CNPJ">CNPJ</option>
+						</select>
+					</div>
+					<div class="col-md-2 mb-2">
+						<input type="text" class="form-control" placeholder="Nome" v-model="deposito.nome">
+					</div>
+					<div class="col-md-1 mb-1">
+						<input type="text" class="form-control" placeholder="Banco" v-model="deposito.banco">
+					</div>
+					<div class="col-md-2 mb-2">
+						<input type="text" class="form-control" placeholder="Tipo da conta" v-model="deposito.tipoconta">
+					</div>
+					<div class="col-md-2 mb-2">
+						<input type="number" class="form-control" placeholder="Agência" v-model="deposito.agencia">
+					</div>
+					<div class="col-md-2 mb-2">
+						<input type="number" class="form-control" placeholder="Conta" v-model="deposito.conta">
+					</div>
+					<div class="col-md-2 mb-2">
+						<input type="number" class="form-control" placeholder="Valor" v-model="deposito.cpfcnpjvalor">
+					</div>
+				</div>
+
 			</section>
 		</article>
 
@@ -129,6 +163,18 @@ export default {
 			moedas: [],
 			unidades: [],
 			pagamento: ['Dinheiro', 'Depósito'],
+
+			isDeposito: false,
+
+			deposito: {
+				cpfoucnpj: '',
+				nome: '',
+				banco: '',
+				tipoconta: '',
+				agencia: '',
+				conta: '',
+				cpfcnpjvalor: ''
+			},
 			
 			itens: [{ descricao: '', valor: '0,00' }],
 			valorTotalItens: 0,
@@ -159,7 +205,11 @@ export default {
 
 					this.aprovadores = data
 				})
-    }
+    },
+
+		'adiantamento.pagamentoSelected': function(newValue) {
+			(this.pagamento[1] === newValue) ? this.isDeposito = true : this.isDeposito = false
+		}
 	},
 
 	computed: {	
@@ -199,7 +249,7 @@ export default {
 		fetchContaOrcamentaria () {
 			const vercontas = localStorage.getItem('vercontas')
 			
-			if (vercontas === 0) 
+			if (vercontas == 0) 
 				service.contaOrcamentaria_vercontas0().then(data => this.contaOrcamentaria = data)
 			else 
 				service.contaOrcamentaria_vercontas1().then(data => this.contaOrcamentaria = data)
@@ -230,7 +280,8 @@ export default {
 		},
 
 		registrarAdiantamento() {
-			service.registraAdiantamento(this.adiantamento, this.itens, this.valorTotalItens)
+			// service.registraAdiantamento(this.adiantamento, this.itens, this.valorTotalItens, this.deposito)
+			service.registraAdiantamento(this.adiantamento, this.valorTotalItens, this.deposito)
 		}
   }
 }

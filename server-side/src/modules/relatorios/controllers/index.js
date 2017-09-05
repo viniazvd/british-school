@@ -1,5 +1,5 @@
-const db = require('./../../../config/db')
-const ano = require('./../../../config/ano-trabalho')
+const db = require('../../../services/database/db')
+const ano = require('../../../../config/ano-trabalho')
 
 let controller = {}
 

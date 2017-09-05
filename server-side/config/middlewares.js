@@ -10,6 +10,8 @@ const cors = require('cors')
 const session = require('express-session')
 const helmet = require('helmet')
 
+// const jwt = require('jsonwebtoken')
+
 const configSession = { secret: 'e2r3$r!q0oIl', resave: true, saveUninitialized: true }
 middlewares.use(session(configSession))
 
