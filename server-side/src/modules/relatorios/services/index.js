@@ -1,4 +1,5 @@
 const db = require('../../../services/database/db')
+const queryFactory = require('../../../services/promises/query-factory')
 const repositorys = require('../repositorys')
 const ano = require('../../../../config/ano-trabalho')
 
@@ -14,14 +15,7 @@ services.relatorios_total_pages = (ver_todas_contas, iduser) => {
 		query = repositorys.totalPages_verTodasContas0(ano, iduser)
 	}
 
-	return new Promise((resolve, reject) => {
-
-		db.query(query, (err, results) => {
-			if (err) reject(new Error(err))
-
-			return resolve(results)
-		})
-	})
+	return queryFactory(db, query)
 }
 
 services.relatorios = (ver_todas_contas, iduser, page, limit, offset) => {
@@ -32,14 +26,7 @@ services.relatorios = (ver_todas_contas, iduser, page, limit, offset) => {
 		query = repositorys.relatorio_verTodasContas0(ano, iduser, limit, offset)
 	}
 
-	return new Promise((resolve, reject) => {
-
-		db.query(query, (err, results) => {
-			if (err) reject(new Error(err))
-
-			return resolve(results)
-		})
-	})
+	return queryFactory(db, query)
 }
 
 module.exports = services

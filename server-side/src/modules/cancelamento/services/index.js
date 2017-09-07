@@ -1,4 +1,5 @@
 const db = require('../../../services/database/db')
+const queryFactory = require('../../../services/promises/query-factory')
 const repositorys = require('../repositorys')
 const ano = require('../../../../config/ano-trabalho')
 
@@ -14,14 +15,7 @@ services.cancelamento_total_pages = (ver_todas_contas) => {
 		query = repositorys.totalPages_verTodasContas0(ano)
 	}
 
-	return new Promise((resolve, reject) => {
-
-		db.query(query, (err, results) => {
-			if (err) reject(new Error(err))
-
-			return resolve(results)
-		})
-	})
+	return queryFactory(db, query)
 }
 
 services.cancelamento = (ver_todas_contas, page, limit, offset) => {
@@ -34,14 +28,7 @@ services.cancelamento = (ver_todas_contas, page, limit, offset) => {
 		query = repositorys.cancelamento_verTodasContas0(ano, limit, offset)
 	}
 
-	return new Promise((resolve, reject) => {
-
-		db.query(query, (err, results) => {
-			if (err) reject(new Error(err))
-
-			return resolve(results)
-		})
-	})
+	return queryFactory(db, query)
 }
 
 module.exports = services

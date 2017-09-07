@@ -1,4 +1,6 @@
 const db = require('../../../services/database/db')
+const queryFactory = require('../../../services/promises/query-factory')
+const queryFactoryFirstResult = require('../../../services/promises/query-factory-first-result')
 const repositorys = require('../repositorys')
 
 let services = {}
@@ -9,14 +11,7 @@ services.contaOrcamentaria_vercontas0 = (purchasing_id, departamento, vercontas,
 
 	const query = repositorys.contaOrcamentaria_vercontas0(purchasing_id, departamento, vercontas, ano)
 	
-	return new Promise((resolve, reject) => {
-
-		db.query(query, (err, results) => {
-			if (err) reject(new Error(err))
-
-			return resolve(results)
-		})
-	})
+	return queryFactory(db, query)
 }
 
 // carrega no select/option as contas orçamentárias referentes a usuários com: vercontas = 1 
@@ -24,14 +19,7 @@ services.contaOrcamentaria_vercontas1 = (ano) => {
 
 	const query = repositorys.contaOrcamentaria_vercontas1(ano)
 
-	return new Promise((resolve, reject) => {
-
-		db.query(query, (err, results) => {
-			if (err) reject(new Error(err))
-
-			return resolve(results)
-		})
-	})
+	return queryFactory(db, query)
 }
 
 // carrega no select/option os aprovadores referentes a conta orçamentária 
@@ -39,14 +27,7 @@ services.aprovadores = (id_user) => {
 
 	const query = repositorys.aprovadores(id_user)
 
-	return new Promise((resolve, reject) => {
-
-		db.query(query, (err, results) => {
-			if (err) reject(new Error(err))
-
-			return resolve(results)
-		})
-	})
+	return queryFactory(db, query)
 }
 
 // carrega no select/option as unidades
@@ -54,14 +35,7 @@ services.unidades = () => {
 
 	const query = repositorys.unidades()
 	
-	return new Promise((resolve, reject) => {
-		
-		db.query(query, (err, results) => {
-			if (err) reject(new Error(err))
-
-			return resolve(results)
-		})
-	})
+	return queryFactory(db, query)
 }
 
 services.registra_adiantamento = (adiantamento, itens, purchasing_id, valorTotalItens, deposito) => {
@@ -78,47 +52,26 @@ services.registra_adiantamento = (adiantamento, itens, purchasing_id, valorTotal
 
 	const selectBlueform = () => {
 	
-		return new Promise((resolve, reject) => {
-
-			const queryCodigoBlueform = repositorys.queryCodigoBlueform()
-
-			db.query(queryCodigoBlueform, (err, results) => {
-				if (err) reject(new Error(err))
-
-				return resolve(results[0])
-			})
-		})
+		const query = repositorys.queryCodigoBlueform()
+		
+		return queryFactoryFirstResult(db, query)
 	}
 
 	const insertAdiantamento = (codigoBlueform, codigoAdiantamento) => {
 		
-		return new Promise((resolve, reject) => {
+		const query = repositorys.queryAdiantamento(dataRegistro, idusuario, codigoBlueform+1, contaOrcamentariaSelected, aprovadorSelected, departamento, unidadeSelected, evento, moeda, cotacaoMoeda, pagamentoSelected, tipoconta, cpfoucnpj, cpfcnpjvalor, nome, banco, agencia, conta, status,valorTotalItens, codigoAdiantamento+1)
 
-			const queryAdiantamento = repositorys.queryAdiantamento(dataRegistro, idusuario, codigoBlueform+1, contaOrcamentariaSelected, aprovadorSelected, departamento, unidadeSelected, evento, moeda, cotacaoMoeda, pagamentoSelected, tipoconta, cpfoucnpj, cpfcnpjvalor, nome, banco, agencia, conta, status,valorTotalItens, codigoAdiantamento+1)
-
-			db.query(queryAdiantamento, (err, results) => {
-				if (err) reject(new Error(err)) 
-
-				return resolve(results)
-			})
-		})	
+		return queryFactory(db, query)
 	}
 
 	const insertItens = codigoAdiantamento => {
 		
-		return new Promise((resolve, reject) => {
+		let itensAdiantamento = itens.map(item => {
 
-			let itensAdiantamento = itens.map(item => {
+			let query = repositorys.queryItens(dataRegistro, item.descricao, item.valor, codigoAdiantamento+1)
 
-				let queryItens = repositorys.queryItens(dataRegistro, item.descricao, item.valor, codigoAdiantamento+1)
-
-				db.query(queryItens, (err, results) => {
-					if (err) reject(new Error(err))
-
-					return resolve(results)
-				})
-			})
-		})	
+			return queryFactory(db, query)
+		})
 	}
 
 	const registerAdiantamentoEItens = (codigoblueform, codigoadiantamento) => {
