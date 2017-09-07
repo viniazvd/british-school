@@ -70,12 +70,8 @@ export default {
 			document.getElementById("buttonCancelar").disabled = true 
 			const user = this.user
 			this.forgotPassword({...user})	
-				.then(() => {
-					this.$refs.modalSucess.open()
-				})
-				.catch(() => {
-					this.$refs.modalFail.open()
-				})
+				.then(() => this.$refs.modalSucess.open())
+				.catch(() => this.$refs.modalFail.open())
 		},
 
 		fecharModal () {

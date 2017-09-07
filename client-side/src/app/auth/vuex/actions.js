@@ -25,19 +25,13 @@ export const attemptLogout = (context) => {
 export const forgotPassword = (context, payload) => {
 	return postEmail(payload.matricula)
 		.then(res => res.data)
-		.then(data => {
-			context.commit(types.setUser, data)
-		})
-		.catch(err => console.log('AUHUAHUAHUAHUAHUAUHUHAH',err))
+		.then(data => context.commit(types.setUser, data))
 }
 
 export const changeUserPassword = (context, payload) => {
 	return postPassword(payload.matricula, payload.senha, payload.novasenha)
 		.then(res => res.data)
-		.then(data => {
-			// context.commit(types.setToken, data.senha)
-			context.commit(types.setUser, data)
-		})
+		.then(data => context.commit(types.setUser, data))
 }
 
 export const hasToken = (context, payload) => {

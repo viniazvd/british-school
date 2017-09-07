@@ -56,18 +56,19 @@ services.changepassword = (matricula, senha, novasenha, callback) => {
 
 services.emailForgetPassword = (matricula, callback) => {
 	db.query(`SELECT email, senha FROM usuarios WHERE matricula = ${matricula}`, function (err, results) {
-		// if (err) callback(err)
+		if (err) callback(err)
 		
-		if (results.length === 0 || err) {
-			callback('Matricula não existe', null)
+		if (results.length === 0) { 
+			throw new Error('Matricula não existe')
+			// callback('Matricula não existe')
 		} else {
 			// O primeiro passo é configurar um transporte para este e-mail 
 			// Precisamos dizer qual servidor será o encarregado por enviá-lo:
 			const transporte = nodemailer.createTransport({
 				service: 'Gmail', // Vamos usar o Gmail
 				auth: {
-					user: 'viniazvd@gmail.com', //  nosso usuário
-					pass: 'xxx'             // senha da nossa conta
+					user: process.env.AUTH_USER, //  nosso usuário
+					pass: process.env.AUTH_PASSWORD // senha da nossa conta
 				}
 			})
 

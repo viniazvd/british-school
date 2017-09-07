@@ -1,59 +1,46 @@
 const db = require('../../../services/database/db')
+const repositorys = require('../repositorys')
 const ano = require('../../../../config/ano-trabalho')
 
 let services = {}
 
-services.cancelamento_total_pages = (ver_todas_contas, callback) => {
-
-	console.log('AAAAAAAAA',ver_todas_contas)
+services.cancelamento_total_pages = (ver_todas_contas) => {
 
 	let query = null
 
 	if (ver_todas_contas === 1) {
-		query = `SELECT codigoblueform, status, dataregistro, autorizadopor, requisitadopor, evento, advalor
-						 FROM blueforms, itemadiantamento 
-						 WHERE (id_adiantamento = codigoblueform 
-						 AND substring(dataregistro,1,4) = ${ano})
-						 AND (status in(0,1,10))`
+		query = repositorys.totalPages_verTodasContas1(ano)
 	} else {
-		query = `SELECT codigoblueform, status, dataregistro, autorizadopor, requisitadopor, evento, advalor
-						 FROM blueforms, itemadiantamento 
-						 WHERE (id_adiantamento = codigoblueform 
-						 AND substring(dataregistro,1,4) = ${ano})
-						 AND (status in(0,1,10))`
+		query = repositorys.totalPages_verTodasContas0(ano)
 	}
 
-	db.query(query, (err, results) => {
-		if (err) callback(err)
+	return new Promise((resolve, reject) => {
 
-		return callback(null, results)
+		db.query(query, (err, results) => {
+			if (err) reject(new Error(err))
+
+			return resolve(results)
+		})
 	})
 }
 
-services.cancelamento = (ver_todas_contas, page, limit, offset, callback) => {
+services.cancelamento = (ver_todas_contas, page, limit, offset) => {
 
 	let query = null
 
 	if (ver_todas_contas === 1) {
-		query = `SELECT codigoblueform, status, dataregistro, autorizadopor, requisitadopor, evento, advalor
-						 FROM blueforms, itemadiantamento 
-						 WHERE (id_adiantamento = codigoblueform 
-						 AND substring(dataregistro,1,4) = ${ano})
-						 AND (status in(0,1,10))
-						 LIMIT ${limit} OFFSET ${offset}`
+		query = repositorys.cancelamento_verTodasContas1(ano, limit, offset)
 	} else {
-		query = `SELECT codigoblueform, status, dataregistro, autorizadopor, requisitadopor, evento, advalor
-						 FROM blueforms, itemadiantamento 
-						 WHERE (id_adiantamento = codigoblueform 
-						 AND substring(dataregistro,1,4) = ${ano})
-						 AND (status in(0,1,10))
-						 LIMIT ${limit} OFFSET ${offset}`
+		query = repositorys.cancelamento_verTodasContas0(ano, limit, offset)
 	}
 
-	db.query(query, (err, results) => {
-		if (err) callback(err)
+	return new Promise((resolve, reject) => {
 
-		return callback(null, results)
+		db.query(query, (err, results) => {
+			if (err) reject(new Error(err))
+
+			return resolve(results)
+		})
 	})
 }
 

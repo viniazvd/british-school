@@ -1,4 +1,3 @@
-require('dotenv').config()
 const app = require('../config/middlewares.js')
 
 // const jwt = require('jsonwebtoken');
@@ -20,16 +19,18 @@ app.use((req, res, next) => {
 })
 
 if (app.get('env') === 'development') {
-  app.use(function(err, req, res, next) {
+  app.use((err, req, res, next) => {
     res.status(err.status || 500)
-    res.render('error', { message: err.message, error: err })
+    // res.render('error', { message: err.message, error: err })
+    res.send('error', { message: err.message, error: err })
 		// res.json({ error: err })
   })
 }
 
 app.use((err, req, res, next) => {
   res.status(err.status || 500)
-  res.render('error', { message: err.message,error: {} })
+  // res.render('error', { message: err.message,error: {} })
+  res.send('error', { message: err.message,error: {} })
 })
 
 module.exports = app

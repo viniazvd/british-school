@@ -78,7 +78,6 @@
 				<div class="row" style="margin-top:30px;">
 					<div class="col-md-1 mb-1">
 						<select v-model="deposito.cpfoucnpj" class="form-control">
-							<option value="" disabled>CPF ou CNPJ?</option>
 							<option value="CPF">CPF</option>
 							<option value="CNPJ">CNPJ</option>
 						</select>
@@ -280,8 +279,7 @@ export default {
 		},
 
 		registrarAdiantamento() {
-			// service.registraAdiantamento(this.adiantamento, this.itens, this.valorTotalItens, this.deposito)
-			service.registraAdiantamento(this.adiantamento, this.valorTotalItens, this.deposito)
+			service.registraAdiantamento(this.adiantamento, this.itens, this.valorTotalItens, this.deposito)
 		}
   }
 }
