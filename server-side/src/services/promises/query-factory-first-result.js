@@ -1,16 +1,14 @@
 const queryFactory = (db, query) => {
-	
-	return new Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => {
+    db.query(query, (err, results) => {
+      if (err) {
+        reject(new Error(err))
+        return
+      }
 
-		db.query(query, (err, results) => {
-			if (err) {
-				reject(new Error(err))
-				return 
-			}
-
-			return resolve(results[0])
-		})
-	})
+      return resolve(results[0])
+    })
+  })
 }
 
 module.exports = queryFactory

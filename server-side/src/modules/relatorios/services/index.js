@@ -5,28 +5,28 @@ const ano = require('../../../../config/ano-trabalho')
 
 let services = {}
 
-services.relatorios_total_pages = (ver_todas_contas, iduser) => {
+services.relatorios_total_pages = (verTodasContas, iduser) => {
+  let query = null
 
-	let query = null
+  if (verTodasContas === 1) {
+    query = repositorys.totalPages_verTodasContas1(ano)
+  } else {
+    query = repositorys.totalPages_verTodasContas0(ano, iduser)
+  }
 
-	if (ver_todas_contas === 1) {
-		query = repositorys.totalPages_verTodasContas1(ano)
-	} else {
-		query = repositorys.totalPages_verTodasContas0(ano, iduser)
-	}
-
-	return queryFactory(db, query)
+  return queryFactory(db, query)
 }
 
-services.relatorios = (ver_todas_contas, iduser, page, limit, offset) => {
+services.relatorios = (verTodasContas, iduser, page, limit, offset) => {
+  let query = null
 
-	if (ver_todas_contas === 1) {
-		query = repositorys.relatorio_verTodasContas1(ano, limit, offset)
-	} else {
-		query = repositorys.relatorio_verTodasContas0(ano, iduser, limit, offset)
-	}
+  if (verTodasContas === 1) {
+    query = repositorys.relatorio_verTodasContas1(ano, limit, offset)
+  } else {
+    query = repositorys.relatorio_verTodasContas0(ano, iduser, limit, offset)
+  }
 
-	return queryFactory(db, query)
+  return queryFactory(db, query)
 }
 
 module.exports = services

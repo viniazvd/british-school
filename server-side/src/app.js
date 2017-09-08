@@ -12,20 +12,20 @@ app.use('/api/', cancelamento)
 
 app.use((req, res, next) => {
   const err = new Error('Not Found')
-  err.status = 404 
+  err.status = 404
   next(err)
 })
 
 if (app.get('env') === 'development') {
   app.use((err, req, res, next) => {
     res.status(err.status || 500)
-		res.send({ error: err.msg })
+    res.send({ error: err.msg })
   })
 }
 
 app.use((err, req, res, next) => {
   res.status(err.status || 500)
-	res.send({ error: err.msg })
+  res.send({ error: err.msg })
 })
 
 module.exports = app

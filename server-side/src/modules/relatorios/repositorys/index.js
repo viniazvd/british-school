@@ -1,7 +1,7 @@
 let repositorys = {}
 
 repositorys.totalPages_verTodasContas0 = (ano, iduser) => {
-	return `SELECT i.id_adiantamento, b.categoriablueform, b.status, i.addata, b.evento  
+  return `SELECT i.id_adiantamento, b.categoriablueform, b.status, i.addata, b.evento  
 					FROM blueforms b, itemadiantamento i
 					WHERE i.id_adiantamento = b.codigoblueform 
 					AND substring(dataregistro,1,4) = ${ano} 
@@ -12,7 +12,7 @@ repositorys.totalPages_verTodasContas0 = (ano, iduser) => {
 }
 
 repositorys.totalPages_verTodasContas1 = (ano) => {
-	return `SELECT i.id_adiantamento, b.categoriablueform, b.status, i.addata, b.evento  
+  return `SELECT i.id_adiantamento, b.categoriablueform, b.status, i.addata, b.evento  
 					FROM blueforms b, itemadiantamento i
 					WHERE i.id_adiantamento = b.codigoblueform 
 					AND substring(dataregistro,1,4) = ${ano} 
@@ -22,7 +22,7 @@ repositorys.totalPages_verTodasContas1 = (ano) => {
 }
 
 repositorys.relatorio_verTodasContas0 = (ano, iduser, limit, offset) => {
-	return `SELECT i.id_adiantamento, b.categoriablueform, b.status, i.addata, b.evento  
+  return `SELECT i.id_adiantamento, b.categoriablueform, b.status, i.addata, b.evento  
 						 FROM blueforms b, itemadiantamento i
 						 WHERE i.id_adiantamento = b.codigoblueform 
 						 AND substring(dataregistro,1,4) = ${ano} 
@@ -34,7 +34,7 @@ repositorys.relatorio_verTodasContas0 = (ano, iduser, limit, offset) => {
 }
 
 repositorys.relatorio_verTodasContas1 = (ano, limit, offset) => {
-	return `SELECT i.id_adiantamento, b.categoriablueform, b.status, i.addata, b.evento  
+  return `SELECT i.id_adiantamento, b.categoriablueform, b.status, i.addata, b.evento  
 					FROM blueforms b, itemadiantamento i
 					WHERE i.id_adiantamento = b.codigoblueform 
 					AND substring(dataregistro,1,4) = ${ano} 

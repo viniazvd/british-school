@@ -1,7 +1,7 @@
 let repositorys = {}
 
 repositorys.totalPages_verTodasContas0 = (ano) => {
-	return `SELECT codigoblueform, status, dataregistro, autorizadopor, requisitadopor, evento, advalor
+  return `SELECT codigoblueform, status, dataregistro, autorizadopor, requisitadopor, evento, advalor
 					FROM blueforms, itemadiantamento 
 					WHERE (id_adiantamento = codigoblueform 
 					AND substring(dataregistro,1,4) = ${ano})
@@ -9,7 +9,7 @@ repositorys.totalPages_verTodasContas0 = (ano) => {
 }
 
 repositorys.totalPages_verTodasContas1 = (ano) => {
-	return `SELECT codigoblueform, status, dataregistro, autorizadopor, requisitadopor, evento, advalor
+  return `SELECT codigoblueform, status, dataregistro, autorizadopor, requisitadopor, evento, advalor
 					FROM blueforms, itemadiantamento 
 					WHERE (id_adiantamento = codigoblueform 
 					AND substring(dataregistro,1,4) = ${ano})
@@ -17,7 +17,7 @@ repositorys.totalPages_verTodasContas1 = (ano) => {
 }
 
 repositorys.cancelamento_verTodasContas0 = (ano, limit, offset) => {
-	return `SELECT codigoblueform, status, dataregistro, autorizadopor, requisitadopor, evento, advalor
+  return `SELECT codigoblueform, status, dataregistro, autorizadopor, requisitadopor, evento, advalor
 					FROM blueforms, itemadiantamento 
 					WHERE (id_adiantamento = codigoblueform 
 					AND substring(dataregistro,1,4) = ${ano})
@@ -26,7 +26,7 @@ repositorys.cancelamento_verTodasContas0 = (ano, limit, offset) => {
 }
 
 repositorys.cancelamento_verTodasContas1 = (ano, limit, offset) => {
-	return `SELECT codigoblueform, status, dataregistro, autorizadopor, requisitadopor, evento, advalor
+  return `SELECT codigoblueform, status, dataregistro, autorizadopor, requisitadopor, evento, advalor
 					FROM blueforms, itemadiantamento 
 					WHERE (id_adiantamento = codigoblueform 
 					AND substring(dataregistro,1,4) = ${ano})
