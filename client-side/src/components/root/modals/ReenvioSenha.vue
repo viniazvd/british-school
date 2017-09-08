@@ -15,7 +15,7 @@
 							<slot name="body">
 							<!--default body-->
 								<div class="form-group">
-									<input type="number" v-model="user.matricula" class="form-control" placeholder="Confirme o nº da matricula">
+									<input type="number" v-model="user.matricula" id="idmatricula" class="form-control" placeholder="Confirme o nº da matricula">
 								</div>
 							</slot>
 						</div>
@@ -28,10 +28,10 @@
 							</slot>
 						</div>
 
-					<sweet-modal icon="success" ref="modalSucess" @close="redirectPage">
+					<sweet-modal icon="success" ref="modalSucess" @close="redirectPageSucess">
 						E-mail enviado com a nova senha!
 					</sweet-modal>
-					<sweet-modal icon="warning" ref="modalFail">
+					<sweet-modal icon="warning" ref="modalFail" @close="redirectPageFail">
 						Dados incorretos. Tente novamente.
 					</sweet-modal>
 
@@ -68,6 +68,7 @@ export default {
 			this.alreadyClicked = false
 			document.getElementById("buttonEnviar").disabled = true 
 			document.getElementById("buttonCancelar").disabled = true 
+			
 			const user = this.user
 			this.forgotPassword({...user})	
 				.then(() => this.$refs.modalSucess.open())
@@ -78,9 +79,16 @@ export default {
 			this.$emit('close')
 		},
 
-		redirectPage () {
+		redirectPageSucess () {
 			this.$emit('close')
 			this.$router.push('/auth')
+		},
+
+		redirectPageFail () {
+			document.getElementById("buttonEnviar").disabled = true 
+			document.getElementById("buttonCancelar").disabled = true
+			this.user.matricula = ''
+			this.alreadyClicked = true 
 		}
 	},
 
@@ -165,3 +173,8 @@ export default {
   transform: scale(1.1);
 }
 </style>
+
+
+
+
+

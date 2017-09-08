@@ -1,96 +1,51 @@
 const db = require('../../../services/database/db')
-const ano = require('../../../../config/ano-trabalho')
+const configEmailFactory = require('../../../services/email/config-factory')
+const repositorys = require('../repositorys')
 const jwt = require('jsonwebtoken')
-const nodemailer = require('nodemailer')
+const queryFactoryDif0FirstResult = require('../../../services/promises/query-factory-dif0-first-result')
+const queryFactoryFirstResult = require('../../../services/promises/query-factory-first-result')
 
 let services = {}
 
-services.authenticate = (matricula, senha, senhaDescrypt, nomeSistema, callback) => {
+services.authenticate = (matricula, senha, senhaDescrypt, nomeSistema) => {
 
-	let query = `SELECT c.nomeusuario,e.depto,e.ver_todas_contas,c.matricula,nomesistema,a.id_perfil_sistema, c.purchasing_id
-							 FROM tblusers e,usuario_controle_acesso a,sistemas b,usuarios c ,perfis_acesso_sistemas d 
-							 WHERE a.id_sistema = b.idsistema 
-							 AND c.idusuario = a.id_usuario 
-							 AND a.id_sistema = d.id_sistema 
-							 AND a.id_perfil_sistema = d.idperfilsistema 
-							 AND c.matricula = ${matricula}
-							 AND c.senha = '${senhaDescrypt}'
-							 AND purchasing_id > 0 
-							 AND purchasing_id = e.id_user 
-							 AND b.nomesistema = '${nomeSistema}'`
+	const query = repositorys.authenticate(matricula, senha, senhaDescrypt, nomeSistema)
 
-	db.query(query, (err, results) => {
-		if (err) callback(err)
+	return new Promise((resolve, reject) => {
 
-		if (results.length === 0) {
-			callback('Usuário inválido ou inexistente. Tente novamente.')
-		} else {
+		db.query(query, (err, results) => {
+			if (err || results.length == 0) {
+				reject(new Error(err))
+				return 
+			} 
+
 			const token = jwt.sign({ matricula: matricula, senha: senha }, 'mengaomaiordobrasil')
-
-			return callback(null, {
-				result: results[0],
-				token: token
-			})
-		}
-	})
+			
+			return resolve({ result: results[0], token: token })
+		})
+	})							
 }
 
-services.changepassword = (matricula, senha, novasenha, callback) => {
+services.changepassword = (matricula, senhaCrypt, novasenha) => {
 
-	db.query(`SELECT matricula FROM usuarios WHERE matricula = ${matricula}`, function (err, results) {
-		if (err) callback(err)
+	const hasUser = (matricula, senhaCrypt) => {
+		const queryExistUser = repositorys.existUser(matricula, senhaCrypt)
+		return queryFactoryDif0FirstResult(db, queryExistUser)
+	}
 
-		if (results.length === 0) {
-			if (err) callback('Dados inválidos')
-		} else {
-			db.query(`UPDATE usuarios SET senha = md5(${novasenha}), primeiroacesso = 1, AttemptLogin = 0, date_last_change_pass = NOW() WHERE matricula = ${matricula}`, function (err, results) {
-				if (err) callback('Erro update changepassword')
+	const updatePassword = (novasenha, matricula) => {
+		const queryChangePassword = repositorys.changepassword(novasenha, matricula)
+		return queryFactoryFirstResult(db, queryChangePassword)
+	}	
 
-				// return res.status(200).send('Senha alterada')
-				// return res.status(200).send(results[0])
-				return callback(null, results[0])
-			})
-		}
-	})
+	return hasUser(matricula, senhaCrypt).then(() => updatePassword(novasenha, matricula))				
 }
 
-services.emailForgetPassword = (matricula, callback) => {
-	db.query(`SELECT email, senha FROM usuarios WHERE matricula = ${matricula}`, function (err, results) {
-		if (err) callback(err)
-		
-		if (results.length === 0) { 
-			throw new Error('Matricula não existe')
-			// callback('Matricula não existe')
-		} else {
-			// O primeiro passo é configurar um transporte para este e-mail 
-			// Precisamos dizer qual servidor será o encarregado por enviá-lo:
-			const transporte = nodemailer.createTransport({
-				service: 'Gmail', // Vamos usar o Gmail
-				auth: {
-					user: process.env.AUTH_USER, //  nosso usuário
-					pass: process.env.AUTH_PASSWORD // senha da nossa conta
-				}
-			})
+services.emailForgetPassword = matricula => {
+	
+	const query = repositorys.emailForgetPassword(matricula)
 
-			// Após configurar o transporte chegou a hora de criar um e-mail
-			// Para enviarmos, para isso basta criar um objeto com algumas configurações
-			const email = {
-				from: 'viniazvd@gmail.com', // quem enviou este e-mail
-				to: 'vn1.job@gmail.com', // quem receberá
-				//to: `${results[0].email}`, // quem receberá
-				subject: 'System Recover Password',  // Um assunto  
-				html: `Sua senha é: <strong>${results[0].senha}</strong>` // O conteúdo do e-mail
-			}
-
-			transporte.sendMail(email, function (err, info) {
-				if (err) callback('Erro ao enviar e-mail')
-
-				// console.log('Email enviado! Leia as informações adicionais: ', info)
-				// return res.status(200).send('E-mail enviado com a nova senha')
-				return callback(null, 'E-mail enviado com a nova senha')
-			})
-		}
-	})
+	return configEmailFactory(db, query)
 }
 
 module.exports = services

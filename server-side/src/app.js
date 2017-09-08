@@ -1,7 +1,5 @@
 const app = require('../config/middlewares.js')
 
-// const jwt = require('jsonwebtoken');
-
 const login = require('./modules/login/routes')
 const adiantamento = require('./modules/adiantamento/routes')
 const relatorios = require('./modules/relatorios/routes')
@@ -21,16 +19,13 @@ app.use((req, res, next) => {
 if (app.get('env') === 'development') {
   app.use((err, req, res, next) => {
     res.status(err.status || 500)
-    // res.render('error', { message: err.message, error: err })
-    res.send('error', { message: err.message, error: err })
-		// res.json({ error: err })
+		res.send({ error: err.msg })
   })
 }
 
 app.use((err, req, res, next) => {
   res.status(err.status || 500)
-  // res.render('error', { message: err.message,error: {} })
-  res.send('error', { message: err.message,error: {} })
+	res.send({ error: err.msg })
 })
 
 module.exports = app

@@ -3,12 +3,12 @@ const queryFactory = (db, query) => {
 	return new Promise((resolve, reject) => {
 
 		db.query(query, (err, results) => {
-			if (err) {
+			if (err || results.length == 0) {
 				reject(new Error(err))
 				return 
 			}
 
-			return resolve(results)
+			return resolve(results[0])
 		})
 	})
 }

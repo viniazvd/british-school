@@ -15,7 +15,7 @@ services.contaOrcamentaria_vercontas0 = (purchasing_id, departamento, vercontas,
 }
 
 // carrega no select/option as contas orçamentárias referentes a usuários com: vercontas = 1 
-services.contaOrcamentaria_vercontas1 = (ano) => {
+services.contaOrcamentaria_vercontas1 = ano => {
 
 	const query = repositorys.contaOrcamentaria_vercontas1(ano)
 
@@ -23,7 +23,7 @@ services.contaOrcamentaria_vercontas1 = (ano) => {
 }
 
 // carrega no select/option os aprovadores referentes a conta orçamentária 
-services.aprovadores = (id_user) => {
+services.aprovadores = id_user => {
 
 	const query = repositorys.aprovadores(id_user)
 
