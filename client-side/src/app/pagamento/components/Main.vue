@@ -9,7 +9,7 @@
 <script>
 
 export default {
-	name: 'relatorios'
+  name: 'pagamento'
 }
 </script>
 

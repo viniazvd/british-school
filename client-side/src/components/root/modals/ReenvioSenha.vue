@@ -48,56 +48,56 @@ import { SweetModal, SweetModalTab } from 'sweet-modal-vue'
 
 export default {
 
-	name: 'reenvioSenha',
+  name: 'reenvioSenha',
 
-	components: { SweetModal, SweetModalTab }, 
+  components: { SweetModal, SweetModalTab },
 
-	data () {
-		return {
-			user: {
-				matricula: ''
-			},
-			alreadyClicked: true
-		}
-	},
+  data () {
+    return {
+      user: {
+        matricula: ''
+      },
+      alreadyClicked: true
+    }
+  },
 
-	methods: {
-		...mapActions(['forgotPassword']),
+  methods: {
+    ...mapActions(['forgotPassword']),
 
-		rememberPassword () {
-			this.alreadyClicked = false
-			document.getElementById("buttonEnviar").disabled = true 
-			document.getElementById("buttonCancelar").disabled = true 
-			
-			const user = this.user
-			this.forgotPassword({...user})	
-				.then(() => this.$refs.modalSucess.open())
-				.catch(() => this.$refs.modalFail.open())
-		},
+    rememberPassword () {
+      this.alreadyClicked = false
+      document.getElementById('buttonEnviar').disabled = true
+      document.getElementById('buttonCancelar').disabled = true
 
-		fecharModal () {
-			this.$emit('close')
-		},
+      const user = this.user
+      this.forgotPassword({...user})
+        .then(() => this.$refs.modalSucess.open())
+        .catch(() => this.$refs.modalFail.open())
+    },
 
-		redirectPageSucess () {
-			this.$emit('close')
-			this.$router.push('/auth')
-		},
+    fecharModal () {
+      this.$emit('close')
+    },
 
-		redirectPageFail () {
-			document.getElementById("buttonEnviar").disabled = true 
-			document.getElementById("buttonCancelar").disabled = true
-			this.user.matricula = ''
-			this.alreadyClicked = true 
-		}
-	},
+    redirectPageSucess () {
+      this.$emit('close')
+      this.$router.push('/auth')
+    },
 
-	computed: {
-		isValid () {
-			const user = this.user
-			return !isEmpty(user.matricula)
-		}
-	}
+    redirectPageFail () {
+      document.getElementById('buttonEnviar').disabled = true
+      document.getElementById('buttonCancelar').disabled = true
+      this.user.matricula = ''
+      this.alreadyClicked = true
+    }
+  },
+
+  computed: {
+    isValid () {
+      const user = this.user
+      return !isEmpty(user.matricula)
+    }
+  }
 }
 </script>
 

@@ -54,50 +54,50 @@ import { SweetModal, SweetModalTab } from 'sweet-modal-vue'
 
 export default {
 
-	name: 'mudarSenha',
+  name: 'mudarSenha',
 
-	components: { SweetModal, SweetModalTab }, 
+  components: { SweetModal, SweetModalTab }, 
 
-	data () {
-		return {
-			user: {
-				matricula: '',
-				senha: '',
-				novasenha: ''
-			}
-		}
-	},
+  data () {
+    return {
+      user: {
+        matricula: '',
+        senha: '',
+        novasenha: ''
+      }
+    }
+  },
 
-	methods: {
-		...mapActions(['changeUserPassword']),
+  methods: {
+    ...mapActions(['changeUserPassword']),
 
-		mudarSenha () {
-			const user = this.user
-			this.changeUserPassword({...user})
-				.then(() => {
-						this.$refs.modalSucess.open()
-					})
-					.catch(() => {
-						this.$refs.modalFail.open()
-					})
-		},
+    mudarSenha () {
+      const user = this.user
+      this.changeUserPassword({...user})
+        .then(() => {
+          this.$refs.modalSucess.open()
+        })
+        .catch(() => {
+          this.$refs.modalFail.open()
+        })
+    },
 
-		fecharModal () {
-			this.$emit('close')
-		},
+    fecharModal () {
+      this.$emit('close')
+    },
 
-		redirectPage () {
-			this.$emit('close')
-			this.$router.push('/auth')
-		}
-	},
+    redirectPage () {
+      this.$emit('close')
+      this.$router.push('/auth')
+    }
+  },
 
-	computed: {
-		isValid () {
-			const user = this.user
-			return !isEmpty(user.matricula) && !isEmpty(user.senha) && !isEmpty(user.novasenha) 
-		}
-	}
+  computed: {
+    isValid () {
+      const user = this.user
+      return !isEmpty(user.matricula) && !isEmpty(user.senha) && !isEmpty(user.novasenha) 
+    }
+  }
 }
 </script>
 

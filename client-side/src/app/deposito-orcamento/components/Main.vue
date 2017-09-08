@@ -96,131 +96,131 @@ import addItem from '../../../components/root/item/add-item'
 import * as service from '../services'
 
 export default {
-	name: 'deposito',
+  name: 'deposito',
 
-	components: { Multiselect, addItem, Money },
+  components: { Multiselect, addItem, Money },
 
-	data () {
-		return {
-			deposito: {
-				data: '',
-				contaOrcamentariaSelected: null,
-				aprovadorSelected: null,
-				departamento: '',
-				moedaSelected: null,
-				unidadeSelected: null,
-				pagamentoSelected: null,
-				evento: ''
-			},
+  data () {
+    return {
+      deposito: {
+        data: '',
+        contaOrcamentariaSelected: null,
+        aprovadorSelected: null,
+        departamento: '',
+        moedaSelected: null,
+        unidadeSelected: null,
+        pagamentoSelected: null,
+        evento: ''
+      },
 
-			idContaOrcamentoFiltraAprovadores: 'Escolha um aprovador',
-			contaOrcamentaria: [],
-			aprovadores: [],
-			moedas: [],
-			unidades: [],
-			pagamento: ['Dinheiro', 'Depósito'],
-			
-			itens: [{ descricao: '', valor: '0,00' }],
-			money: {},
-		}
-	},
-	
-	created () {
-		this.fetchContaOrcamentaria()
-		this.fetchUnidades()
-		this.fetchMoedas()
-	},
+      idContaOrcamentoFiltraAprovadores: 'Escolha um aprovador',
+      contaOrcamentaria: [],
+      aprovadores: [],
+      moedas: [],
+      unidades: [],
+      pagamento: ['Dinheiro', 'Depósito'],
 
-	watch: {
-		'deposito.contaOrcamentariaSelected': function(newValue, oldValue) {
-
-			if (oldValue !== null) {
-				if (newValue !== oldValue) this.deposito.aprovadorSelected = ''
-			}
-
-			return http.post('http://localhost:3000/api/aprovadores',{ id_user: newValue })
-				.then(res => res.data)
-				.then(data => {
-					if (data.length > 0) { 
-						this.idContaOrcamentoFiltraAprovadores = 'Aprovadores disponíveis'
-					} else {
-						this.idContaOrcamentoFiltraAprovadores = 'Aprovadores indisponíveis'
-					}
-
-					this.aprovadores = data
-				})
+      itens: [{ descricao: '', valor: '0,00' }],
+      money: {}
     }
-	},
+  },
 
-	computed: {	
+  created () {
+    this.fetchContaOrcamentaria()
+    this.fetchUnidades()
+    this.fetchMoedas()
+  },
 
-		somaTotalItens () {
-			const valores = item => parseFloat(item.valor)
-			const soma = (acc, item) => acc + item
+  watch: {
+    'deposito.contaOrcamentariaSelected': (newValue, oldValue) => {
+      if (oldValue !== null) {
+        if (newValue !== oldValue) this.deposito.aprovadorSelected = ''
+      }
 
-			return this.itens.map(valores).reduce(soma)
-		},
+      return http.post('http://localhost:3000/api/aprovadores', { id_user: newValue })
+        .then(res => res.data)
+        .then(data => {
+          if (data.length > 0) {
+            this.idContaOrcamentoFiltraAprovadores = 'Aprovadores disponíveis'
+          } else {
+            this.idContaOrcamentoFiltraAprovadores = 'Aprovadores indisponíveis'
+          }
 
-		contaOrcamentariaArray () {
-			const chave = value => value.id
+          this.aprovadores = data
+        })
+    }
+  },
 
-			return this.contaOrcamentaria.map(chave)
-		},
-		aprovadoresArray () {
-			const aprovador = value => value.LName
+  computed: {
 
-			return this.aprovadores.map(aprovador)
-		},
-		unidadesArray () {
-			const unidade = value => value.unidade
+    somaTotalItens () {
+      const valores = item => parseFloat(item.valor)
+      const soma = (acc, item) => acc + item
 
-			return this.unidades.map(unidade)
-		},
-		moedasArray () {
-			const valores = value => value.nome + ' - ' + value.valor
-			const moeda = obj => Object.assign(this.moedas[obj], [obj])
+      return this.itens.map(valores).reduce(soma)
+    },
 
-			return Object.keys(this.moedas).map(moeda).map(valores)
-		}
-	},
+    contaOrcamentariaArray () {
+      const chave = value => value.id
 
-	methods: {
-		fetchContaOrcamentaria () {
-			const vercontas = localStorage.getItem('vercontas')
-			
-			if (vercontas === 0) 
-				service.contaOrcamentaria_vercontas0().then(data => this.contaOrcamentaria = data)
-			else 
-				service.contaOrcamentaria_vercontas1().then(data => this.contaOrcamentaria = data)
-		},
+      return this.contaOrcamentaria.map(chave)
+    },
+    aprovadoresArray () {
+      const aprovador = value => value.LName
 
-		fetchUnidades () {
-			service.getUnidades().then(data => this.unidades = data)
-		},
+      return this.aprovadores.map(aprovador)
+    },
+    unidadesArray () {
+      const unidade = value => value.unidade
 
-		fetchMoedas () {
-			service.getMoedas().then(data => this.moedas = data.valores)
-		},
+      return this.unidades.map(unidade)
+    },
+    moedasArray () {
+      const valores = value => value.nome + ' - ' + value.valor
+      const moeda = obj => Object.assign(this.moedas[obj], [obj])
 
-		updateSelectContaOrcamentaria (newSelected) {
-			this.deposito.contaOrcamentariaSelected = newSelected
-		},
+      return Object.keys(this.moedas).map(moeda).map(valores)
+    }
+  },
 
-		updateSelectAprovador (newSelected) {
-			this.deposito.aprovadorSelected = newSelected
-		},
+  methods: {
+    fetchContaOrcamentaria () {
+      const vercontas = localStorage.getItem('vercontas')
 
-		updateSelectUnidade (newSelected) {
-			this.deposito.unidadeSelected = newSelected
-		},
+      if (vercontas === 0) {
+        service.contaOrcamentaria_vercontas0().then(data => this.contaOrcamentaria = data)
+      } else {
+        service.contaOrcamentaria_vercontas1().then(data => this.contaOrcamentaria = data)
+      }
+    },
 
-		updateSelectMoeda (newSelected) {
-			this.deposito.moedaSelected = newSelected
-		},
+    fetchUnidades () {
+      service.getUnidades().then(data => this.unidades = data)
+    },
 
-		registrarDeposito() {
-			service.registrarDeposito(this.deposito, this.itens)
-		}
+    fetchMoedas () {
+      service.getMoedas().then(data => this.moedas = data.valores)
+    },
+
+    updateSelectContaOrcamentaria (newSelected) {
+      this.deposito.contaOrcamentariaSelected = newSelected
+    },
+
+    updateSelectAprovador (newSelected) {
+      this.deposito.aprovadorSelected = newSelected
+    },
+
+    updateSelectUnidade (newSelected) {
+      this.deposito.unidadeSelected = newSelected
+    },
+
+    updateSelectMoeda (newSelected) {
+      this.deposito.moedaSelected = newSelected
+    },
+
+    registrarDeposito () {
+      service.registrarDeposito(this.deposito, this.itens)
+    }
   }
 }
 

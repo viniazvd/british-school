@@ -10,23 +10,13 @@
 						<input type="date" class="form-control" v-model="adiantamento.data">
 					</div>
 					<div class="col-md-3 mb-3">
-						<multiselect v-model="adiantamento.contaOrcamentariaSelected" 
-												:options="contaOrcamentariaArray" 
-												:close-on-select="true" 
-												@update="updateSelectContaOrcamentaria"
-												open-direction="below"
-												select-label=''
-												placeholder="Escolha uma conta orçamentária">
+						<multiselect v-model="adiantamento.contaOrcamentariaSelected" :options="contaOrcamentariaArray" :close-on-select="true" @update="updateSelectContaOrcamentaria"
+							open-direction="below" select-label='' placeholder="Escolha uma conta orçamentária">
 						</multiselect>
 					</div>
 					<div class="col-md-3 mb-3">
-						<multiselect v-model="adiantamento.aprovadorSelected" 
-											:options="aprovadoresArray" 
-											:close-on-select="true" 
-											@update="updateSelectAprovador"
-											open-direction="below"
-											select-label=''
-											:placeholder="idContaOrcamentoFiltraAprovadores">
+						<multiselect v-model="adiantamento.aprovadorSelected" :options="aprovadoresArray" :close-on-select="true" @update="updateSelectAprovador"
+							open-direction="below" select-label='' :placeholder="idContaOrcamentoFiltraAprovadores">
 						</multiselect>
 					</div>
 					<div class="col-md-3 mb-3">
@@ -36,32 +26,18 @@
 
 				<div class="row" style="margin-top:30px;">
 					<div class="col-md-3 mb-3">
-						<multiselect v-model="adiantamento.moedaSelected" 
-											:options="moedasArray" 
-											:close-on-select="true" 
-											@update="updateSelectMoeda"
-											open-direction="below"
-											select-label=''
-											placeholder="Cotação da moeda">
+						<multiselect v-model="adiantamento.moedaSelected" :options="moedasArray" :close-on-select="true" @update="updateSelectMoeda"
+							open-direction="below" select-label='' placeholder="Cotação da moeda">
 						</multiselect>
 					</div>
 					<div class="col-md-3 mb-3">
-						<multiselect v-model="adiantamento.unidadeSelected" 
-											:options="unidadesArray" 
-											:close-on-select="true" 
-											@update="updateSelectUnidade"
-											open-direction="below"
-											select-label=''
-											placeholder="Unidade">
+						<multiselect v-model="adiantamento.unidadeSelected" :options="unidadesArray" :close-on-select="true" @update="updateSelectUnidade"
+							open-direction="below" select-label='' placeholder="Unidade">
 						</multiselect>
 					</div>
 					<div class="col-md-3 mb-3">
-						<multiselect v-model="adiantamento.pagamentoSelected" 
-											:options="pagamento" 
-											:close-on-select="true" 
-											open-direction="below"
-											select-label=''
-											placeholder="Forma de pagamento">
+						<multiselect v-model="adiantamento.pagamentoSelected" :options="pagamento" :close-on-select="true" open-direction="below"
+							select-label='' placeholder="Forma de pagamento">
 						</multiselect>
 					</div>
 					<div class="col-md-3 mb-3">
@@ -120,8 +96,8 @@
 				</div>
 
 			</section>
-		</article>		
-		
+		</article>
+
 		<div class="row">
 			<div class="col-md-12 mb-12" style="margin-top:30px; text-align: center;">
 				<button type="button" class="btn btn-primary" @click="registrarAdiantamento()">Registrar adiantamento</button>
@@ -134,156 +110,152 @@
 <script>
 import { Money } from 'v-money'
 import Multiselect from 'vue-multiselect'
-import http from '../../../http'
 import addItem from '../../../components/root/item/add-item'
 import * as service from '../services'
 
 export default {
-	name: 'adiantamento',
+  name: 'adiantamento',
 
-	components: { Multiselect, addItem, Money },
+  components: { Multiselect, addItem, Money },
 
-	data () {
-		return {
-			adiantamento: {
-				data: '',
-				contaOrcamentariaSelected: null,
-				aprovadorSelected: null,
-				departamento: '',
-				moedaSelected: null,
-				unidadeSelected: null,
-				pagamentoSelected: null,
-				evento: ''
-			},
+  data () {
+    return {
+      adiantamento: {
+        data: '',
+        contaOrcamentariaSelected: null,
+        aprovadorSelected: null,
+        departamento: '',
+        moedaSelected: null,
+        unidadeSelected: null,
+        pagamentoSelected: null,
+        evento: ''
+      },
 
-			idContaOrcamentoFiltraAprovadores: 'Escolha um aprovador',
-			contaOrcamentaria: [],
-			aprovadores: [],
-			moedas: [],
-			unidades: [],
-			pagamento: ['Dinheiro', 'Depósito'],
+      idContaOrcamentoFiltraAprovadores: 'Escolha um aprovador',
+      contaOrcamentaria: [],
+      aprovadores: [],
+      moedas: [],
+      unidades: [],
+      pagamento: ['Dinheiro', 'Depósito'],
 
-			isDeposito: false,
+      isDeposito: false,
 
-			deposito: {
-				cpfoucnpj: '',
-				nome: '',
-				banco: '',
-				tipoconta: '',
-				agencia: '',
-				conta: '',
-				cpfcnpjvalor: ''
-			},
-			
-			itens: [{ descricao: '', valor: '0,00' }],
-			valorTotalItens: 0,
-			money: {},
-		}
-	},
-	
-	created () {
-		this.fetchContaOrcamentaria()
-		this.fetchUnidades()
-		this.fetchMoedas()
-	},
+      deposito: {
+        cpfoucnpj: '',
+        nome: '',
+        banco: '',
+        tipoconta: '',
+        agencia: '',
+        conta: '',
+        cpfcnpjvalor: ''
+      },
 
-	watch: {
-		'adiantamento.contaOrcamentariaSelected': function(newValue, oldValue) {
+      itens: [{ descricao: '', valor: '0,00' }],
+      valorTotalItens: 0,
+      money: {}
+    }
+  },
 
-			if (oldValue !== null) {
-				if (newValue !== oldValue) this.adiantamento.aprovadorSelected = ''
-			}
+  created () {
+    this.fetchContaOrcamentaria()
+    this.fetchUnidades()
+    this.fetchMoedas()
+  },
 
-			service.getAprovadores(newValue)
-				.then(data => {
-					if (data.length > 0) { 
-						this.idContaOrcamentoFiltraAprovadores = 'Aprovadores disponíveis'
-					} else {
-						this.idContaOrcamentoFiltraAprovadores = 'Aprovadores indisponíveis'
-					}
+  watch: {
+    'adiantamento.contaOrcamentariaSelected': (newValue, oldValue) => {
+      if (oldValue !== null) {
+        if (newValue !== oldValue) this.adiantamento.aprovadorSelected = ''
+      }
 
-					this.aprovadores = data
-				})
+      service.getAprovadores(newValue)
+        .then(data => {
+          if (data.length > 0) {
+            this.idContaOrcamentoFiltraAprovadores = 'Aprovadores disponíveis'
+          } else {
+            this.idContaOrcamentoFiltraAprovadores = 'Aprovadores indisponíveis'
+          }
+
+          this.aprovadores = data
+        })
     },
 
-		'adiantamento.pagamentoSelected': function(newValue) {
-			(this.pagamento[1] === newValue) ? this.isDeposito = true : this.isDeposito = false
-		}
-	},
+    'adiantamento.pagamentoSelected': function(newValue) {
+      (this.pagamento[1] === newValue) ? this.isDeposito = true : this.isDeposito = false
+    }
+  },
 
-	computed: {	
-		somaTotalItens () {
-			const valores = item => parseFloat(item.valor)
-			const soma = (acc, item) => acc + item
+  computed: {
+    somaTotalItens () {
+      const valores = item => parseFloat(item.valor)
+      const soma = (acc, item) => acc + item
 
-			this.valorTotalItens = this.itens.map(valores).reduce(soma)
+      this.valorTotalItens = this.itens.map(valores).reduce(soma)
 
-			return this.itens.map(valores).reduce(soma)
-		},
+      return this.itens.map(valores).reduce(soma)
+    },
 
-		contaOrcamentariaArray () {
-			const chave = value => value.id
+    contaOrcamentariaArray () {
+      const chave = value => value.id
 
-			return this.contaOrcamentaria.map(chave)
-		},
-		aprovadoresArray () {
-			const aprovador = value => value.LName
+      return this.contaOrcamentaria.map(chave)
+    },
+    aprovadoresArray () {
+      const aprovador = value => value.LName
 
-			return this.aprovadores.map(aprovador)
-		},
-		unidadesArray () {
-			const unidade = value => value.unidade
+      return this.aprovadores.map(aprovador)
+    },
+    unidadesArray () {
+      const unidade = value => value.unidade
 
-			return this.unidades.map(unidade)
-		},
-		moedasArray () {
-			const valores = value => value.nome + ' - ' + value.valor
-			const moeda = obj => Object.assign(this.moedas[obj], [obj])
+      return this.unidades.map(unidade)
+    },
+    moedasArray () {
+      const valores = value => value.nome + ' - ' + value.valor
+      const moeda = obj => Object.assign(this.moedas[obj], [obj])
 
-			return Object.keys(this.moedas).map(moeda).map(valores)
-		}
-	},
+      return Object.keys(this.moedas).map(moeda).map(valores)
+    }
+  },
 
-	methods: {
-		fetchContaOrcamentaria () {
-			const vercontas = localStorage.getItem('vercontas')
-			
-			if (vercontas == 0) 
-				service.contaOrcamentaria_vercontas0().then(data => this.contaOrcamentaria = data)
-			else 
-				service.contaOrcamentaria_vercontas1().then(data => this.contaOrcamentaria = data)
-		},
+  methods: {
+    fetchContaOrcamentaria () {
+      const vercontas = localStorage.getItem('vercontas')
 
-		fetchUnidades () {
-			service.getUnidades().then(data => this.unidades = data)
-		},
+      if (vercontas == 0) {
+        service.contaOrcamentaria_vercontas0().then(data => this.contaOrcamentaria = data)
+      } else {
+        service.contaOrcamentaria_vercontas1().then(data => this.contaOrcamentaria = data)
+      }
+    },
 
-		fetchMoedas () {
-			service.getMoedas().then(data => this.moedas = data.valores)
-		},
+    fetchUnidades () {
+      service.getUnidades().then(data => this.unidades = data)
+    },
 
-		updateSelectContaOrcamentaria (newSelected) {
-			this.adiantamento.contaOrcamentariaSelected = newSelected
-		},
+    fetchMoedas () {
+      service.getMoedas().then(data => this.moedas = data.valores)
+    },
 
-		updateSelectAprovador (newSelected) {
-			this.adiantamento.aprovadorSelected = newSelected
-		},
+    updateSelectContaOrcamentaria (newSelected) {
+      this.adiantamento.contaOrcamentariaSelected = newSelected
+    },
 
-		updateSelectUnidade (newSelected) {
-			this.adiantamento.unidadeSelected = newSelected
-		},
+    updateSelectAprovador (newSelected) {
+      this.adiantamento.aprovadorSelected = newSelected
+    },
 
-		updateSelectMoeda (newSelected) {
-			this.adiantamento.moedaSelected = newSelected
-		},
+    updateSelectUnidade (newSelected) {
+      this.adiantamento.unidadeSelected = newSelected
+    },
 
-		registrarAdiantamento() {
-			service.registraAdiantamento(this.adiantamento, this.itens, this.valorTotalItens, this.deposito)
-		}
+    updateSelectMoeda (newSelected) {
+      this.adiantamento.moedaSelected = newSelected
+    },
+
+    registrarAdiantamento () {
+      service.registraAdiantamento(this.adiantamento, this.itens, this.valorTotalItens, this.deposito)
+    }
   }
 }
-
-
 </script>
-

@@ -4,20 +4,20 @@
 
 			<div style="margin-bottom: 25px" class="input-group">
 				<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-				<input type="number" v-model="user.matricula" class="form-control" placeholder="matricula">
+				<input type="number" v-model="user.matricula" class="form-control" placeholder="matricula" />
 			</div>
 
 			<div style="margin-bottom: 25px" class="input-group" v-if="showPassword">
 				<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-				<input type="text" v-model="user.senha" class="form-control" placeholder="password">
+				<input type="text" v-model="user.senha" class="form-control" placeholder="password" />
 			</div>
 			<div style="margin-bottom: 25px" class="input-group" v-else="showPassword">
 				<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-				<input type="password" v-model="user.senha" class="form-control" placeholder="password">
+				<input type="password" v-model="user.senha" class="form-control" placeholder="password" />
 			</div>
-			
+
 			<div class="form-group">
-				<input type="checkbox" @click="changeType">
+				<input type="checkbox" @click="changeType" />
 				<label>Visualizar a senha ao digitar?</label>
 			</div>
 
@@ -49,58 +49,57 @@ import { SweetModal, SweetModalTab } from 'sweet-modal-vue'
 
 export default {
 
-	name: 'login',
+  name: 'login',
 
-  components: { modalReenvioSenha, modalMudarSenha, SweetModal, SweetModalTab }, 
+  components: {modalReenvioSenha, modalMudarSenha, SweetModal, SweetModalTab},
 
-	data () {
-		return {
-			user: {
-				matricula: '',
-				senha: ''
-			},
-			showModalReenvioSenha: false,
-			showModalMudarSenha: false,
-			showPassword: false
-		}
-	},
+  data () {
+    return {
+      user: {
+        matricula: '',
+        senha: ''
+      },
+      showModalReenvioSenha: false,
+      showModalMudarSenha: false,
+      showPassword: false
+    }
+  },
 
-	methods: {
-		...mapActions(['attemptLogin']),
+  methods: {
+    ...mapActions(['attemptLogin']),
 
-		doLogin () {
-			const user = this.user
-			this.attemptLogin({...user})
-				.then(() => {
-					this.user.matricula = ''
-					this.user.senha = ''	
-					this.$refs.modalSucess.open()		
-				})
-				.catch(() => {
-					this.$refs.modalFail.open()
-				})
-		},
+    doLogin () {
+      const user = this.user
+      this.attemptLogin({...user})
+        .then(() => {
+          this.user.matricula = ''
+          this.user.senha = ''
+          this.$refs.modalSucess.open()
+        })
+        .catch(() => {
+          this.$refs.modalFail.open()
+        })
+    },
 
-		reset () {
-			this.user.matricula = ''
-			this.user.senha = ''
-		},
+    reset () {
+      this.user.matricula = ''
+      this.user.senha = ''
+    },
 
-		redirectPage () {
-			this.$router.push('/dashboard')
-		},
+    redirectPage () {
+      this.$router.push('/dashboard')
+    },
 
-		changeType () {
-			this.showPassword = !this.showPassword
-		}
-	},
+    changeType () {
+      this.showPassword = !this.showPassword
+    }
+  },
 
-	computed: {
-		isValid () {
-			const user = this.user
-			return !isEmpty(user.matricula) && !isEmpty(user.senha) 
-		}
-	}
-
+  computed: {
+    isValid () {
+      const user = this.user
+      return !isEmpty(user.matricula) && !isEmpty(user.senha) 
+    }
+  }
 }
 </script>

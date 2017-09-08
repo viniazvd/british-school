@@ -69,66 +69,65 @@
 </template>
 
 <script>
-import http from '../../../http'
 import { orderBy, isEmpty } from 'lodash'
 import Paginate from 'vuejs-paginate'
 import * as service from '../services'
 
 export default {
-	
-	name: 'relatorios',
 
-	components: { Paginate },
+  name: 'relatorios',
 
-	data () {
-		return {
-			ano: '2017',
-			arrayRelatorio: [],
-			configs: {
-				orderBy: 'addata',
-				order: 'desc',
-				filter: ''
-			},
-			pagination: {
-				page: 1,
-				total: 0
-			},
-			totalRegistros: 0
-		}
-	},
+  components: { Paginate },
 
-	created () {
-		const limit = 10
+  data () {
+    return {
+      ano: '2017',
+      arrayRelatorio: [],
+      configs: {
+        orderBy: 'addata',
+        order: 'desc',
+        filter: ''
+      },
+      pagination: {
+        page: 1,
+        total: 0
+      },
+      totalRegistros: 0
+    }
+  },
 
-		service.totalPagesRelatorio()
-			.then(data => {		
-				// this.pagination.total = Math.ceil(data.length / limit) - 1
-				this.pagination.total = Math.ceil(data.length / limit) 
-				this.totalRegistros = data.length
-			})
-	},
+  created () {
+    const limit = 10
 
-	mounted () {
-		const page = this.pagination.page
+    service.totalPagesRelatorio()
+      .then(data => {
+        // this.pagination.total = Math.ceil(data.length / limit) - 1
+        this.pagination.total = Math.ceil(data.length / limit)
+        this.totalRegistros = data.length
+      })
+  },
 
-		service.relatorio(page).then(data => this.arrayRelatorio = data.results)
-	},
+  mounted () {
+    const page = this.pagination.page
 
-	methods: {
-		clickCallback (page) {
-			service.relatorio(page).then(data => this.arrayRelatorio = data.results)
-    },
-	},
+    service.relatorio(page).then(data => this.arrayRelatorio = data.results)
+  },
 
-	computed: {
-  	list() {
+  methods: {
+    clickCallback (page) {
+      service.relatorio(page).then(data => this.arrayRelatorio = data.results)
+    }
+  },
+
+  computed: {
+    list () {
       const filter = this.configs.filter
       const list = _.orderBy(this.arrayRelatorio, this.configs.orderBy, this.configs.order)
 
       if (_.isEmpty(filter)) list
 
       return _.filter(list, array => array.evento.indexOf(filter) >= 0) 
-    },
+    }
   }
 }
 </script>

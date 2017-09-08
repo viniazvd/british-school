@@ -22,47 +22,46 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import { mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import modalMudarSenha from './../modals/MudarSenha.vue'
 import { SweetModal, SweetModalTab } from 'sweet-modal-vue'
 
 export default {
 
-	components: { modalMudarSenha, SweetModal, SweetModalTab }, 
+  components: { modalMudarSenha, SweetModal, SweetModalTab }, 
 
-	data () {
-		return {
-			isOpenUser : false,
-			showModalReenvioSenha: false,
-			showModalMudarSenha: false
-		}
-	},
+  data () {
+    return {
+      isOpenUser: false,
+      showModalReenvioSenha: false,
+      showModalMudarSenha: false
+    }
+  },
 
-	computed: {
-		...mapGetters(['isAuthenticated', 'currentUser'])
-	},
+  computed: {
+    ...mapGetters(['isAuthenticated', 'currentUser'])
+  },
 
-	methods: {
-		...mapActions(['attemptLogout', 'hasToken']),
+  methods: {
+    ...mapActions(['attemptLogout', 'hasToken']),
 
-		logout() {
-			this.attemptLogout()
-			this.$refs.modalLogou.open()	
-		},
+    logout () {
+      this.attemptLogout()
+      this.$refs.modalLogou.open()
+    },
 
-		toggleUserMenu() {
-			this.isOpenUser = !this.isOpenUser
-		},
+    toggleUserMenu () {
+      this.isOpenUser = !this.isOpenUser
+    },
 
-		redirectPage () {
-			this.$router.push('/auth')
-		}
-	},
+    redirectPage () {
+      this.$router.push('/auth')
+    }
+  },
 
-	created() {
-		const token = localStorage.getItem("token")
-		if(token) this.hasToken(token)
-	},
+  created () {
+    const token = localStorage.getItem('token')
+    if (token) this.hasToken(token)
+  }
 }
 </script>

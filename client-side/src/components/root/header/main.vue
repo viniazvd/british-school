@@ -14,20 +14,20 @@ import Itensmenu from './itensmenu'
 import Right from './right'
 
 export default {
-	name: 'menu-header',
-	
-	components: { Itensmenu, Right },
+  name: 'menu-header',
 
-	data () {
-		return { 
-			isOpen: false
-		 }
-	},
+  components: { Itensmenu, Right },
 
-	methods: {
-		onToggleMenu () {
-			this.isOpen = !this.isOpen
-		}
-	}
+  data () {
+    return {
+      isOpen: false
+    }
+  },
+
+  methods: {
+    onToggleMenu () {
+      this.isOpen = !this.isOpen
+    }
+  }
 }
 </script>

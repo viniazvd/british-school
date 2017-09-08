@@ -56,90 +56,81 @@
 			</table>
 
 			<div class="text-center">
-				  <paginate
-						:page-count="parseInt(this.pagination.total)"
-						:page-range="3"
-						:margin-pages="2"
-						:click-handler="clickCallback"
-						:prev-text="'Prev'"
-						:next-text="'Next'"
-						:container-class="'pagination'"
-						:page-class="'page-item'">
-					</paginate>
+				<paginate :page-count="parseInt(this.pagination.total)" :page-range="3" :margin-pages="2" :click-handler="clickCallback"
+					:prev-text="'Prev'" :next-text="'Next'" :container-class="'pagination'" :page-class="'page-item'">
+				</paginate>
 			</div>
-		
+
 		</header>
 	</div>
 </template>
 
 <script>
-import http from '../../../http'
 import { orderBy, isEmpty } from 'lodash'
 import Paginate from 'vuejs-paginate'
 import * as service from '../services'
 
 export default {
-	
-	name: 'cancelamento',
 
-	components: { Paginate },
+  name: 'cancelamento',
 
-	data () {
-		return {
-			ano: '2017',
-			arrayCancelamento: [],
-			configs: {
-				orderBy: 'addata',
-				order: 'desc',
-				filter: ''
-			},
-			pagination: {
-				page: 1,
-				total: 0
-			},
-			totalRegistros: 0
-		}
-	},
+  components: { Paginate },
 
-	created () {
-		const limit = 10
+  data () {
+    return {
+      ano: '2017',
+      arrayCancelamento: [],
+      configs: {
+        orderBy: 'addata',
+        order: 'desc',
+        filter: ''
+      },
+      pagination: {
+        page: 1,
+        total: 0
+      },
+      totalRegistros: 0
+    }
+  },
 
-		service.totalPagesCancelamento()
-			.then(data => {		
-				// this.pagination.total = Math.ceil(data.length / limit) - 1
-				this.pagination.total = Math.ceil(data.length / limit) 
-				this.totalRegistros = data.length
-			})
-	},
+  created () {
+    const limit = 10
 
-	mounted () {
-		const page = this.pagination.page
+    service.totalPagesCancelamento()
+      .then(data => {
+        // this.pagination.total = Math.ceil(data.length / limit) - 1
+        this.pagination.total = Math.ceil(data.length / limit)
+        this.totalRegistros = data.length
+      })
+  },
 
-		service.cancelamento(page).then(data => this.arrayCancelamento = data.results)
-	},
+  mounted () {
+    const page = this.pagination.page
 
-	methods: {
-		clickCallback (page) {
-			service.cancelamento(page).then(data => this.arrayCancelamento = data.results)
-    },
-	},
+    service.cancelamento(page).then(data => this.arrayCancelamento = data.results)
+  },
 
-	computed: {
-  	list() {
+  methods: {
+    clickCallback (page) {
+      service.cancelamento(page).then(data => this.arrayCancelamento = data.results)
+    }
+  },
+
+  computed: {
+    list () {
       const filter = this.configs.filter
       const list = _.orderBy(this.arrayCancelamento, this.configs.orderBy, this.configs.order)
 
       if (_.isEmpty(filter)) list
 
-      return _.filter(list, array => array.evento.indexOf(filter) >= 0) 
+      return _.filter(list, array => array.evento.indexOf(filter) >= 0)
     }
-	}
+  }
 }
 </script>
 
 <style lang="css">
-.pagination {
-}
-.page-item {
-}
+  .pagination {}
+
+	.page-item {}
 </style>

@@ -32,20 +32,19 @@ import { mapGetters } from 'vuex'
 
 export default {
 
-	data () {
-		return { 
-			allowAcess: true
-		 }
-	},
+  data () {
+    return {
+      allowAcess: true
+    }
+  },
 
-	computed: {
-		...mapGetters(['isAuthenticated']),
+  computed: {
+    ...mapGetters(['isAuthenticated'])
+  },
 
-	},
-
-	beforeUpdate () {
-		const hasNotTotallyAcess = localStorage.getItem('perfil') == 42
-		hasNotTotallyAcess ? this.allowAcess = false : this.allowAcess = true
-	}
+  beforeUpdate () {
+    const hasNotTotallyAcess = localStorage.getItem('perfil') == 42
+    hasNotTotallyAcess ? this.allowAcess = false : this.allowAcess = true
+  }
 }
 </script>
