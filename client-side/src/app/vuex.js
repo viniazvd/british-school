@@ -3,5 +3,3 @@ import { vuex as auth } from './auth'
 
 // export default { auth, adiantamento }
 export default { auth }
-
-		
