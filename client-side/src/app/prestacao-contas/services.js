@@ -7,3 +7,8 @@ export const totalPages = () => {
 export const prestacaoContas = (page) => {
   return http.get('http://localhost:3000/api/prestacao-contas?page=' + page).then(res => res.data)
 }
+
+export const loadAdiantamentoItens = (id) => {
+  return http.post('http://localhost:3000/api/prestacao-itens', { id }).then(res => res.data)
+}
+

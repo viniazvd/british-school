@@ -163,7 +163,7 @@ export default {
   },
 
   watch: {
-    'adiantamento.contaOrcamentariaSelected': (newValue, oldValue) => {
+    'adiantamento.contaOrcamentariaSelected': function(newValue, oldValue) {
       if (oldValue !== null) {
         if (newValue !== oldValue) this.adiantamento.aprovadorSelected = ''
       }

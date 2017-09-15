@@ -1,9 +1,21 @@
 <template>
 	<div id="add-item">
 
-		<div class="row" style="margin-top:30px;" v-for="(item, index) in itens">
-			<div class="col-md-9 mb-9">
-				<input type="text" v-model="item.descricao" placeholder="Descrição do item" class="form-control">
+		<div class="row" style="margin-top:10px;" v-for="(item, index) in itens">
+			<div class="col-md-2 mb-2">
+        <select v-model="item.itemSelected" class="form-control">
+          <option v-for="option in itemPrestacao" v-bind:value="option.iditemadiantamento">
+            {{ option.addescricao }}
+          </option>
+        </select>
+      </div>
+      
+      <div class="col-md-2 mb-2">
+				<input type="date" v-model="item.data" placeholder="Descrição do item" class="form-control">
+			</div>
+      
+      <div class="col-md-5 mb-5">
+				<input type="text" v-model="item.descricaoPrestacao" placeholder="Descrição do item" class="form-control">
 			</div>
 
 			<div class="col-md-2 mb-2">
@@ -26,11 +38,12 @@ export default {
 
   components: { Money },
 
-  props: ['value'],
+  props: ['value', 'itemPrestacao'],
 
   data () {
     return {
       itens: [],
+      itemSelected: '',
       money: {},
       showButton: true
     }
@@ -42,11 +55,11 @@ export default {
 
   methods: {
     add () {
-      const inputDescricao = obj => obj.descricao
+      const inputDescricao = obj => obj.descricaoPrestacao
       const isNotEmpty = res => res !== ''
       const canAddItem = this.itens.map(inputDescricao).every(isNotEmpty)
 
-      if (canAddItem) this.itens.push({ descricao: '', valor: '0,00' })
+      if (canAddItem) this.itens.push({ descricaoPrestacao: '', valor: '0,00' })
     },
 
     remove (index) {

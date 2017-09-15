@@ -9,15 +9,15 @@ import { routes as prestacaoContas } from './prestacao-contas'
 import { routes as reembolso } from './reembolso'
 import { routes as relatorios } from './relatorios'
 
-export default [ 
-	...auth, 
-	...dashboard, 
-	...adiantamento, 
-	...cancelamento,
-	...depositoOrcamento,
-	...despesasAlunos,
-	...pagamento,
-	...prestacaoContas,
-	...reembolso,
-	...relatorios 
+export default [
+  ...auth,
+  ...dashboard,
+  ...adiantamento,
+  ...cancelamento,
+  ...depositoOrcamento,
+  ...despesasAlunos,
+  ...pagamento,
+  ...prestacaoContas,
+  ...reembolso,
+  ...relatorios
 ]

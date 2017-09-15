@@ -56,7 +56,7 @@ export default {
 
   name: 'mudarSenha',
 
-  components: { SweetModal, SweetModalTab }, 
+  components: { SweetModal, SweetModalTab },
 
   data () {
     return {

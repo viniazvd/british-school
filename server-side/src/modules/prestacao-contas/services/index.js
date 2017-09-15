@@ -17,4 +17,10 @@ services.prestacaocontas = (page, limit, offset) => {
   return queryFactory(db, query)
 }
 
+services.loadAdiantamentoItens = (id) => {
+  const query = repositorys.loadAdiantamentoItens(id)
+
+  return queryFactory(db, query)
+}
+
 module.exports = services

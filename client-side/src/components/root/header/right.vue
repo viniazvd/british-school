@@ -28,7 +28,7 @@ import { SweetModal, SweetModalTab } from 'sweet-modal-vue'
 
 export default {
 
-  components: { modalMudarSenha, SweetModal, SweetModalTab }, 
+  components: { modalMudarSenha, SweetModal, SweetModalTab },
 
   data () {
     return {

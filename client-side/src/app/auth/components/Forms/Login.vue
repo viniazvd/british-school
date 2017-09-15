@@ -1,6 +1,6 @@
 <template>
 	<div class="row">
-		<div class="col-md-6">
+		<div class="col-md-4">
 
 			<div style="margin-bottom: 25px" class="input-group">
 				<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>

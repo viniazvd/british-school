@@ -43,10 +43,10 @@
 					<tr v-for="itemPrestacao in list">
 						<th scope="row">{{ itemPrestacao.idadiantamento }}</th>
 						<td>{{ itemPrestacao.dataregistro | truncateData }}</td>
-						<td>{{ itemPrestacao.requisitadopor | truncateEvento }}</td>
-						<td>{{ itemPrestacao.autorizadopor | truncateEvento }}</td>
-						<td>{{ itemPrestacao.codigoblueform }}</td>
-						<td><span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span></td>
+						<td>{{ itemPrestacao.requisitadopor }}</td>
+						<td>{{ itemPrestacao.autorizadopor }}</td>
+						<td>{{ itemPrestacao.codigoadiantamento }}</td>
+						<td><span class="input-group-addon" @click="visualizarAdiantamento(itemPrestacao.codigoadiantamento)"><i class="glyphicon glyphicon-search"></i></span></td>
 					</tr>
 				</tbody>
 			</table>
@@ -65,11 +65,15 @@
 			</div>
 		
 		</header>
+
+    <modalPrestacaoContas :id="this.id" v-if="showModalPrestacaoContas" @close="showModalPrestacaoContas=false"></modalPrestacaoContas>
+
 	</div>
 </template>
 
 <script>
 import { orderBy, isEmpty } from 'lodash'
+import modalPrestacaoContas from './modals/PrestacaoContas.vue'
 import Paginate from 'vuejs-paginate'
 import * as service from '../services'
 
@@ -77,21 +81,27 @@ export default {
 
   name: 'prestacaoContas',
 
-  components: { Paginate },
+  components: { Paginate, modalPrestacaoContas },
 
   data () {
     return {
       arrayPrestacao: [],
+
+      id: '',
+
       configs: {
         orderBy: 'dataregistro',
-        order: 'desc',
+        order: 'asc',
         filter: ''
       },
+
       pagination: {
         page: 1,
         total: 0
       },
-      totalRegistros: 0
+      totalRegistros: 0,
+
+      showModalPrestacaoContas: false
     }
   },
 
@@ -114,6 +124,11 @@ export default {
   methods: {
     clickCallback (page) {
       service.prestacaoContas(page).then(data => this.arrayPrestacao = data.results)
+    },
+
+    visualizarAdiantamento (id) {
+      this.showModalPrestacaoContas = true
+      this.id = id
     }
   },
 
