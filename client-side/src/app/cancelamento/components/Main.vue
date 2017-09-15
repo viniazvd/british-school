@@ -82,7 +82,7 @@ export default {
       arrayCancelamento: [],
       configs: {
         orderBy: 'addata',
-        order: 'desc',
+        order: 'asc',
         filter: ''
       },
       pagination: {

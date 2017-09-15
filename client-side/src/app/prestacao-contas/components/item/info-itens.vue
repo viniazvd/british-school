@@ -27,7 +27,6 @@
 
 <script>
 import valorPrestacaoItem from './valor-prestacao-item'
-// import valorPrestacaoItem from '../../../app/prestacao-contas/components/item/valor-prestacao-item'
 
 export default {
   name: 'info-itens',

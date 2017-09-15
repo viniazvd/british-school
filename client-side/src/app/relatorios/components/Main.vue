@@ -85,7 +85,7 @@ export default {
       arrayRelatorio: [],
       configs: {
         orderBy: 'addata',
-        order: 'desc',
+        order: 'asc',
         filter: ''
       },
       pagination: {

@@ -12,3 +12,7 @@ export const loadAdiantamentoItens = (id) => {
   return http.post('http://localhost:3000/api/prestacao-itens', { id }).then(res => res.data)
 }
 
+export const prestarcontas = (id, itens) => {
+  return http.post('http://localhost:3000/api/prestar-contas', { id, itens }).then(res => res.data)
+}
+

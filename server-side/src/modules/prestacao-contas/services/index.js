@@ -23,4 +23,34 @@ services.loadAdiantamentoItens = (id) => {
   return queryFactory(db, query)
 }
 
+services.prestarcontas = (id, itens) => {
+  const updateStatus = id => {
+    const queryUpdateStatus = repositorys.updateStatus(id)
+    console.log(queryUpdateStatus)
+    return queryFactory(db, queryUpdateStatus)
+  }
+
+  const updateItens = () => {
+    itens.map(item => {
+      if (item.itemSelected !== undefined) {
+        const { itemSelected, valor, data, descricaoPrestacao } = item
+
+        let queryUpdateItens = repositorys.updateItens(itemSelected, valor, data, descricaoPrestacao)
+        console.log(queryUpdateItens)
+        return queryFactory(db, queryUpdateItens)
+      }
+    })
+  }
+
+  return updateStatus(id).then(() => updateItens())
+}
+
 module.exports = services
+
+// const insertItens = codigoAdiantamento => {
+//   itens.map(item => {
+//     let query = repositorys.queryItens(dataRegistro, item.descricao, item.valor, codigoAdiantamento + 1)
+
+//     return queryFactory(db, query)
+//   })
+// }

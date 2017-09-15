@@ -22,13 +22,28 @@ repositorys.prestacaocontas = (ano, limit, offset) => {
 }
 
 repositorys.loadAdiantamentoItens = (id) => {
-  return `SELECT b.departamento, b.autorizadopor, b.unidade, b.moeda, b.moedacotacao, b.totalblueform, i.iditemadiantamento, i.addescricao, i.advalor, i.prestacaovalor
+  return `SELECT b.idadiantamento ,b.departamento, b.autorizadopor, b.unidade, b.moeda, b.moedacotacao, b.totalblueform, i.iditemadiantamento, i.addescricao, i.advalor, i.prestacaovalor
           FROM blueforms b, itemadiantamento i
           WHERE b.codigoadiantamento = i.id_adiantamento
           AND b.categoriablueform = 'adiantamento'
           AND codigoadiantamento IS NOT NULL
           AND codigoadiantamento != 0
           AND b.codigoadiantamento = '${id}'`
+}
+
+repositorys.updateStatus = (id) => {
+  return `UPDATE blueforms
+          SET status = 1
+          WHERE idadiantamento = ${id}`
+}
+
+repositorys.updateItens = (itemSelected, valor, data, descricaoPrestacao) => {
+  return `UPDATE itemadiantamento
+          SET 
+            prestacaovalor = ${valor}, 
+            dataprestacaoconta = '${data}', 
+            descricaoprestacao = '${descricaoPrestacao}'
+          WHERE iditemadiantamento = ${itemSelected}`
 }
 
 module.exports = repositorys

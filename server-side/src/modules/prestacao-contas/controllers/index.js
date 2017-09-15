@@ -30,4 +30,12 @@ controller.loadAdiantamentoItens = (req, res) => {
     .catch(error => res.status(404).send(error))
 }
 
+controller.prestarcontas = (req, res) => {
+  const { id, itens } = req.body
+
+  service.prestarcontas(id, itens)
+    .then(results => res.status(200).send(results))
+    .catch(error => res.status(404).send(error))
+}
+
 module.exports = controller

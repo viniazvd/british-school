@@ -52,7 +52,7 @@
           
           <div class="row">
             <div class="col-md-12 mb-12" style="margin-top:30px; text-align: center;">
-              <button type="button" class="btn btn-primary">Prestar conta</button>
+              <button type="button" class="btn btn-primary" @click="prestarConta">Prestar conta</button>
             </div>
           </div>
 
@@ -109,6 +109,10 @@ export default {
   methods: {
     fecharModal () {
       this.$emit('close')
+    },
+
+    prestarConta () {
+      service.prestarcontas(this.arrayAdiantamento.idadiantamento, this.itens)
     }
   }
 }
