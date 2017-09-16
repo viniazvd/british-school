@@ -51,7 +51,7 @@ export default {
 
   name: 'login',
 
-  components: {modalReenvioSenha, modalMudarSenha, SweetModal, SweetModalTab},
+  components: { modalReenvioSenha, modalMudarSenha, SweetModal, SweetModalTab },
 
   data () {
     return {

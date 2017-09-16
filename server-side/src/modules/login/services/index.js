@@ -8,7 +8,6 @@ const queryFactoryFirstResult = require('../../../services/promises/query-factor
 let services = {}
 
 services.authenticate = (matricula, senha, senhaDescrypt, nomeSistema) => {
-
   const query = repositorys.authenticate(matricula, senha, senhaDescrypt, nomeSistema)
 
   return new Promise((resolve, reject) => {
@@ -18,7 +17,7 @@ services.authenticate = (matricula, senha, senhaDescrypt, nomeSistema) => {
         return
       }
 
-      const token = jwt.sign({ matricula: matricula, senha: senha }, 'mengaomaiordobrasil')
+      const token = jwt.sign({ matricula: matricula, senha: senha }, process.env.JWT_SECRET_TOKEN)
 
       return resolve({ result: results[0], token: token })
     })

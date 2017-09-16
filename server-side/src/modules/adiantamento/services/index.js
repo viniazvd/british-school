@@ -73,4 +73,3 @@ services.registra_adiantamento = (adiantamento, itens, purchasingid, valorTotalI
 }
 
 module.exports = services
-

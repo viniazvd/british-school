@@ -56,6 +56,13 @@
             </div>
           </div>
 
+          <sweet-modal icon="success" ref="modalSucess" @close="fecharModal">
+            Prestação de contas efetuada com sucesso!
+          </sweet-modal>
+          <sweet-modal icon="warning" ref="modalFail">
+            Ocorreu um erro. Tente novamente.
+          </sweet-modal>
+
         </div>
       </div>
     </div>
@@ -67,6 +74,7 @@ import { Money } from 'v-money'
 import addPrestacao from '../item/add-prestacao'
 import infoItens from '../item/info-itens'
 import * as service from '../../services'
+import { SweetModal, SweetModalTab } from 'sweet-modal-vue'
 
 export default {
 
@@ -74,7 +82,7 @@ export default {
 
   props: ['id'],
 
-  components: { addPrestacao, infoItens, Money },
+  components: { addPrestacao, infoItens, Money, SweetModal, SweetModalTab },
 
   data () {
     return {
@@ -113,6 +121,12 @@ export default {
 
     prestarConta () {
       service.prestarcontas(this.arrayAdiantamento.idadiantamento, this.itens)
+        .then(() => {
+          this.$refs.modalSucess.open()
+        })
+        .catch(() => {
+          this.$refs.modalFail.open()
+        })
     }
   }
 }

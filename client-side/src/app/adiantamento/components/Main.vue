@@ -104,6 +104,13 @@
 			</div>
 		</div>
 
+    <sweet-modal icon="success" ref="modalSucess" @close="redirectPage">
+      Adiantamento efetuado com sucesso!
+    </sweet-modal>
+    <sweet-modal icon="warning" ref="modalFail">
+      Ocorreu um erro. Tente novamente.
+    </sweet-modal>
+
 	</div>
 </template>
 
@@ -112,11 +119,12 @@ import { Money } from 'v-money'
 import Multiselect from 'vue-multiselect'
 import addItem from '../../../components/root/item/add-item'
 import * as service from '../services'
+import { SweetModal, SweetModalTab } from 'sweet-modal-vue'
 
 export default {
   name: 'adiantamento',
 
-  components: { Multiselect, addItem, Money },
+  components: { Multiselect, addItem, Money, SweetModal, SweetModalTab },
 
   data () {
     return {
@@ -255,6 +263,16 @@ export default {
 
     registrarAdiantamento () {
       service.registraAdiantamento(this.adiantamento, this.itens, this.valorTotalItens, this.deposito)
+        .then(() => {
+          this.$refs.modalSucess.open()
+        })
+        .catch(() => {
+          this.$refs.modalFail.open()
+        })
+    },
+
+    redirectPage () {
+      this.$router.push('/dashboard')
     }
   }
 }
