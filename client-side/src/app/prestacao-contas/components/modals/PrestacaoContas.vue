@@ -75,6 +75,7 @@ import addPrestacao from '../item/add-prestacao'
 import infoItens from '../item/info-itens'
 import * as service from '../../services'
 import { SweetModal, SweetModalTab } from 'sweet-modal-vue'
+import currentDate from '../../../../utils/date/currentDate'
 
 export default {
 
@@ -82,14 +83,14 @@ export default {
 
   props: ['id'],
 
-  components: { addPrestacao, infoItens, Money, SweetModal, SweetModalTab },
+  components: { addPrestacao, infoItens, Money, SweetModal, SweetModalTab, currentDate },
 
   data () {
     return {
       arrayAdiantamento: [],
       arrayItens: [],
 
-      itens: [{ itemSelected: '', data: '', descricaoPrestacao: '', valor: '0,00' }],
+      itens: [{ itemSelected: '', data: currentDate, descricaoPrestacao: '', valor: '0,00' }],
       valorTotalItens: 0,
       money: {}
     }
@@ -120,7 +121,7 @@ export default {
     },
 
     prestarConta () {
-      service.prestarcontas(this.arrayAdiantamento.idadiantamento, this.itens)
+      service.prestarcontas(this.arrayAdiantamento.idadiantamento, this.arrayAdiantamento.codigoadiantamento, this.itens)
         .then(() => {
           this.$refs.modalSucess.open()
         })

@@ -40,13 +40,13 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr v-for="itemPrestacao in list">
-						<th scope="row">{{ itemPrestacao.idadiantamento }}</th>
-						<td>{{ itemPrestacao.dataregistro | truncateData }}</td>
-						<td>{{ itemPrestacao.requisitadopor }}</td>
-						<td>{{ itemPrestacao.autorizadopor }}</td>
-						<td>{{ itemPrestacao.codigoadiantamento }}</td>
-						<td><span class="input-group-addon" @click="visualizarAdiantamento(itemPrestacao.codigoadiantamento)"><i class="glyphicon glyphicon-search"></i></span></td>
+					<tr v-for="item in list">
+						<th scope="row">{{ item.idadiantamento }}</th>
+						<td>{{ item.dataregistro | truncateData }}</td>
+						<td>{{ item.requisitadopor }}</td>
+						<td>{{ item.autorizadopor }}</td>
+						<td>{{ item.codigoadiantamento }}</td>
+						<td><span class="input-group-addon" @click="visualizarAdiantamento(item.codigoadiantamento)"><i class="glyphicon glyphicon-search"></i></span></td>
 					</tr>
 				</tbody>
 			</table>

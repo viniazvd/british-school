@@ -120,16 +120,17 @@ import Multiselect from 'vue-multiselect'
 import addItem from '../../../components/root/item/add-item'
 import * as service from '../services'
 import { SweetModal, SweetModalTab } from 'sweet-modal-vue'
+import currentDate from '../../../utils/date/currentDate'
 
 export default {
   name: 'adiantamento',
 
-  components: { Multiselect, addItem, Money, SweetModal, SweetModalTab },
+  components: { Multiselect, addItem, Money, SweetModal, SweetModalTab, currentDate },
 
   data () {
     return {
       adiantamento: {
-        data: '',
+        data: currentDate,
         contaOrcamentariaSelected: null,
         aprovadorSelected: null,
         departamento: '',

@@ -31,9 +31,9 @@ controller.loadAdiantamentoItens = (req, res) => {
 }
 
 controller.prestarcontas = (req, res) => {
-  const { id, itens } = req.body
+  const { id, codigoadiantamento, itens } = req.body
 
-  service.prestarcontas(id, itens)
+  service.prestarcontas(id, codigoadiantamento, itens)
     .then(results => res.status(200).send(results))
     .catch(error => res.status(404).send(error))
 }

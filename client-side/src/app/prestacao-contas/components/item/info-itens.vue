@@ -18,7 +18,6 @@
             <valorPrestacaoItem :itensPrestacao="itensPrestacao" :itemAtual="item.iditemadiantamento"></valorPrestacaoItem>
           </td>
         </tr>
-
       </tbody>
     </table>
   </div>

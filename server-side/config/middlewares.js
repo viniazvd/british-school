@@ -9,13 +9,13 @@ const logger = require('morgan')
 const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
 const cors = require('cors')
-const session = require('express-session')
+// const session = require('express-session')
 const helmet = require('helmet')
 
 // const jwt = require('jsonwebtoken')
 
-const configSession = { secret: 'e2r3$r!q0oIl', resave: true, saveUninitialized: true }
-middlewares.use(session(configSession))
+// const configSession = { secret: 'e2r3$r!q0oIl', resave: true, saveUninitialized: true }
+// middlewares.use(session(configSession))
 
 middlewares.use(helmet())
 middlewares.use(logger('dev'))

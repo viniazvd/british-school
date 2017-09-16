@@ -24,7 +24,7 @@
 
 			<div class="col-md-1 mb-1">
 				<button class="button btn-success" v-if="isLast(index)" @click="add">+</button>
-				<button class="button btn-danger" v-if="lastOne(index)" @click="remove(item)">-</button>
+				<button class="button btn-danger" v-if="lastOne(index)" @click="remove(index, item)">-</button>
 			</div>
 		</div>
 
@@ -33,10 +33,11 @@
 
 <script>
 import { Money } from 'v-money'
+import currentDate from '../../../../utils/date/currentDate'
 
 export default {
 
-  components: { Money },
+  components: { Money, currentDate },
 
   props: ['value', 'itemPrestacao'],
 
@@ -56,14 +57,14 @@ export default {
   methods: {
     add () {
       const inputDescricao = obj => obj.descricaoPrestacao
-      const isNotEmpty = res => res !== ''
+      const isNotEmpty = res => res
       const canAddItem = this.itens.map(inputDescricao).every(isNotEmpty)
 
-      if (canAddItem) this.itens.push({ descricaoPrestacao: '', valor: '0,00' })
+      if (canAddItem) this.itens.push({ data: currentDate, descricaoPrestacao: '', valor: '0,00' })
     },
 
-    remove (index) {
-      (index === 0 && this.itens.length === 1) ? false : this.itens.splice(index, 1)
+    remove (index, item) {
+      (!item) ? false : this.itens.splice(index, 1)
     },
 
     isLast (index) {

@@ -23,34 +23,31 @@ services.loadAdiantamentoItens = (id) => {
   return queryFactory(db, query)
 }
 
-services.prestarcontas = (id, itens) => {
+services.prestarcontas = (id, codigoadiantamento, itens) => {
   const updateStatus = id => {
     const queryUpdateStatus = repositorys.updateStatus(id)
-    console.log(queryUpdateStatus)
     return queryFactory(db, queryUpdateStatus)
   }
 
-  const updateItens = () => {
+  // const updateItens = itens => {
+  //   const { itemSelected, valor } = itens
+
+  //   let queryUpdateItens = repositorys.updateItens(itemSelected, valor)
+  //   return queryFactory(db, queryUpdateItens)
+  // }
+
+  const addItens = (codigoadiantamento, itens) => {
     itens.map(item => {
       if (item.itemSelected !== undefined) {
         const { itemSelected, valor, data, descricaoPrestacao } = item
 
-        let queryUpdateItens = repositorys.updateItens(itemSelected, valor, data, descricaoPrestacao)
-        console.log(queryUpdateItens)
-        return queryFactory(db, queryUpdateItens)
+        let queryAddItens = repositorys.addItens(codigoadiantamento, itemSelected, valor, data, descricaoPrestacao)
+        return queryFactory(db, queryAddItens)
       }
     })
   }
 
-  return updateStatus(id).then(() => updateItens())
+  return updateStatus(id).then(() => addItens(codigoadiantamento, itens))// .then(() => updateItens(itens))
 }
 
 module.exports = services
-
-// const insertItens = codigoAdiantamento => {
-//   itens.map(item => {
-//     let query = repositorys.queryItens(dataRegistro, item.descricao, item.valor, codigoAdiantamento + 1)
-
-//     return queryFactory(db, query)
-//   })
-// }

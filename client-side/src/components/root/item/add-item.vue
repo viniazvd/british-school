@@ -12,7 +12,7 @@
 
 			<div class="col-md-1 mb-1">
 				<button class="button btn-success" v-if="isLast(index)" @click="add">+</button>
-				<button class="button btn-danger" v-if="lastOne(index)" @click="remove(item)">-</button>
+				<button class="button btn-danger" v-if="lastOne(index)" @click="remove(index, item)">-</button>
 			</div>
 		</div>
 
@@ -49,8 +49,8 @@ export default {
       if (canAddItem) this.itens.push({ descricao: '', valor: '0,00' })
     },
 
-    remove (index) {
-      (index === 0 && this.itens.length === 1) ? false : this.itens.splice(index, 1)
+    remove (index, item) {
+      (!item) ? false : this.itens.splice(index, 1)
     },
 
     isLast (index) {

@@ -59,9 +59,11 @@ services.registra_adiantamento = (adiantamento, itens, purchasingid, valorTotalI
 
   const insertItens = codigoAdiantamento => {
     itens.map(item => {
-      let query = repositorys.queryItens(dataRegistro, item.descricao, item.valor, codigoAdiantamento + 1)
+      if (item.descricao) {
+        let query = repositorys.queryItens(dataRegistro, item.descricao, item.valor, codigoAdiantamento + 1)
 
-      return queryFactory(db, query)
+        return queryFactory(db, query)
+      }
     })
   }
 
