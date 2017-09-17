@@ -62,6 +62,9 @@
           <sweet-modal icon="warning" ref="modalFail">
             Ocorreu um erro. Tente novamente.
           </sweet-modal>
+          <sweet-modal icon="warning" ref="modalFailNoItens">
+            Prestação de contas obrigatória. Tente novamente.
+          </sweet-modal>
 
         </div>
       </div>
@@ -121,13 +124,17 @@ export default {
     },
 
     prestarConta () {
-      service.prestarcontas(this.arrayAdiantamento.idadiantamento, this.arrayAdiantamento.codigoadiantamento, this.itens)
-        .then(() => {
-          this.$refs.modalSucess.open()
-        })
-        .catch(() => {
-          this.$refs.modalFail.open()
-        })
+      if (this.itens.length > 1) {
+        service.prestarcontas(this.arrayAdiantamento.idadiantamento, this.arrayAdiantamento.codigoadiantamento, this.itens)
+          .then(() => {
+            this.$refs.modalSucess.open()
+          })
+          .catch(() => {
+            this.$refs.modalFail.open()
+          })
+      } else {
+        this.$refs.modalFailNoItens.open()
+      }
     }
   }
 }

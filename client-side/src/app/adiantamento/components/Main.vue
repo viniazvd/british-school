@@ -110,6 +110,9 @@
     <sweet-modal icon="warning" ref="modalFail">
       Ocorreu um erro. Tente novamente.
     </sweet-modal>
+    <sweet-modal icon="warning" ref="modalFailNoItens">
+      Item obrigatório. Tente novamente.
+    </sweet-modal>
 
 	</div>
 </template>
@@ -263,13 +266,17 @@ export default {
     },
 
     registrarAdiantamento () {
-      service.registraAdiantamento(this.adiantamento, this.itens, this.valorTotalItens, this.deposito)
-        .then(() => {
-          this.$refs.modalSucess.open()
-        })
-        .catch(() => {
-          this.$refs.modalFail.open()
-        })
+      if (this.itens.length > 1) {
+        service.registraAdiantamento(this.adiantamento, this.itens, this.valorTotalItens, this.deposito)
+          .then(() => {
+            this.$refs.modalSucess.open()
+          })
+          .catch(() => {
+            this.$refs.modalFail.open()
+          })
+      } else {
+        this.$refs.modalFailNoItens.open()
+      }
     },
 
     redirectPage () {
