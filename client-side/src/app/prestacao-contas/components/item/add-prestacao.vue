@@ -56,11 +56,22 @@ export default {
 
   methods: {
     add () {
-      const inputDescricao = obj => obj.descricaoPrestacao
-      const isNotEmpty = res => res
-      const canAddItem = this.itens.map(inputDescricao).every(isNotEmpty)
+      const description = item => item.descricaoPrestacao
+      const item = item => item.itemSelected
 
-      if (canAddItem) this.itens.push({ data: currentDate, descricaoPrestacao: '', valor: '0,00' })
+      const isNotEmpty = res => res
+
+      const currentYearSelected = item => item.data.split('-')[0]
+      const currentYear = new Date().getFullYear().toString()
+      const checkYear = item => item === currentYear
+
+      const withSameYear = this.itens.map(currentYearSelected).every(checkYear)
+      const hasDescription = this.itens.map(description).every(isNotEmpty)
+      const hasItem = this.itens.map(item).every(isNotEmpty)
+
+      if (hasItem && hasDescription && withSameYear) {
+        this.itens.push({ data: currentDate, descricaoPrestacao: '', valor: '0,00' })
+      }
     },
 
     remove (index, item) {
