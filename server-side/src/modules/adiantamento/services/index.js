@@ -23,7 +23,7 @@ services.contaOrcamentaria_vercontas1 = ano => {
 // carrega no select/option os aprovadores referentes a conta orçamentária 
 services.aprovadores = iduser => {
   const query = repositorys.aprovadores(iduser)
-
+  console.log(query)
   return queryFactory(db, query)
 }
 
@@ -52,7 +52,8 @@ services.registra_adiantamento = (adiantamento, itens, purchasingid, valorTotalI
   }
 
   const insertAdiantamento = (codigoBlueform, codigoAdiantamento) => {
-    const query = repositorys.queryAdiantamento(dataRegistro, idusuario, codigoBlueform + 1, contaOrcamentariaSelected, aprovadorSelected, departamento, unidadeSelected, evento, moeda, cotacaoMoeda, pagamentoSelected, tipoconta, cpfoucnpj, cpfcnpjvalor, nome, banco, agencia, conta, status, valorTotalItens, codigoAdiantamento + 1)
+    const contaOrcamentariaSelectedId = contaOrcamentariaSelected.split(' ')[0]
+    const query = repositorys.queryAdiantamento(dataRegistro, idusuario, codigoBlueform + 1, contaOrcamentariaSelectedId, aprovadorSelected, departamento, unidadeSelected, evento, moeda, cotacaoMoeda, pagamentoSelected, tipoconta, cpfoucnpj, cpfcnpjvalor, nome, banco, agencia, conta, status, valorTotalItens, codigoAdiantamento + 1)
 
     return queryFactory(db, query)
   }

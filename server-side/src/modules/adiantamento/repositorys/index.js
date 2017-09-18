@@ -1,7 +1,7 @@
 let repositorys = {}
 
 repositorys.contaOrcamentaria_vercontas0 = (purchasing_id, departamento, vercontas, ano) => {
-  return `SELECT id, chave, setor, conta, nconta, saldo, ano
+  return `SELECT id, chave, setor, grupo, conta, nconta, saldo, ano
           FROM orcamento 
           WHERE ano = ${ano} 
           AND id IN 
@@ -16,14 +16,15 @@ repositorys.contaOrcamentaria_vercontas0 = (purchasing_id, departamento, vercont
 }
 
 repositorys.contaOrcamentaria_vercontas1 = (ano) => {
-  return `SELECT id, chave, setor, conta, nconta, saldo FROM orcamento WHERE ano = ${ano}`
+  return `SELECT id, chave, setor, grupo, conta, nconta, saldo FROM orcamento WHERE ano = ${ano}`
 }
 
 repositorys.aprovadores = (id_user) => {
-  return `SELECT tbl.Fname, tbl.LName
-          FROM tblusers as tbl, user_approve_budget as uab
-          WHERE tbl.ID_USER = uab.id_user
-          AND uab.ID_USER = ${id_user}`
+  return `SELECT fname, lname 
+          FROM tblusers TBLU, user_view_budget UVB,user_approve_budget UAB
+          WHERE UVB.id_user = ${id_user} 
+          AND UVB.id_budget = UAB.id_budget 
+          AND UAB.id_user = TBLU.id_user`
 }
 
 repositorys.unidades = (id_user) => {
@@ -34,7 +35,7 @@ repositorys.queryCodigoBlueform = () => {
   return `SELECT codigoblueform, codigoadiantamento FROM blueforms ORDER BY codigoblueform DESC LIMIT 1`
 }
 
-repositorys.queryAdiantamento = (dataRegistro, idusuario, codigoBlueform, contaOrcamentariaSelected, aprovadorSelected, departamento, unidadeSelected, evento, moeda, cotacaoMoeda, pagamentoSelected, tipoconta, cpfoucnpj, cpfcnpjvalor, nome, banco, agencia, conta, status, valorTotalItens, codigoAdiantamento) => {
+repositorys.queryAdiantamento = (dataRegistro, idusuario, codigoBlueform, contaOrcamentariaSelectedId, aprovadorSelected, departamento, unidadeSelected, evento, moeda, cotacaoMoeda, pagamentoSelected, tipoconta, cpfoucnpj, cpfcnpjvalor, nome, banco, agencia, conta, status, valorTotalItens, codigoAdiantamento) => {
   return `INSERT INTO blueforms 
           (idadiantamento, categoriablueform, dataregistro, idusuario, codigoblueform, requisitadopor, autorizadopor,
           departamento, unidade, evento, moeda, moedacotacao, formaadiantamento,
@@ -43,7 +44,7 @@ repositorys.queryAdiantamento = (dataRegistro, idusuario, codigoBlueform, contaO
 
           VALUES 
 
-          ('', 'adiantamento', '${dataRegistro}', ${idusuario}, '${codigoBlueform}', ${contaOrcamentariaSelected}, '${aprovadorSelected}', 
+          ('', 'adiantamento', '${dataRegistro}', ${idusuario}, '${codigoBlueform}', '${contaOrcamentariaSelectedId}', '${aprovadorSelected}', 
           '${departamento}', '${unidadeSelected}', '${evento}', '${moeda}', '${cotacaoMoeda}', '${pagamentoSelected}',
           '${tipoconta}', '${cpfoucnpj}', '${cpfcnpjvalor}', '${nome}', '${banco}', '${agencia}', '${conta}', '${status}', '${valorTotalItens}',
           '', '', '', '${codigoAdiantamento}', '')`

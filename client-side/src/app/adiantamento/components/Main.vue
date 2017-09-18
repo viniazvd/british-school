@@ -6,17 +6,17 @@
 				<h2>Adiantamento</h2>
 
 				<div class="row" style="margin-top:30px;">
-					<div class="col-md-3 mb-3">
+					<div class="col-md-2 mb-2">
 						<input type="date" class="form-control" v-model="adiantamento.data">
 					</div>
-					<div class="col-md-3 mb-3">
-						<multiselect v-model="adiantamento.contaOrcamentariaSelected" :options="contaOrcamentariaArray" :close-on-select="true" @update="updateSelectContaOrcamentaria"
-							open-direction="below" select-label='' placeholder="Escolha uma conta orçamentária">
+					<div class="col-md-4 mb-4">
+						<multiselect v-model="adiantamento.contaOrcamentariaSelected" :value="aprovadoresArray" :options="contaOrcamentariaArray" :close-on-select="true" @update="updateSelectContaOrcamentaria"
+							open-direction="below" placeholder="Escolha uma conta orçamentária">
 						</multiselect>
 					</div>
 					<div class="col-md-3 mb-3">
 						<multiselect v-model="adiantamento.aprovadorSelected" :options="aprovadoresArray" :close-on-select="true" @update="updateSelectAprovador"
-							open-direction="below" select-label='' :placeholder="idContaOrcamentoFiltraAprovadores">
+							open-direction="below" :placeholder="idContaOrcamentoFiltraAprovadores">
 						</multiselect>
 					</div>
 					<div class="col-md-3 mb-3">
@@ -25,24 +25,24 @@
 				</div>
 
 				<div class="row" style="margin-top:30px;">
-          <div class="col-md-3 mb-3">
+          <div class="col-md-2 mb-2">
 						<multiselect v-model="adiantamento.pagamentoSelected" :options="pagamento" :close-on-select="true" open-direction="below"
-							select-label='' placeholder="Forma de pagamento">
+							placeholder="Forma pagamento">
 						</multiselect>
 					</div>
     			<div class="col-md-2 mb-2">
 						<multiselect v-model="adiantamento.moedaSelected" :options="moedasArray" :close-on-select="true" @update="updateSelectMoeda"
-							open-direction="below" select-label='' placeholder="Cotação da moeda">
+							open-direction="below" placeholder="Cotação da moeda">
 						</multiselect>
 					</div>
 					<div class="col-md-2 mb-2">
 						<multiselect v-model="adiantamento.unidadeSelected" :options="unidadesArray" :close-on-select="true" @update="updateSelectUnidade"
-							open-direction="below" select-label='' placeholder="Unidade">
+							open-direction="below" placeholder="Unidade">
 						</multiselect>
 					</div>
-          <div class="col-md-2 mb-2">
-						<multiselect v-model="adiantamento.pagamentoSelected" :options="pagamento" :close-on-select="true" open-direction="below"
-							select-label='' placeholder="????">
+          <div class="col-md-3 mb-3">
+						<multiselect :options="pagamento" :close-on-select="true" open-direction="below"
+							placeholder="Centro de Custos">
 						</multiselect>
 					</div>
 					<div class="col-md-3 mb-3">
@@ -188,14 +188,14 @@ export default {
         if (newValue !== oldValue) this.adiantamento.aprovadorSelected = ''
       }
 
-      service.getAprovadores(newValue)
+      const contaOrcamentariaID = newValue.split(' ')[0]
+      service.getAprovadores(contaOrcamentariaID)
         .then(data => {
           if (data.length > 0) {
             this.idContaOrcamentoFiltraAprovadores = 'Aprovadores disponíveis'
           } else {
             this.idContaOrcamentoFiltraAprovadores = 'Aprovadores indisponíveis'
           }
-
           this.aprovadores = data
         })
     },
@@ -216,22 +216,22 @@ export default {
     },
 
     contaOrcamentariaArray () {
-      const chave = value => value.id
+      const chave = x => `${x.id} ${x.setor} ${x.grupo} ${x.conta} ${x.nconta} ${x.saldo}`
 
       return this.contaOrcamentaria.map(chave)
     },
     aprovadoresArray () {
-      const aprovador = value => value.LName
+      const aprovador = x => `${x.fname} ${x.lname}`
 
       return this.aprovadores.map(aprovador)
     },
     unidadesArray () {
-      const unidade = value => value.unidade
+      const unidade = x => x.unidade
 
       return this.unidades.map(unidade)
     },
     moedasArray () {
-      const valores = value => value.nome + ' - ' + value.valor
+      const valores = x => x.nome + ' - ' + x.valor
       const moeda = obj => Object.assign(this.moedas[obj], [obj])
 
       return Object.keys(this.moedas).map(moeda).map(valores)
