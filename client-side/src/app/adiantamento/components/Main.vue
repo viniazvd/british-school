@@ -25,19 +25,24 @@
 				</div>
 
 				<div class="row" style="margin-top:30px;">
-					<div class="col-md-3 mb-3">
+          <div class="col-md-3 mb-3">
+						<multiselect v-model="adiantamento.pagamentoSelected" :options="pagamento" :close-on-select="true" open-direction="below"
+							select-label='' placeholder="Forma de pagamento">
+						</multiselect>
+					</div>
+    			<div class="col-md-2 mb-2">
 						<multiselect v-model="adiantamento.moedaSelected" :options="moedasArray" :close-on-select="true" @update="updateSelectMoeda"
 							open-direction="below" select-label='' placeholder="Cotação da moeda">
 						</multiselect>
 					</div>
-					<div class="col-md-3 mb-3">
+					<div class="col-md-2 mb-2">
 						<multiselect v-model="adiantamento.unidadeSelected" :options="unidadesArray" :close-on-select="true" @update="updateSelectUnidade"
 							open-direction="below" select-label='' placeholder="Unidade">
 						</multiselect>
 					</div>
-					<div class="col-md-3 mb-3">
+          <div class="col-md-2 mb-2">
 						<multiselect v-model="adiantamento.pagamentoSelected" :options="pagamento" :close-on-select="true" open-direction="below"
-							select-label='' placeholder="Forma de pagamento">
+							select-label='' placeholder="????">
 						</multiselect>
 					</div>
 					<div class="col-md-3 mb-3">
@@ -112,6 +117,9 @@
     </sweet-modal>
     <sweet-modal icon="warning" ref="modalFailNoItens">
       Item obrigatório. Tente novamente.
+    </sweet-modal>
+    <sweet-modal icon="warning" ref="modalFailDataDif">
+      Digite o ano atual. Tente novamente.
     </sweet-modal>
 
 	</div>
@@ -266,17 +274,26 @@ export default {
     },
 
     registrarAdiantamento () {
-      if (this.itens.length > 1) {
-        service.registraAdiantamento(this.adiantamento, this.itens, this.valorTotalItens, this.deposito)
-          .then(() => {
-            this.$refs.modalSucess.open()
-          })
-          .catch(() => {
-            this.$refs.modalFail.open()
-          })
-      } else {
-        this.$refs.modalFailNoItens.open()
+      const currentYearSelected = this.adiantamento.data.split('-')[0]
+      const currentYear = new Date().getFullYear().toString()
+
+      if (currentYear !== currentYearSelected) {
+        this.$refs.modalFailDataDif.open()
+        return false
       }
+
+      if (this.itens.length <= 1) {
+        this.$refs.modalFailNoItens.open()
+        return false
+      }
+
+      service.registraAdiantamento(this.adiantamento, this.itens, this.valorTotalItens, this.deposito)
+        .then(() => {
+          this.$refs.modalSucess.open()
+        })
+        .catch(() => {
+          this.$refs.modalFail.open()
+        })
     },
 
     redirectPage () {
