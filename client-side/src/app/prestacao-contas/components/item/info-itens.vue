@@ -35,3 +35,12 @@ export default {
   props: ['infoItens', 'itensPrestacao']
 }
 </script>
+
+<style scoped>
+.meio {
+  text-align: center;
+  display: inline-block;
+  margin-left: 450px;
+}
+</style>
+

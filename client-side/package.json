@@ -13,6 +13,8 @@
   "dependencies": {
     "axios": "^0.16.2",
     "bootstrap-sass": "^3.3.7",
+    "jspdf": "^1.3.5",
+    "jspdf-autotable": "^2.3.2",
     "jwt-decode": "^2.2.0",
     "lodash": "^4.17.4",
     "sweet-modal-vue": "^1.2.0",

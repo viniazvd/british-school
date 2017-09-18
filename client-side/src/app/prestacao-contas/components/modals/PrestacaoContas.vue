@@ -57,7 +57,8 @@
           </div>
 
           <sweet-modal icon="success" ref="modalSucess" @close="fecharModal">
-            Prestação de contas efetuada com sucesso!
+            <p>Prestação de contas efetuada com sucesso!</p>
+            <p><button class="btn btn-success" @click='createPDF'>Gerar PDF</button></p>
           </sweet-modal>
           <sweet-modal icon="warning" ref="modalFail">
             Ocorreu um erro. Tente novamente.
@@ -65,7 +66,7 @@
           <sweet-modal icon="warning" ref="modalFailNoItens">
             Prestação de contas obrigatória. Tente novamente.
           </sweet-modal>
-
+          
         </div>
       </div>
     </div>
@@ -79,6 +80,8 @@ import infoItens from '../item/info-itens'
 import * as service from '../../services'
 import { SweetModal, SweetModalTab } from 'sweet-modal-vue'
 import currentDate from '../../../../utils/date/currentDate'
+import JSPDF from 'jspdf'
+import JSPDFTABLE from 'jspdf-autotable'
 
 export default {
 
@@ -86,7 +89,7 @@ export default {
 
   props: ['id'],
 
-  components: { addPrestacao, infoItens, Money, SweetModal, SweetModalTab, currentDate },
+  components: { addPrestacao, infoItens, Money, SweetModal, SweetModalTab, currentDate, JSPDF, JSPDFTABLE },
 
   data () {
     return {
@@ -135,6 +138,44 @@ export default {
       } else {
         this.$refs.modalFailNoItens.open()
       }
+    },
+
+    createPDF () {
+      const doc = new JSPDF('p', 'pt', 'a4')
+
+      const columns1 = ['Departamento', 'Autorizado por', 'Unidade', 'Moeda', 'Cotação', 'Total']
+      const rows1 = [this.arrayAdiantamento].map(x => [x.departamento, x.autorizadopor, x.unidade, x.moeda, x.moedacotacao, x.totalblueform])
+
+      const options1 = {
+        pageBreak: 'always',
+        tableWidth: 'auto',
+        styles: { overflow: 'linebreak', halign: 'center', valign: 'middle' },
+        showHeader: 'everyPage',
+        margin: { top: 40, left: 20, right: 20 },
+        theme: 'striped',
+        beforePageContent: data => {
+          doc.text('Informações do adiantamento', 200, 30)
+        }
+      }
+      doc.autoTable(columns1, rows1, options1)
+
+      const columns2 = ['Item', 'Data', 'Descrição', 'Valor']
+      const rows2 = this.itens.map(x => x.itemSelected ? [x.itemSelected, x.data, x.descricaoPrestacao, x.valor] : false)
+
+      const options2 = {
+        pageBreak: 'always',
+        tableWidth: 'auto',
+        styles: { overflow: 'linebreak', halign: 'center', valign: 'middle' },
+        showHeader: 'everyPage',
+        margin: { top: doc.autoTableEndPosY() + 40, left: 20, right: 20 },
+        theme: 'striped',
+        beforePageContent: data => {
+          doc.text('Informações dos itens', 200, doc.autoTableEndPosY() + 30)
+        }
+      }
+      doc.autoTable(columns2, rows2, options2)
+
+      doc.save('prestacao-conta.pdf')
     }
   }
 }
@@ -214,12 +255,12 @@ export default {
 .meio {
   text-align: center;
   display: inline-block;
-  margin-left: 400px;
+  margin-left: 450px;
 }
 
 .direita {
   text-align: right;
   display: inline-block;
-  margin-left: 399px;
+  margin-left: 349px;
 }
 </style>
