@@ -36,7 +36,7 @@
 						<th>Status</th>
 						<th>Data</th>
 						<th>Evento</th>
-						<th>Imprimir</th>
+						<th>Gerar PDF</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -46,7 +46,7 @@
 						<td>{{ itemRelatorio.status }}</td>
 						<td>{{ itemRelatorio.dataregistro | truncateData }}</td>
 						<td>{{ itemRelatorio.evento }}</td>
-						<td><span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span></td>
+						<td><span class="input-group-addon" @click='createPDF(itemRelatorio)'><i class="glyphicon glyphicon-print"></i></span></td>
 					</tr>
 				</tbody>
 			</table>
@@ -72,12 +72,14 @@
 import { orderBy, isEmpty } from 'lodash'
 import Paginate from 'vuejs-paginate'
 import * as service from '../services'
+import JSPDF from 'jspdf'
+import JSPDFTABLE from 'jspdf-autotable'
 
 export default {
 
   name: 'relatorios',
 
-  components: { Paginate },
+  components: { Paginate, JSPDF, JSPDFTABLE },
 
   data () {
     return {
@@ -116,6 +118,28 @@ export default {
   methods: {
     clickCallback (page) {
       service.relatorio(page).then(data => this.arrayRelatorio = data.results)
+    },
+
+    createPDF (itemRelatorio) {
+      const doc = new JSPDF('p', 'pt', 'a4')
+
+      const columns1 = ['# ID', 'Categoria', 'Status', 'Data', 'Evento']
+      const rows1 = [itemRelatorio].map(x => [x.codigoblueform, x.categoriablueform, x.status, x.dataregistro.slice(0, 10), x.evento])
+
+      const options1 = {
+        pageBreak: 'always',
+        tableWidth: 'auto',
+        styles: { overflow: 'linebreak', halign: 'center', valign: 'middle' },
+        showHeader: 'everyPage',
+        margin: { top: 40, left: 20, right: 20 },
+        theme: 'striped',
+        addPageContent: data => {
+          doc.text('Informações do relatório', 200, 30)
+        }
+      }
+      doc.autoTable(columns1, rows1, options1)
+
+      doc.save('relatorio.pdf')
     }
   },
 

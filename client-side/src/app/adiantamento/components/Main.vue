@@ -129,7 +129,7 @@
 <script>
 import { Money } from 'v-money'
 import Multiselect from 'vue-multiselect'
-import addItem from '../../../components/root/item/add-item'
+import addItem from './add-item'
 import * as service from '../services'
 import { SweetModal, SweetModalTab } from 'sweet-modal-vue'
 import currentDate from '../../../utils/date/currentDate'
@@ -173,17 +173,10 @@ export default {
         cpfcnpjvalor: ''
       },
 
-      props: {
-        selectLabel: {
-          type: String,
-          default: 'Press en'
-        }
-      },
-
       moneyConfig: {
         decimal: '.',
-        thousands: ',',
-        prefix: 'USD $ ',
+        thousands: '',
+        prefix: '',
         suffix: '',
         precision: 2,
         masked: false

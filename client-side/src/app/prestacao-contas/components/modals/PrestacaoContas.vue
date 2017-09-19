@@ -131,7 +131,7 @@ export default {
         showHeader: 'everyPage',
         margin: { top: 40, left: 20, right: 20 },
         theme: 'striped',
-        beforePageContent: data => {
+        addPageContent: data => {
           doc.text('Informações do adiantamento', 200, 30)
         }
       }
@@ -147,7 +147,7 @@ export default {
         showHeader: 'everyPage',
         margin: { top: doc.autoTableEndPosY() + 40, left: 20, right: 20 },
         theme: 'striped',
-        beforePageContent: data => {
+        addPageContent: data => {
           doc.text('Informações dos itens', 200, doc.autoTableEndPosY() + 30)
         }
       }
