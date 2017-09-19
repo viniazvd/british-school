@@ -19,7 +19,7 @@
 			</div>
 
 			<div class="col-md-2 mb-2">
-				<money v-model="item.valor" class="form-control" v-bind="money"></money>
+				<input class="form-control" placeholder="Valor" v-model.lazy="item.valor" v-money="moneyConfig">
 			</div>
 
 			<div class="col-md-1 mb-1">
@@ -45,7 +45,14 @@ export default {
     return {
       itens: [],
       itemSelected: '',
-      money: {},
+      moneyConfig: {
+        decimal: '.',
+        thousands: '',
+        prefix: '',
+        suffix: '',
+        precision: 2,
+        masked: false
+      },
       showButton: true
     }
   },

@@ -15,8 +15,9 @@ export default {
     provisionValueByItem () {
       return this.itensPrestacao
         .filter(item => item.itemSelected === this.itemAtual)
-        .map(item => item.valor)
+        .map(item => parseFloat(item.valor))
         .reduce((acc, x) => acc + x, 0)
+        .toFixed(2)
     }
   }
 }

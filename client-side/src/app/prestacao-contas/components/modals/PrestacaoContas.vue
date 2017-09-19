@@ -4,35 +4,12 @@
       <div class="modal-wrapper">
         <div class="modal-container">
 
-          <div>
-            <div class="mesmaLinha">
-              <div class="meio"><h3>Informações do adiantamento</h3></div>
-              <div class="direita"><h1 @click="fecharModal">X</h1></div>
-            </div>
-
-            <table class="table table-hover" style="margin-top: 10px">
-              <thead>
-                <tr class="info">
-                  <th>Departamento</th>
-                  <th>Autorizado por</th>
-                  <th>Unidade</th>
-                  <th>Moeda</th>
-                  <th>Cotação</th>
-                  <th>Total</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="itemAdiantamento in [this.arrayAdiantamento]" class="success">
-                  <td>{{ itemAdiantamento.departamento }}</td> 
-                  <td>{{ itemAdiantamento.autorizadopor }}</td> 
-                  <td>{{ itemAdiantamento.unidade }}</td> 
-                  <td>{{ itemAdiantamento.moeda }}</td> 
-                  <td>{{ itemAdiantamento.moedacotacao }}</td> 
-                  <td>{{ itemAdiantamento.totalblueform }}</td> 
-                </tr>
-              </tbody>
-            </table>
+          <div class="mesmaLinha">
+            <div class="meio"><h3>Informações do adiantamento</h3></div>
+            <div class="direita"><h1 @click="fecharModal">X</h1></div>
           </div>
+
+          <infoAdiantamento :arrayAdiantamento="this.arrayAdiantamento"></infoAdiantamento>
 
           <infoItens :infoItens="this.arrayItens" :itensPrestacao="this.itens"></infoItens>
 
@@ -75,8 +52,9 @@
 
 <script>
 import { Money } from 'v-money'
-import addPrestacao from '../item/add-prestacao'
+import infoAdiantamento from '../item/info-adiantamento'
 import infoItens from '../item/info-itens'
+import addPrestacao from '../item/add-prestacao'
 import * as service from '../../services'
 import { SweetModal, SweetModalTab } from 'sweet-modal-vue'
 import currentDate from '../../../../utils/date/currentDate'
@@ -89,7 +67,7 @@ export default {
 
   props: ['id'],
 
-  components: { addPrestacao, infoItens, Money, SweetModal, SweetModalTab, currentDate, JSPDF, JSPDFTABLE },
+  components: { addPrestacao, infoItens, infoAdiantamento, Money, SweetModal, SweetModalTab, currentDate, JSPDF, JSPDFTABLE },
 
   data () {
     return {
