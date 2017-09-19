@@ -23,7 +23,7 @@ services.contaOrcamentaria_vercontas1 = ano => {
 // carrega no select/option os aprovadores referentes a conta orçamentária 
 services.aprovadores = iduser => {
   const query = repositorys.aprovadores(iduser)
-  console.log(query)
+
   return queryFactory(db, query)
 }
 

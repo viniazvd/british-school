@@ -110,7 +110,8 @@
 		</div>
 
     <sweet-modal icon="success" ref="modalSucess" @close="redirectPage">
-      Adiantamento efetuado com sucesso!
+      <p>Adiantamento efetuado com sucesso!</p>
+      <p><button class="btn btn-success" @click='createPDF'>Gerar PDF</button></p>
     </sweet-modal>
     <sweet-modal icon="warning" ref="modalFail">
       Ocorreu um erro. Tente novamente.
@@ -132,11 +133,13 @@ import addItem from '../../../components/root/item/add-item'
 import * as service from '../services'
 import { SweetModal, SweetModalTab } from 'sweet-modal-vue'
 import currentDate from '../../../utils/date/currentDate'
+import JSPDF from 'jspdf'
+import JSPDFTABLE from 'jspdf-autotable'
 
 export default {
   name: 'adiantamento',
 
-  components: { Multiselect, addItem, Money, SweetModal, SweetModalTab, currentDate },
+  components: { Multiselect, addItem, Money, SweetModal, SweetModalTab, currentDate, JSPDF, JSPDFTABLE },
 
   data () {
     return {
@@ -298,6 +301,73 @@ export default {
 
     redirectPage () {
       this.$router.push('/dashboard')
+    },
+
+    createPDF () {
+      const doc = new JSPDF('p', 'pt', 'a4')
+
+      const columns1 = ['Data', 'Requisitado por', 'Aprovador por']
+      const rows1 = [this.adiantamento].map(x => [x.data, x.contaOrcamentariaSelected, x.aprovadorSelected])
+
+      const options1 = {
+        pageBreak: 'always',
+        tableWidth: 'auto',
+        styles: { overflow: 'linebreak', halign: 'center', valign: 'middle' },
+        showHeader: 'everyPage',
+        margin: { top: 40, left: 20, right: 20 },
+        theme: 'striped',
+        beforePageContent: data => {
+          doc.text('Informações do adiantamento', 200, 30)
+        }
+      }
+      doc.autoTable(columns1, rows1, options1)
+
+      const columns2 = ['Departamento', 'Evento', 'Moeda', 'Pagamento']
+      const rows2 = [this.adiantamento].map(x => [x.departamento, x.evento, x.moedaSelected, x.pagamentoSelected])
+
+      const options2 = {
+        pageBreak: 'always',
+        tableWidth: 'auto',
+        styles: { overflow: 'linebreak', halign: 'center', valign: 'middle' },
+        showHeader: 'everyPage',
+        margin: { top: doc.autoTableEndPosY() + 40, left: 20, right: 20 },
+        theme: 'striped'
+      }
+      doc.autoTable(columns2, rows2, options2)
+
+      const columns3 = ['CPF/CNPJ', 'Nome', 'Banco', 'Tipo', 'Agência', 'Conta', 'Valor']
+      const rows3 = [this.deposito].map(x => x.cpfoucnpj ? [x.cpfoucnpj, x.nome, x.banco, x.tipoconta, x.agencia, x.conta, x.cpfcnpjvalor] : false)
+
+      const options3 = {
+        pageBreak: 'always',
+        tableWidth: 'auto',
+        styles: { overflow: 'linebreak', halign: 'center', valign: 'middle' },
+        showHeader: 'everyPage',
+        margin: { top: doc.autoTableEndPosY() + 40, left: 20, right: 20 },
+        theme: 'striped',
+        beforePageContent: data => {
+          doc.text('Informações do depósito', 200, doc.autoTableEndPosY() + 30)
+        }
+      }
+      if (this.deposito.cpfoucnpj) doc.autoTable(columns3, rows3, options3)
+
+      const columns4 = ['Descrição', 'Valor']
+      const rows4 = this.itens.map(x => x.descricao ? [x.descricao, x.valor] : false)
+
+      const options4 = {
+        pageBreak: 'always',
+        tableWidth: 'auto',
+        styles: { overflow: 'linebreak', halign: 'center', valign: 'middle' },
+        showHeader: 'everyPage',
+        margin: { top: doc.autoTableEndPosY() + 40, left: 20, right: 20 },
+        theme: 'striped',
+        beforePageContent: data => {
+          doc.text('Informações dos itens', 220, doc.autoTableEndPosY() + 30)
+        }
+      }
+      doc.autoTable(columns4, rows4, options4)
+
+      doc.save('adiantamento.pdf')
     }
   }
 }
