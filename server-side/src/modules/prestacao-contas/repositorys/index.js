@@ -33,7 +33,7 @@ repositorys.loadAdiantamentoItens = (id) => {
 
 repositorys.updateStatus = (id) => {
   return `UPDATE blueforms
-          SET status = 0
+          SET status = 1
           WHERE idadiantamento = ${id}`
 }
 

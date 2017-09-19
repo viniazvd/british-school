@@ -42,15 +42,15 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr v-for="itemCancelamento in list">
-						<th scope="row">{{ itemCancelamento.codigoblueform }}</th>
-						<td>{{ itemCancelamento.status }}</td>
-						<td>{{ itemCancelamento.dataregistro | truncateData }}</td>
-						<td>{{ itemCancelamento.autorizadopor | truncateData }}</td>
-						<td>{{ itemCancelamento.requisitadopor | truncateData }}</td>
-						<td>{{ itemCancelamento.evento | truncateEvento }}</td>
-						<td>{{ itemCancelamento.departamento }}</td>
-						<td><span class="input-group-addon" @click='openModalReason(itemCancelamento.codigoblueform)'><i class="glyphicon glyphicon-floppy-remove"></i></span></td>
+					<tr v-for="x in list">
+						<th scope="row">{{ x.codigoblueform }}</th>
+						<td>{{ x.status }}</td>
+						<td>{{ x.dataregistro | truncateData }}</td>
+						<td>{{ x.autorizadopor | truncateData }}</td>
+						<td>{{ x.requisitadopor | truncateData }}</td>
+						<td>{{ x.evento | truncateEvento }}</td>
+						<td>{{ x.departamento }}</td>
+						<td><span class="input-group-addon" @click='openModalReason(x.codigoblueform)'><i class="glyphicon glyphicon-floppy-remove"></i></span></td>
 					</tr>
 				</tbody>
 			</table>
@@ -115,7 +115,6 @@ export default {
 
     service.totalPagesCancelamento()
       .then(data => {
-        // this.pagination.total = Math.ceil(data.length / limit) - 1
         this.pagination.total = Math.ceil(data.length / limit)
         this.totalRegistros = data.length
       })
@@ -133,15 +132,13 @@ export default {
     },
 
     openModalReason (blueform) {
-      this.$refs.modalReason.open()
       this.codigoBlueform = blueform
+      this.$refs.modalReason.open()
     },
 
     fecharModal () {
       this.$emit('close')
       this.codigoBlueform = ''
-      // this.$emit('close', 'modalReason')
-      this.$router.push('/dashboard')
     },
 
     cancelar () {
@@ -154,9 +151,22 @@ export default {
 
       service.cancelar(this.codigoBlueform, idUser, this.reason)
         .then(() => {
+          this.$refs.modalReason.close()
           this.$refs.modalSucess.open()
+
+          const limit = 10
+          service.totalPagesCancelamento()
+          .then(data => {
+            this.pagination.total = Math.ceil(data.length / limit)
+            this.totalRegistros = data.length
+          })
+
+          const page = this.pagination.page
+
+          service.cancelamento(page).then(data => this.arrayCancelamento = data.results)
         })
         .catch(() => {
+          this.$refs.modalReason.close()
           this.$refs.modalFail.open()
         })
     }
@@ -174,9 +184,3 @@ export default {
   }
 }
 </script>
-
-<style lang="css">
-  .pagination {}
-
-	.page-item {}
-</style>

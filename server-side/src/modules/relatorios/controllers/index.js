@@ -12,7 +12,6 @@ controller.relatorios_total_pages = (req, res) => {
 
 controller.relatorios = (req, res) => {
   let { verTodasContas, iduser } = req.body
-  console.log(verTodasContas, iduser)
   let page = req.param('page')
   if (page === undefined) page = 1
 

@@ -11,12 +11,12 @@
 					</div>
 					<div class="col-md-4 mb-4">
 						<multiselect v-model="adiantamento.contaOrcamentariaSelected" :value="aprovadoresArray" :options="contaOrcamentariaArray" :close-on-select="true" @update="updateSelectContaOrcamentaria"
-							open-direction="below" placeholder="Escolha uma conta orçamentária">
+							open-direction="below" placeholder="Escolha uma conta orçamentária" :show-labels="false">
 						</multiselect>
 					</div>
 					<div class="col-md-3 mb-3">
 						<multiselect v-model="adiantamento.aprovadorSelected" :options="aprovadoresArray" :close-on-select="true" @update="updateSelectAprovador"
-							open-direction="below" :placeholder="idContaOrcamentoFiltraAprovadores">
+							open-direction="below" :placeholder="idContaOrcamentoFiltraAprovadores" :show-labels="false">
 						</multiselect>
 					</div>
 					<div class="col-md-3 mb-3">
@@ -27,22 +27,22 @@
 				<div class="row" style="margin-top:30px;">
           <div class="col-md-2 mb-2">
 						<multiselect v-model="adiantamento.pagamentoSelected" :options="pagamento" :close-on-select="true" open-direction="below"
-							placeholder="Forma pagamento">
+							placeholder="Forma pagamento" :show-labels="false">
 						</multiselect>
 					</div>
     			<div class="col-md-2 mb-2">
 						<multiselect v-model="adiantamento.moedaSelected" :options="moedasArray" :close-on-select="true" @update="updateSelectMoeda"
-							open-direction="below" placeholder="Cotação da moeda">
+							open-direction="below" placeholder="Cotação da moeda" :show-labels="false">
 						</multiselect>
 					</div>
 					<div class="col-md-2 mb-2">
 						<multiselect v-model="adiantamento.unidadeSelected" :options="unidadesArray" :close-on-select="true" @update="updateSelectUnidade"
-							open-direction="below" placeholder="Unidade">
+							open-direction="below" placeholder="Unidade" :show-labels="false">
 						</multiselect>
 					</div>
           <div class="col-md-3 mb-3">
 						<multiselect :options="pagamento" :close-on-select="true" open-direction="below"
-							placeholder="Centro de Custos">
+							placeholder="Centro de Custos" :show-labels="false">
 						</multiselect>
 					</div>
 					<div class="col-md-3 mb-3">
@@ -79,7 +79,7 @@
 						<input type="number" class="form-control" placeholder="Conta" v-model="deposito.conta">
 					</div>
 					<div class="col-md-2 mb-2">
-						<input type="number" class="form-control" placeholder="Valor" v-model="deposito.cpfcnpjvalor">
+						<input class="form-control" placeholder="Valor" v-model.lazy="deposito.cpfcnpjvalor" v-money="moneyConfig">
 					</div>
 				</div>
 
@@ -173,6 +173,22 @@ export default {
         cpfcnpjvalor: ''
       },
 
+      props: {
+        selectLabel: {
+          type: String,
+          default: 'Press en'
+        }
+      },
+
+      moneyConfig: {
+        decimal: '.',
+        thousands: ',',
+        prefix: 'USD $ ',
+        suffix: '',
+        precision: 2,
+        masked: false
+      },
+
       itens: [{ descricao: '', valor: '0,00' }],
       valorTotalItens: 0,
       money: {}
@@ -191,16 +207,22 @@ export default {
         if (newValue !== oldValue) this.adiantamento.aprovadorSelected = ''
       }
 
-      const contaOrcamentariaID = newValue.split(' ')[0]
-      service.getAprovadores(contaOrcamentariaID)
-        .then(data => {
-          if (data.length > 0) {
-            this.idContaOrcamentoFiltraAprovadores = 'Aprovadores disponíveis'
-          } else {
-            this.idContaOrcamentoFiltraAprovadores = 'Aprovadores indisponíveis'
-          }
-          this.aprovadores = data
-        })
+      if (newValue !== null) {
+        const contaOrcamentariaID = newValue.split(' ')[0]
+        service.getAprovadores(contaOrcamentariaID)
+          .then(data => {
+            if (data.length > 0) {
+              this.idContaOrcamentoFiltraAprovadores = 'Aprovadores disponíveis'
+            } else {
+              this.idContaOrcamentoFiltraAprovadores = 'Aprovadores indisponíveis'
+            }
+            this.aprovadores = data
+          })
+      } else {
+        this.adiantamento.aprovadorSelected = ''
+        this.aprovadores = []
+        this.idContaOrcamentoFiltraAprovadores = 'Escolha um aprovador'
+      }
     },
 
     'adiantamento.pagamentoSelected': function(newValue) {
