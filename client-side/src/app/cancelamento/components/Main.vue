@@ -31,13 +31,13 @@
 			<table class="table table-hover">
 				<thead>
 					<tr>
-						<th># ID</th>
+						<th># Blueform</th>
 						<th>Status</th>
 						<th>Data</th>
 						<th>Atualizado por</th>
 						<th>Requisitado por</th>
 						<th>Evento</th>
-						<th>Valor</th>
+						<th>Departamento</th>
 						<th>Cancelar</th>
 					</tr>
 				</thead>
@@ -49,11 +49,25 @@
 						<td>{{ itemCancelamento.autorizadopor | truncateData }}</td>
 						<td>{{ itemCancelamento.requisitadopor | truncateData }}</td>
 						<td>{{ itemCancelamento.evento | truncateEvento }}</td>
-						<td>{{ itemCancelamento.advalor }}</td>
-						<td><span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span></td>
+						<td>{{ itemCancelamento.departamento }}</td>
+						<td><span class="input-group-addon" @click='openModalReason(itemCancelamento.codigoblueform)'><i class="glyphicon glyphicon-floppy-remove"></i></span></td>
 					</tr>
 				</tbody>
 			</table>
+
+      <sweet-modal ref="modalReason">
+        <p><input type="text" placeholder="Digite o motivo do cancelamento" v-model="reason" class="form-control"></p>
+        <p><button class="btn btn-success" @click='cancelar'>Cancelar</button></p>
+      </sweet-modal>
+      <sweet-modal icon="success" ref="modalSucess" @close="fecharModal">
+        Cancelado com sucesso!
+      </sweet-modal>
+      <sweet-modal icon="warning" ref="modalEmptyReason">
+        Digite um motivo
+      </sweet-modal>
+      <sweet-modal icon="warning" ref="modalFail">
+        Ocorreu um erro. Tente novamente.
+      </sweet-modal>
 
 			<div class="text-center">
 				<paginate :page-count="parseInt(this.pagination.total)" :page-range="3" :margin-pages="2" :click-handler="clickCallback"
@@ -68,13 +82,14 @@
 <script>
 import { orderBy, isEmpty } from 'lodash'
 import Paginate from 'vuejs-paginate'
+import { SweetModal, SweetModalTab } from 'sweet-modal-vue'
 import * as service from '../services'
 
 export default {
 
   name: 'cancelamento',
 
-  components: { Paginate },
+  components: { Paginate, SweetModal, SweetModalTab },
 
   data () {
     return {
@@ -85,6 +100,8 @@ export default {
         order: 'asc',
         filter: ''
       },
+      reason: '',
+      codigoBlueform: '',
       pagination: {
         page: 1,
         total: 0
@@ -113,6 +130,35 @@ export default {
   methods: {
     clickCallback (page) {
       service.cancelamento(page).then(data => this.arrayCancelamento = data.results)
+    },
+
+    openModalReason (blueform) {
+      this.$refs.modalReason.open()
+      this.codigoBlueform = blueform
+    },
+
+    fecharModal () {
+      this.$emit('close')
+      this.codigoBlueform = ''
+      // this.$emit('close', 'modalReason')
+      this.$router.push('/dashboard')
+    },
+
+    cancelar () {
+      if (!this.reason) {
+        this.$refs.modalEmptyReason.open()
+        return false
+      }
+
+      const idUser = localStorage.getItem('purchasing_id')
+
+      service.cancelar(this.codigoBlueform, idUser, this.reason)
+        .then(() => {
+          this.$refs.modalSucess.open()
+        })
+        .catch(() => {
+          this.$refs.modalFail.open()
+        })
     }
   },
 

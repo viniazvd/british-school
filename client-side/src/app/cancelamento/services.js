@@ -11,3 +11,7 @@ export const cancelamento = (page) => {
 
   return http.post('http://localhost:3000/api/cancelamento?page=' + page, { verTodasContas }).then(res => res.data)
 }
+
+export const cancelar = (blueform, idUser, reason) => {
+  return http.post('http://localhost:3000/api/cancelar', { blueform, idUser, reason }).then(res => res.data)
+}

@@ -26,4 +26,13 @@ controller.cancelamento = (req, res) => {
     .catch(error => res.status(404).send(error))
 }
 
+controller.cancelar = (req, res) => {
+  const { blueform, idUser, reason } = req.body
+  const currentDate = new Date().toLocaleString('en-GB').split(' ')[0].slice(0, -1).split('/').reverse().join('-')
+
+  service.cancelar(blueform, currentDate, idUser, reason)
+    .then(results => res.status(200).send(results))
+    .catch(error => res.status(404).send(error))
+}
+
 module.exports = controller

@@ -29,4 +29,20 @@ services.cancelamento = (verTodasContas, page, limit, offset) => {
   return queryFactory(db, query)
 }
 
+services.cancelar = (blueform, currentDate, idUser, reason) => {
+  const updateStatusCancelado = blueform => {
+    const queryUpdate = repositorys.updateStatusCancelado(blueform)
+
+    return queryFactory(db, queryUpdate)
+  }
+
+  const insertReason = (blueform, currentDate, idUser, reason) => {
+    const queryInsert = repositorys.insertReason(blueform, currentDate, idUser, reason)
+
+    return queryFactory(db, queryInsert)
+  }
+
+  return updateStatusCancelado(blueform).then(() => insertReason(blueform, currentDate, idUser, reason))
+}
+
 module.exports = services

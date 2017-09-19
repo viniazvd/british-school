@@ -316,7 +316,9 @@ export default {
         showHeader: 'everyPage',
         margin: { top: 40, left: 20, right: 20 },
         theme: 'striped',
-        beforePageContent: data => {
+        addPageContent: data => {
+          doc.setFontType('bold')
+          doc.setFontSize(15)
           doc.text('Informações do adiantamento', 200, 30)
         }
       }
@@ -330,7 +332,7 @@ export default {
         tableWidth: 'auto',
         styles: { overflow: 'linebreak', halign: 'center', valign: 'middle' },
         showHeader: 'everyPage',
-        margin: { top: doc.autoTableEndPosY() + 40, left: 20, right: 20 },
+        margin: { top: doc.autoTableEndPosY(), left: 20, right: 20 },
         theme: 'striped'
       }
       doc.autoTable(columns2, rows2, options2)
@@ -345,7 +347,9 @@ export default {
         showHeader: 'everyPage',
         margin: { top: doc.autoTableEndPosY() + 40, left: 20, right: 20 },
         theme: 'striped',
-        beforePageContent: data => {
+        addPageContent: data => {
+          doc.setFontType('bold')
+          doc.setFontSize(15)
           doc.text('Informações do depósito', 200, doc.autoTableEndPosY() + 30)
         }
       }
@@ -361,7 +365,9 @@ export default {
         showHeader: 'everyPage',
         margin: { top: doc.autoTableEndPosY() + 40, left: 20, right: 20 },
         theme: 'striped',
-        beforePageContent: data => {
+        addPageContent: data => {
+          doc.setFontType('bold')
+          doc.setFontSize(15)
           doc.text('Informações dos itens', 220, doc.autoTableEndPosY() + 30)
         }
       }

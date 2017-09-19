@@ -1,5 +1,5 @@
 import Main from './components/Main'
 
 export default [
-	{ path: '/cancelamento', component: Main }
+  { path: '/cancelamento', component: Main }
 ]
