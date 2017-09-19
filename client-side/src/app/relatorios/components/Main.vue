@@ -7,7 +7,7 @@
 			<div class="form-group">
 				<select class="form-control" v-model="configs.orderBy">
 					<option value="status">Filtrando por status</option>
-					<option value="addata">Filtrando por data</option>
+					<option value="dataregistro">Filtrando por data</option>
 					<option value="evento">Filtrando por evento</option>
 				</select>
 			</div>
@@ -41,11 +41,11 @@
 				</thead>
 				<tbody>
 					<tr v-for="itemRelatorio in list">
-						<th scope="row">{{ itemRelatorio.id_adiantamento }}</th>
+						<th scope="row">{{ itemRelatorio.codigoblueform }}</th>
 						<td>{{ itemRelatorio.categoriablueform }}</td>
 						<td>{{ itemRelatorio.status }}</td>
-						<td>{{ itemRelatorio.addata | truncateData }}</td>
-						<td>{{ itemRelatorio.evento | truncateEvento }}</td>
+						<td>{{ itemRelatorio.dataregistro | truncateData }}</td>
+						<td>{{ itemRelatorio.evento }}</td>
 						<td><span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span></td>
 					</tr>
 				</tbody>
@@ -84,7 +84,7 @@ export default {
       ano: '2017',
       arrayRelatorio: [],
       configs: {
-        orderBy: 'addata',
+        orderBy: 'dataregistro',
         order: 'asc',
         filter: ''
       },
@@ -126,7 +126,7 @@ export default {
 
       if (_.isEmpty(filter)) list
 
-      return _.filter(list, array => array.evento.indexOf(filter) >= 0) 
+      return _.filter(list, array => array.evento.indexOf(filter) >= 0)
     }
   }
 }

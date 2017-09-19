@@ -8,7 +8,7 @@ let services = {}
 services.relatorios_total_pages = (verTodasContas, iduser) => {
   let query = null
 
-  if (verTodasContas === 1) {
+  if (verTodasContas == 1) {
     query = repositorys.totalPages_verTodasContas1(ano)
   } else {
     query = repositorys.totalPages_verTodasContas0(ano, iduser)
@@ -20,7 +20,7 @@ services.relatorios_total_pages = (verTodasContas, iduser) => {
 services.relatorios = (verTodasContas, iduser, page, limit, offset) => {
   let query = null
 
-  if (verTodasContas === 1) {
+  if (verTodasContas == 1) {
     query = repositorys.relatorio_verTodasContas1(ano, limit, offset)
   } else {
     query = repositorys.relatorio_verTodasContas0(ano, iduser, limit, offset)
