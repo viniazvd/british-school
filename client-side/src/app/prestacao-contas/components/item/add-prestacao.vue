@@ -1,7 +1,7 @@
 <template>
 	<div id="add-item">
 
-		<div class="row" style="margin-top:10px;" v-for="(item, index) in itens">
+		<div class="row" v-for="(item, index) in itens">
 			<div class="col-md-2 mb-2">
         <select v-model="item.itemSelected" class="form-control">
           <option v-for="option in itemPrestacao" v-bind:value="option.iditemadiantamento">
@@ -23,8 +23,14 @@
 			</div>
 
 			<div class="col-md-1 mb-1">
-				<button class="button btn-success" v-if="isLast(index)" @click="add">+</button>
-				<button class="button btn-danger" v-if="lastOne(index)" @click="remove(index, item)">-</button>
+        <span class="input-group-addon" v-if="isLast(index)" @click="add">
+          <i class="glyphicon glyphicon-plus"></i>
+        </span>
+        <span class="input-group-addon" v-if="lastOne(index)" @click="remove(index, item)">
+          <i class="glyphicon glyphicon-trash"></i>
+        </span>
+				<!--<button class="button btn-success" v-if="isLast(index)" @click="add">+</button>
+				<button class="button btn-danger" v-if="lastOne(index)" @click="remove(index, item)">-</button>-->
 			</div>
 		</div>
 

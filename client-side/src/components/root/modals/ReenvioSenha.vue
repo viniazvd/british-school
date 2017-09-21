@@ -23,8 +23,8 @@
 						<div class="modal-footer">
 							<slot name="footer">
 								<!--default footer-->
-								<button id="buttonCancelar" class="btn btn-default" @click="fecharModal">Cancelar</button>
-								<button id="buttonEnviar" class="btn btn-success" @click="rememberPassword" :disabled="!isValid">{{ alreadyClicked ? 'Enviar' : 'Aguarde...' }}</button>
+								<button id="buttonCancelar" class="btn btn-danger" @click="fecharModal">Cancelar</button>
+								<button id="buttonEnviar" class="btn btn-success" @click="rememberPassword" :disabled="!isValid">{{ alreadyClicked ? 'Enviar' : 'Aguarde...' }} <i class="glyphicon glyphicon-envelope"></i></button>
 							</slot>
 						</div>
 
@@ -149,15 +149,6 @@ export default {
 	border-radius: 5px;
 	width: 300px;
 }
-
-/*
- * The following styles are auto-applied to elements with
- * transition="modal" when their visibility is toggled
- * by Vue.js.
- *
- * You can easily play with the modal transition by editing
- * these styles.
- */
 
 .modal-enter {
   opacity: 0;

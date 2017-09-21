@@ -14,7 +14,9 @@ export const contaOrcamentaria_vercontas1 = () => {
 }
 
 export const getAprovadores = (newValue) => {
-  return http.post('http://localhost:3000/api/aprovadores', { id_user: newValue })
+  const purchasing_id = localStorage.getItem('purchasing_id')
+
+  return http.post('http://localhost:3000/api/aprovadores', { id_user: newValue, purchasing_id })
     .then(res => res.data)
 }
 

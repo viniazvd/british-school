@@ -11,8 +11,12 @@
 			</div>
 
 			<div class="col-md-1 mb-1">
-				<button class="button btn-success" v-if="isLast(index)" @click="add">+</button>
-				<button class="button btn-danger" v-if="lastOne(index)" @click="remove(index, item)">-</button>
+        <span class="input-group-addon" v-if="isLast(index)" @click="add">
+          <i class="glyphicon glyphicon-plus"></i>
+        </span>
+        <span class="input-group-addon" v-if="lastOne(index)" @click="remove(index, item)">
+          <i class="glyphicon glyphicon-trash"></i>
+        </span>
 			</div>
 		</div>
 

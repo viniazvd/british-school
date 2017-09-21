@@ -29,8 +29,8 @@
 						<div class="modal-footer">
 							<slot name="footer">
 								<!--default footer-->
-								<button class="btn btn-default" @click="$emit('close')">Cancelar</button>
-								<button class="btn btn-success" @click="mudarSenha" :disabled="!isValid">Enviar</button>
+								<button class="btn btn-danger" @click="$emit('close')">Cancelar</button>
+								<button class="btn btn-success" @click="mudarSenha" :disabled="!isValid">Enviar <i class="glyphicon glyphicon-envelope"></i></button>
 							</slot>
 						</div>
 

@@ -4,17 +4,15 @@
       <div class="modal-wrapper">
         <div class="modal-container">
 
-          <div class="mesmaLinha">
-            <div class="meio"><h3>Informações do adiantamento</h3></div>
-            <div class="direita"><h1 @click="fecharModal">X</h1></div>
-          </div>
+          <h3 class="direita" @click="fecharModal"><i class="glyphicon glyphicon-arrow-left"></i> <strong>Voltar</strong></h3>
+          <h3 class="centraliza titulo">Informações do adiantamento</h3>
 
           <infoAdiantamento :arrayAdiantamento="this.arrayAdiantamento"></infoAdiantamento>
 
           <infoItens :infoItens="this.arrayItens" :itensPrestacao="this.itens"></infoItens>
 
           <div>
-            <h3 class="meio">Prestação de contas</h3>
+            <h3 class="centraliza titulo">Prestação de contas</h3>
 
             <addPrestacao v-model="itens" :itemPrestacao="this.arrayItens"></addPrestacao>
 
@@ -29,13 +27,13 @@
           
           <div class="row">
             <div class="col-md-12 mb-12" style="margin-top:30px; text-align: center;">
-              <button type="button" class="btn btn-primary" @click="prestarConta">Prestar conta</button>
+              <button type="button" class="btn btn-success botaoAdiantamento" @click="prestarConta">Prestar conta <i class="glyphicon glyphicon-floppy-saved"></i></button>
             </div>
           </div>
 
           <sweet-modal icon="success" ref="modalSucess" @close="fecharModal">
             <p>Prestação de contas efetuada com sucesso!</p>
-            <p><button class="btn btn-success" @click='createPDF'>Gerar PDF</button></p>
+            <p><button class="btn btn-success" @click='createPDF'>Gerar PDF <i class="glyphicon glyphicon-print"></i></button></p>
           </sweet-modal>
           <sweet-modal icon="warning" ref="modalFail">
             Ocorreu um erro. Tente novamente.
@@ -203,15 +201,6 @@ export default {
   margin: 0px 0;
 }
 
-/*
- * The following styles are auto-applied to elements with
- * transition="modal" when their visibility is toggled
- * by Vue.js.
- *
- * You can easily play with the modal transition by editing
- * these styles.
- */
-
 .modal-enter {
   opacity: 0;
 }
@@ -226,19 +215,22 @@ export default {
   transform: scale(1.1);
 }
 
-.mesmaLinha {
-  
-}
-
-.meio {
-  text-align: center;
-  display: inline-block;
-  margin-left: 450px;
-}
-
 .direita {
-  text-align: right;
-  display: inline-block;
-  margin-left: 349px;
+  padding-left: 1045px;
+}
+
+.centraliza {
+  text-align: center;
+}
+
+.titulo {
+  font-family:"Trebuchet MS", Helvetica, sans-serif;
+  color:#FFF;
+  background-color:#4876FF;
+  padding: 5px;
+}
+
+.botaoAdiantamento {
+  width: 100%;
 }
 </style>

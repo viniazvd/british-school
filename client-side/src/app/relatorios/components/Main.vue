@@ -1,8 +1,8 @@
 <template>
 	<div>
 		<header class="page-header row">
-			<h2>Relatórios</h2>
-			<h4>Ano do relatório: {{ ano }} - Total de registros: {{ totalRegistros }}</h4>
+			<h2 class="centraliza titulo">Relatórios</h2>
+			<h4 class="centraliza">Ano do relatório: <strong>{{ ano }}</strong> - Total de registros: <strong>{{ totalRegistros }}</strong></h4>
 
 			<div class="form-group">
 				<select class="form-control" v-model="configs.orderBy">
@@ -30,23 +30,27 @@
 
 			<table class="table table-hover">
 				<thead>
-					<tr>
+					<tr class="info">
 						<th># ID</th>
 						<th>Categoria</th>
 						<th>Status</th>
 						<th>Data</th>
 						<th>Evento</th>
-						<th>Gerar PDF</th>
+						<th>Departamento</th>
+						<th>Unidade</th>
+						<th></th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr v-for="itemRelatorio in list">
-						<th scope="row">{{ itemRelatorio.codigoblueform }}</th>
-						<td>{{ itemRelatorio.categoriablueform }}</td>
-						<td>{{ itemRelatorio.status }}</td>
-						<td>{{ itemRelatorio.dataregistro | truncateData }}</td>
-						<td>{{ itemRelatorio.evento }}</td>
-						<td><span class="input-group-addon" @click='createPDF(itemRelatorio)'><i class="glyphicon glyphicon-print"></i></span></td>
+					<tr v-for="x in list">
+						<th scope="row">{{ x.codigoblueform }}</th>
+						<td>{{ x.categoriablueform }}</td>
+						<td>{{ x.status }}</td>
+						<td>{{ x.dataregistro | truncateData }}</td>
+						<td>{{ x.evento }}</td>
+						<td>{{ x.departamento }}</td>
+						<td>{{ x.unidade }}</td>
+						<td><span class="input-group-addon" @click='createPDF(x)'><i class="glyphicon glyphicon-print"></i></span></td>
 					</tr>
 				</tbody>
 			</table>
@@ -120,11 +124,11 @@ export default {
       service.relatorio(page).then(data => this.arrayRelatorio = data.results)
     },
 
-    createPDF (itemRelatorio) {
+    createPDF (x) {
       const doc = new JSPDF('p', 'pt', 'a4')
 
-      const columns1 = ['# ID', 'Categoria', 'Status', 'Data', 'Evento']
-      const rows1 = [itemRelatorio].map(x => [x.codigoblueform, x.categoriablueform, x.status, x.dataregistro.slice(0, 10), x.evento])
+      const columns1 = ['# ID', 'Categoria', 'Status', 'Data', 'Evento', 'Departamento', 'Unidade']
+      const rows1 = [x].map(x => [x.codigoblueform, x.categoriablueform, x.status, x.dataregistro.slice(0, 10), x.evento, x.departamento, x.unidade])
 
       const options1 = {
         pageBreak: 'always',
@@ -157,8 +161,14 @@ export default {
 </script>
 
 <style lang="css">
-.pagination {
+.centraliza {
+  text-align: center;
 }
-.page-item {
+
+.titulo {
+  font-family:"Trebuchet MS", Helvetica, sans-serif;
+  color:#FFF;
+  background-color:#4876FF;
+  padding: 5px;
 }
 </style>

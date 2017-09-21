@@ -1,8 +1,8 @@
 <template>
 	<div>
 		<header class="page-header row">
-			<h2>Prestação de contas</h2>
-			<h4>Total de registros: {{ totalRegistros }}</h4>
+			<h2 class="centraliza titulo">Prestação de contas</h2>
+			<h4 class="centraliza">Total de registros: <strong>{{ totalRegistros }}</strong></h4>
 
 			<div class="form-group">
 				<select class="form-control" v-model="configs.orderBy">
@@ -23,20 +23,24 @@
 				<div class="col-md-12">
 					<div style="margin-bottom: 25px" class="input-group">
 						<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
-						<input type="text" placeholder="Filtrando pela data" v-model="configs.filter" class="form-control">
+						<input type="text" placeholder="Filtrando pelo código" v-model="configs.filter" class="form-control">
 					</div>
 				</div>
 			</div>
 
 			<table class="table table-hover">
 				<thead>
-					<tr>
+					<tr class="info">
 						<th># ID</th>
 						<th>Data</th>
 						<th>Requisitado por</th>
 						<th>Autorizado por</th>
+						<th>Unidade</th>
+						<th>Categoria</th>
+						<th>Pagamento</th>
+						<th>Moeda</th>
 						<th>Código</th>
-						<th>Visualizar</th>
+						<th></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -45,8 +49,12 @@
 						<td>{{ item.dataregistro | truncateData }}</td>
 						<td>{{ item.requisitadopor }}</td>
 						<td>{{ item.autorizadopor }}</td>
+						<td>{{ item.unidade }}</td>
+						<td>{{ item.categoriablueform }}</td>
+						<td>{{ item.formaadiantamento }}</td>
+						<td>{{ item.moeda }}</td>
 						<td>{{ item.codigoadiantamento }}</td>
-						<td><span class="input-group-addon" @click="visualizarAdiantamento(item.codigoadiantamento)"><i class="glyphicon glyphicon-search"></i></span></td>
+						<td><span class="input-group-addon" @click="visualizarAdiantamento(item.codigoadiantamento)"><i class="glyphicon glyphicon-credit-card"></i></span></td>
 					</tr>
 				</tbody>
 			</table>
@@ -66,7 +74,7 @@
 		
 		</header>
 
-    <modalPrestacaoContas :id="this.id" v-if="showModalPrestacaoContas" @close="showModalPrestacaoContas=false"></modalPrestacaoContas>
+    <modalPrestacaoContas :id="this.id" v-if="showModalPrestacaoContas" @close="closeModalPrestacaoContas"></modalPrestacaoContas>
 
 	</div>
 </template>
@@ -129,6 +137,20 @@ export default {
     visualizarAdiantamento (id) {
       this.showModalPrestacaoContas = true
       this.id = id
+    },
+
+    closeModalPrestacaoContas () {
+      const limit = 10
+      service.totalPages()
+        .then(data => {
+          this.pagination.total = Math.ceil(data.length / limit)
+          this.totalRegistros = data.length
+        })
+
+      const page = this.pagination.page
+      service.prestacaoContas(page).then(data => this.arrayPrestacao = data.results)
+
+      this.showModalPrestacaoContas = false
     }
   },
 
@@ -139,15 +161,21 @@ export default {
 
       if (_.isEmpty(filter)) list
 
-      return _.filter(list, array => array.dataregistro.indexOf(filter) >= 0)
+      return _.filter(list, array => array.codigoadiantamento.toString().indexOf(filter) >= 0)
     }
   }
 }
 </script>
 
-<style lang="css">
-.pagination {
+<style scoped>
+.centraliza {
+  text-align: center;
 }
-.page-item {
+
+.titulo {
+  font-family:"Trebuchet MS", Helvetica, sans-serif;
+  color:#FFF;
+  background-color:#4876FF;
+  padding: 5px;
 }
 </style>

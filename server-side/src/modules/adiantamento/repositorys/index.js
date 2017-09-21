@@ -19,10 +19,11 @@ repositorys.contaOrcamentaria_vercontas1 = (ano) => {
   return `SELECT id, chave, setor, grupo, conta, nconta, saldo FROM orcamento WHERE ano = ${ano}`
 }
 
-repositorys.aprovadores = (id_user) => {
+repositorys.aprovadores = (id_user, purchasing_id) => {
   return `SELECT fname, lname 
           FROM tblusers TBLU, user_view_budget UVB,user_approve_budget UAB
-          WHERE UVB.id_user = ${id_user} 
+          WHERE UVB.id_user = ${purchasing_id}
+          AND UAB.id_budget = ${id_user} 
           AND UVB.id_budget = UAB.id_budget 
           AND UAB.id_user = TBLU.id_user`
 }

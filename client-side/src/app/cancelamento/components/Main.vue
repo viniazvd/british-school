@@ -1,8 +1,8 @@
 <template>
 	<div>
 		<header class="page-header row">
-			<h2>Cancelamento</h2>
-			<h4>Ano do relatório: {{ ano }} - Total de registros: {{ totalRegistros }}</h4>
+			<h2 class="centraliza titulo">Cancelamento</h2>
+			<h4 class="centraliza">Ano do relatório: <strong>{{ ano }}</strong> - Total de registros: <strong>{{ totalRegistros }}</strong></h4>
 
 			<div class="form-group">
 				<select class="form-control" v-model="configs.orderBy">
@@ -30,7 +30,7 @@
 
 			<table class="table table-hover">
 				<thead>
-					<tr>
+					<tr class="info">
 						<th># Blueform</th>
 						<th>Status</th>
 						<th>Data</th>
@@ -38,7 +38,7 @@
 						<th>Requisitado por</th>
 						<th>Evento</th>
 						<th>Departamento</th>
-						<th>Cancelar</th>
+						<th></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -55,16 +55,24 @@
 				</tbody>
 			</table>
 
-      <sweet-modal ref="modalReason">
-        <p><input type="text" placeholder="Digite o motivo do cancelamento" v-model="reason" class="form-control"></p>
-        <p><button class="btn btn-success" @click='cancelar'>Cancelar</button></p>
+      <sweet-modal ref="modalReason" @close="fecharModal">
+        <div style="padding-bottom: 10px;" class="input-group">
+          <span class="input-group-addon"><i class="glyphicon glyphicon-comment"></i></span>
+          <input type="text" placeholder="Digite o motivo do cancelamento" v-model="reason" class="form-control">
+        </div>
+        <div>
+          <button class="btn btn-success botaoAdiantamento" @click='cancelar'>Cancelar</button>
+        </div>
       </sweet-modal>
+      
       <sweet-modal icon="success" ref="modalSucess" @close="fecharModal">
         Cancelado com sucesso!
       </sweet-modal>
+
       <sweet-modal icon="warning" ref="modalEmptyReason">
         Digite um motivo
       </sweet-modal>
+
       <sweet-modal icon="warning" ref="modalFail">
         Ocorreu um erro. Tente novamente.
       </sweet-modal>
@@ -139,6 +147,7 @@ export default {
     fecharModal () {
       this.$emit('close')
       this.codigoBlueform = ''
+      this.reason = ''
     },
 
     cancelar () {
@@ -184,3 +193,20 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.centraliza {
+  text-align: center;
+}
+
+.titulo {
+  font-family:"Trebuchet MS", Helvetica, sans-serif;
+  color:#FFF;
+  background-color:#4876FF;
+  padding: 5px;
+}
+
+.botaoAdiantamento {
+  width: 100%;
+}
+</style>

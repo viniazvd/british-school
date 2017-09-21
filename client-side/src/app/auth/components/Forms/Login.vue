@@ -1,8 +1,9 @@
 <template>
-	<div class="row">
-		<div class="col-md-4">
-
-			<div style="margin-bottom: 25px" class="input-group">
+	<div class="centraliza row">
+		<div class="col-md-4 mb-4"></div>
+    
+    <div class="col-md-4 mb-4">
+			<div style="margin-bottom: 25px; margin-top: 25px;" class="input-group">
 				<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
 				<input type="number" v-model="user.matricula" class="form-control" placeholder="matricula" />
 			</div>
@@ -19,24 +20,27 @@
 			<div class="form-group">
 				<input type="checkbox" @click="changeType" />
 				<label>Visualizar a senha ao digitar?</label>
+        <i class="glyphicon glyphicon-eye-open"></i>
+        <i class="glyphicon glyphicon-eye-open"></i>
 			</div>
 
 			<button type="submit" @click="doLogin" class="btn btn-success" :disabled="!isValid">Sign up</button>
-
 			<button type="button" class="btn btn-danger" @click="reset">Clear</button>
-
-			<sweet-modal icon="success" ref="modalSucess" @close="redirectPage">
-				Logado com sucesso!
-			</sweet-modal>
-			<sweet-modal icon="warning" ref="modalFail">
-				Usuário inválido ou inexistente. Tente novamente.
-			</sweet-modal>
-
-			<!-- modal para reenvio de senha -->
-			<button class="btn btn-default" @click="showModalReenvioSenha=true">Esqueceu a senha?</button>
-			<modalReenvioSenha v-if="showModalReenvioSenha" @close="showModalReenvioSenha=false"></modalReenvioSenha>
-
+      <button class="btn btn-default" @click="showModalReenvioSenha=true">Esqueceu a senha?</button>
 		</div>
+
+    <div class="col-md-4 mb-4"></div>
+
+    <sweet-modal icon="success" ref="modalSucess" @close="redirectPage">
+      Logado com sucesso!
+    </sweet-modal>
+    <sweet-modal icon="warning" ref="modalFail">
+      Usuário inválido ou inexistente. Tente novamente.
+    </sweet-modal>
+
+    <!-- modal para reenvio de senha -->
+    <modalReenvioSenha v-if="showModalReenvioSenha" @close="showModalReenvioSenha=false"></modalReenvioSenha>
+
 	</div>
 </template>
 
@@ -103,3 +107,16 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.centraliza {
+  text-align: center;
+}
+
+.titulo {
+  font-family:"Trebuchet MS", Helvetica, sans-serif;
+  color:#FFF;
+  background-color:#4876FF;
+  padding: 5px;
+}
+</style>

@@ -1,7 +1,7 @@
 <template>
 
   <div>
-    <table class="table table-hover" style="margin-top: 10px">
+    <table class="table table-hover">
       <thead>
         <tr class="info">
           <th>Departamento</th>
@@ -13,7 +13,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="x in [this.arrayAdiantamento]" class="success">
+        <tr v-for="x in [this.arrayAdiantamento]">
           <td>{{ x.departamento }}</td> 
           <td>{{ x.autorizadopor }}</td> 
           <td>{{ x.unidade }}</td> 

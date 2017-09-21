@@ -18,9 +18,9 @@ controller.contaOrcamentaria_vercontas1 = (req, res) => {
 }
 
 controller.aprovadores = (req, res) => {
-  const { id_user } = req.body
+  const { id_user, purchasing_id } = req.body
 
-  service.aprovadores(id_user)
+  service.aprovadores(id_user, purchasing_id)
     .then(results => res.status(200).send(results))
     .catch(error => res.status(404).send(error))
 }

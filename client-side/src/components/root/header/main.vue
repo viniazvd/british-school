@@ -1,5 +1,5 @@
 <template>
-	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+	<nav class="navbar navbar-inverse navbar-fixed-top backgroundMenu" role="navigation">
 		<div class="container">
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" :class="{ in: isOpen }">
 				<Itensmenu />
@@ -31,3 +31,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.backgroundMenu {
+  background-color:#436EEE;
+}
+</style>
