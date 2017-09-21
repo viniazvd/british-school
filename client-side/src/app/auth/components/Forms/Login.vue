@@ -32,10 +32,10 @@
     <div class="col-md-4 mb-4"></div>
 
     <sweet-modal icon="success" ref="modalSucess" @close="redirectPage">
-      Logado com sucesso!
+      Logado com sucesso! <i class="glyphicon glyphicon-ok"></i>
     </sweet-modal>
     <sweet-modal icon="warning" ref="modalFail">
-      Usuário inválido ou inexistente. Tente novamente.
+      Usuário inválido ou inexistente. Tente novamente. <i class="glyphicon glyphicon-repeat"></i>
     </sweet-modal>
 
     <!-- modal para reenvio de senha -->

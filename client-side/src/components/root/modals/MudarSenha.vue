@@ -35,10 +35,10 @@
 						</div>
 
 					<sweet-modal icon="success" ref="modalSucess" @close="redirectPage">
-					Senha alterada com sucesso!
+					Senha alterada com sucesso! <i class="glyphicon glyphicon-ok"></i>
 					</sweet-modal>
 					<sweet-modal icon="warning" ref="modalFail">
-						Dados incorretos. Tente novamente.
+						Dados incorretos. Tente novamente. <i class="glyphicon glyphicon-repeat"></i>
 					</sweet-modal>
 
 					</div>

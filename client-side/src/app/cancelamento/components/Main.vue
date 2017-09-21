@@ -8,7 +8,7 @@
 			<div class="form-group">
 				<select class="form-control" v-model="configs.orderBy">
 					<option value="status">Filtrando por status</option>
-					<option value="addata">Filtrando por data</option>
+					<option value="dataregistro">Filtrando por data</option>
 					<option value="evento">Filtrando por evento</option>
 				</select>
 			</div>
@@ -67,15 +67,15 @@
       </sweet-modal>
       
       <sweet-modal icon="success" ref="modalSucess" @close="fecharModal">
-        Cancelado com sucesso!
+        Cancelado com sucesso! <i class="glyphicon glyphicon-ok"></i>
       </sweet-modal>
 
-      <sweet-modal icon="warning" ref="modalEmptyReason">
-        Digite um motivo
+      <sweet-modal icon="warning" ref="modalEmptyReason"> 
+        Digite um motivo <i class="glyphicon glyphicon-pencil"></i>
       </sweet-modal>
 
       <sweet-modal icon="warning" ref="modalFail">
-        Ocorreu um erro. Tente novamente.
+        Ocorreu um erro. Tente novamente. <i class="glyphicon glyphicon-repeat"></i>
       </sweet-modal>
 
 			<div class="text-center">
@@ -105,7 +105,7 @@ export default {
       ano: '2017',
       arrayCancelamento: [],
       configs: {
-        orderBy: 'addata',
+        orderBy: 'dataregistro',
         order: 'asc',
         filter: ''
       },

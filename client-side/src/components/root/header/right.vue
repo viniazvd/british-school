@@ -16,7 +16,7 @@
 		<modalMudarSenha v-if="showModalMudarSenha" @close="showModalMudarSenha=false"></modalMudarSenha>
 
 		<sweet-modal icon="info" ref="modalLogou" @close="redirectPage">
-			Até breve!
+			Até breve! <i class="glyphicon glyphicon-flag"></i>
 		</sweet-modal>
 	</div>
 </template>

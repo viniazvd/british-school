@@ -101,17 +101,17 @@
 		</div>
 
     <sweet-modal icon="success" ref="modalSucess" @close="redirectPage">
-      <p>Adiantamento efetuado com sucesso!</p>
+      <p>Adiantamento efetuado com sucesso! <i class="glyphicon glyphicon-ok"></i></p>
       <p><button class="btn btn-success" @click='createPDF'>Gerar PDF <i class="glyphicon glyphicon-print"></i></button></p>
     </sweet-modal>
     <sweet-modal icon="warning" ref="modalFail">
-      Ocorreu um erro. Tente novamente.
+      Ocorreu um erro. Tente novamente. <i class="glyphicon glyphicon-repeat"></i>
     </sweet-modal>
     <sweet-modal icon="warning" ref="modalFailNoItens">
-      Item obrigatório. Tente novamente.
+      Item obrigatório. Tente novamente. <i class="glyphicon glyphicon-repeat"></i>
     </sweet-modal>
     <sweet-modal icon="warning" ref="modalFailDataDif">
-      Digite o ano atual. Tente novamente.
+      Digite o ano atual. Tente novamente. <i class="glyphicon glyphicon-repeat"></i>
     </sweet-modal>
 
 	</div>

@@ -32,14 +32,14 @@
           </div>
 
           <sweet-modal icon="success" ref="modalSucess" @close="fecharModal">
-            <p>Prestação de contas efetuada com sucesso!</p>
+            <p>Prestação de contas efetuada com sucesso! <i class="glyphicon glyphicon-ok"></i></p>
             <p><button class="btn btn-success" @click='createPDF'>Gerar PDF <i class="glyphicon glyphicon-print"></i></button></p>
           </sweet-modal>
           <sweet-modal icon="warning" ref="modalFail">
-            Ocorreu um erro. Tente novamente.
+            Ocorreu um erro. Tente novamente. <i class="glyphicon glyphicon-repeat"></i>
           </sweet-modal>
           <sweet-modal icon="warning" ref="modalFailNoItens">
-            Prestação de contas obrigatória. Tente novamente.
+            Prestação de contas obrigatória. Tente novamente. <i class="glyphicon glyphicon-repeat"></i>
           </sweet-modal>
           
         </div>

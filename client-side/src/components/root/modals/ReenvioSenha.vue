@@ -29,10 +29,10 @@
 						</div>
 
 					<sweet-modal icon="success" ref="modalSucess" @close="redirectPageSucess">
-						E-mail enviado com a nova senha!
+						E-mail enviado com a nova senha! <i class="glyphicon glyphicon-ok"></i>
 					</sweet-modal>
 					<sweet-modal icon="warning" ref="modalFail" @close="redirectPageFail">
-						Dados incorretos. Tente novamente.
+						Dados incorretos. Tente novamente. <i class="glyphicon glyphicon-repeat"></i>
 					</sweet-modal>
 
 					</div>
