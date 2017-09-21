@@ -1,7 +1,7 @@
 <template>
 	<div id="add-item">
 
-		<div class="row" style="margin-top:30px;" v-for="(item, index) in itens">
+		<div class="row" style="margin-top:10px;" v-for="(item, index) in itens">
 			<div class="col-md-9 mb-9">
 				<input type="text" v-model="item.descricao" placeholder="Descrição do item" class="form-control">
 			</div>
@@ -11,10 +11,10 @@
 			</div>
 
 			<div class="col-md-1 mb-1">
-        <span class="input-group-addon" v-if="isLast(index)" @click="add">
+        <span class="btn btn-success widthBtn" v-if="isLast(index)" @click="add">
           <i class="glyphicon glyphicon-plus"></i>
         </span>
-        <span class="input-group-addon" v-if="lastOne(index)" @click="remove(index, item)">
+        <span class="btn btn-danger widthBtn" v-if="lastOne(index)" @click="remove(index, item)">
           <i class="glyphicon glyphicon-trash"></i>
         </span>
 			</div>
@@ -80,3 +80,10 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.widthBtn {
+  width: 32px !important;
+  padding-left: 9px;
+}
+</style>

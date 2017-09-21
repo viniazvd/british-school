@@ -2,7 +2,7 @@
 	<div id="add-item">
 
 		<div class="row" v-for="(item, index) in itens">
-			<div class="col-md-2 mb-2">
+			<div class="col-md-2 mb-2" style="margin-bottom: 10px;">
         <select v-model="item.itemSelected" class="form-control">
           <option v-for="option in itemPrestacao" v-bind:value="option.iditemadiantamento">
             {{ option.addescricao }}
@@ -23,14 +23,12 @@
 			</div>
 
 			<div class="col-md-1 mb-1">
-        <span class="input-group-addon" v-if="isLast(index)" @click="add">
+        <span class="btn btn-success widthBtn" v-if="isLast(index)" @click="add">
           <i class="glyphicon glyphicon-plus"></i>
         </span>
-        <span class="input-group-addon" v-if="lastOne(index)" @click="remove(index, item)">
+        <span class="btn btn-danger widthBtn" v-if="lastOne(index)" @click="remove(index, item)">
           <i class="glyphicon glyphicon-trash"></i>
         </span>
-				<!--<button class="button btn-success" v-if="isLast(index)" @click="add">+</button>
-				<button class="button btn-danger" v-if="lastOne(index)" @click="remove(index, item)">-</button>-->
 			</div>
 		</div>
 
@@ -107,3 +105,10 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.widthBtn {
+  width: 32px !important;
+  padding-left: 9px;
+}
+</style>

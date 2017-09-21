@@ -2,7 +2,7 @@
 	<div>
 		<header class="page-header row">
 			<h2 class="centraliza titulo">Prestação de contas</h2>
-			<h4 class="centraliza">Total de registros: <strong>{{ totalRegistros }}</strong></h4>
+			<h4 class="centraliza"><i class="glyphicon glyphicon-duplicate"></i> Total de registros: <strong>{{ totalRegistros }}</strong></h4>
 
 			<div class="form-group">
 				<select class="form-control" v-model="configs.orderBy">

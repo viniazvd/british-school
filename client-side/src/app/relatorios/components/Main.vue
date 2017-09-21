@@ -2,7 +2,8 @@
 	<div>
 		<header class="page-header row">
 			<h2 class="centraliza titulo">Relatórios</h2>
-			<h4 class="centraliza">Ano do relatório: <strong>{{ ano }}</strong> - Total de registros: <strong>{{ totalRegistros }}</strong></h4>
+			<h4 class="centraliza"><i class="glyphicon glyphicon-hourglass"></i> Ano do relatório: <strong>{{ ano }}</strong></h4> 
+      <h4 class="centraliza"><i class="glyphicon glyphicon-duplicate"></i> Total de registros: <strong>{{ totalRegistros }}</strong></h4>
 
 			<div class="form-group">
 				<select class="form-control" v-model="configs.orderBy">

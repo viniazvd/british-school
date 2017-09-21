@@ -3,7 +3,7 @@
     <div class="page-header row">
       <h2 class="centraliza titulo">Adiantamento</h2>
 
-      <div class="row" style="margin-top:30px;">
+      <div class="row" style="margin-top:10px;">
         <div class="col-md-2 mb-2">
           <input type="date" class="form-control" v-model="adiantamento.data">
         </div>
@@ -22,7 +22,7 @@
         </div>
       </div>
 
-      <div class="row" style="margin-top:30px;">
+      <div class="row" style="margin-top:10px;">
         <div class="col-md-2 mb-2">
           <multiselect v-model="adiantamento.pagamentoSelected" :options="pagamento" :close-on-select="true" open-direction="below"
             placeholder="Forma pagamento" :show-labels="false">
@@ -49,10 +49,10 @@
       </div>
     </div>
 		
-    <div v-if="isDeposito">
+    <div class="page-header row" v-if="isDeposito" style="margin-top: 20px;">
 			<h2 class="centraliza titulo">Dados do depósito</h2>
 
-      <div class="row" style="margin-top:30px;">
+      <div class="row" style="margin-top:10px;">
         <div class="col-md-1 mb-1">
           <select v-model="deposito.cpfoucnpj" class="form-control">
             <option value="CPF">CPF</option>
@@ -80,12 +80,12 @@
       </div>
     </div>
 
-		<div>
+		<div class="page-header row" style="margin-top: 20px;">
       <h2 class="centraliza titulo">Itens do adiantamento</h2>
 
       <addItem v-model="itens"></addItem>
 
-      <div class="row" style="margin-top:20px;">
+      <div class="row" style="margin-top:10px;">
         <div class="col-md-9 mb-9">.</div>
         <div class="col-md-2 mb-2">
           <money :value="somaTotalItens" v-bind="money" class="form-control" disabled></money>
