@@ -24,7 +24,7 @@
         <i class="glyphicon glyphicon-eye-open"></i>
 			</div>
 
-			<button type="submit" @click="doLogin" class="btn btn-success" :disabled="!isValid">Sign up</button>
+			<button type="submit" @click="doLogin" class="btn btn-success" :disabled="!isValid">SignIn</button>
 			<button type="button" class="btn btn-danger" @click="reset">Clear</button>
       <button class="btn btn-default" @click="showModalReenvioSenha=true">Esqueceu a senha?</button>
 		</div>

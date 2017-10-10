@@ -37,7 +37,7 @@ export default {
       itens: [],
       moneyConfig: {
         decimal: '.',
-        thousands: ',',
+        thousands: '',
         prefix: '',
         suffix: '',
         precision: 2,

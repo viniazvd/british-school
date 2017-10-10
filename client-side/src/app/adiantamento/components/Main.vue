@@ -4,48 +4,25 @@
       <h2 class="centraliza titulo">Adiantamento</h2>
 
       <div class="row" style="margin-top:10px;">
-        <div class="col-md-2 mb-2">
-          <input type="date" class="form-control" v-model="adiantamento.data">
-        </div>
-        <div class="col-md-4 mb-4">
-          <multiselect v-model="adiantamento.contaOrcamentariaSelected" :value="aprovadoresArray" :options="contaOrcamentariaArray" :close-on-select="true" @update="updateSelectContaOrcamentaria"
-            open-direction="below" placeholder="Escolha uma conta orçamentária" :show-labels="false">
-          </multiselect>
-        </div>
-        <div class="col-md-3 mb-3">
-          <multiselect v-model="adiantamento.aprovadorSelected" :options="aprovadoresArray" :close-on-select="true" @update="updateSelectAprovador"
-            open-direction="below" :placeholder="idContaOrcamentoFiltraAprovadores" :show-labels="false">
-          </multiselect>
-        </div>
-        <div class="col-md-3 mb-3">
-          <input type="text" class="form-control" placeholder="Departamento" v-model="adiantamento.departamento">
-        </div>
+        <inputAdiantamento elClass="col-md-2 mb-2" typeinput="date" :vmodel.sync="adiantamento.data"></inputAdiantamento>
+        
+        <multiselectAdiantamento elClass="col-md-4 mb-4" :vmodel="adiantamento.contaOrcamentariaSelected" elPlaceholder="Escolha uma conta orçamentária" :optionsArray="contaOrcamentariaArray" :updated="updateSelectContaOrcamentaria"></multiselectAdiantamento>  
+        
+        <multiselectAdiantamento elClass="col-md-3 mb-3" :vmodel="adiantamento.aprovadorSelected" :elPlaceholder="idContaOrcamentoFiltraAprovadores" :optionsArray="aprovadoresArray" :updated="updateSelectAprovador"></multiselectAdiantamento>  
+
+        <inputAdiantamento elClass="col-md-3 mb-3" typeinput="text" elPlaceholder="Departamento" :vmodel.sync="adiantamento.departamento"></inputAdiantamento>
       </div>
 
       <div class="row" style="margin-top:10px;">
-        <div class="col-md-2 mb-2">
-          <multiselect v-model="adiantamento.pagamentoSelected" :options="pagamento" :close-on-select="true" open-direction="below"
-            placeholder="Forma pagamento" :show-labels="false">
-          </multiselect>
-        </div>
-        <div class="col-md-2 mb-2">
-          <multiselect v-model="adiantamento.moedaSelected" :options="moedasArray" :close-on-select="true" @update="updateSelectMoeda"
-            open-direction="below" placeholder="Cotação da moeda" :show-labels="false">
-          </multiselect>
-        </div>
-        <div class="col-md-2 mb-2">
-          <multiselect v-model="adiantamento.unidadeSelected" :options="unidadesArray" :close-on-select="true" @update="updateSelectUnidade"
-            open-direction="below" placeholder="Unidade" :show-labels="false">
-          </multiselect>
-        </div>
-        <div class="col-md-3 mb-3">
-          <multiselect :options="pagamento" :close-on-select="true" open-direction="below"
-            placeholder="Centro de Custos" :show-labels="false">
-          </multiselect>
-        </div>
-        <div class="col-md-3 mb-3">
-          <input type="text" class="form-control" placeholder="Evento" v-model="adiantamento.evento">
-        </div>
+        <multiselectAdiantamento elClass="col-md-2 mb-2" :vmodel="adiantamento.pagamentoSelected" elPlaceholder="Forma pagamento" :optionsArray="pagamento" :updated="updateSelectPagamento"></multiselectAdiantamento>  
+
+        <multiselectAdiantamento elClass="col-md-2 mb-2" :vmodel="adiantamento.moedaSelected" elPlaceholder="Cotação da moeda" :optionsArray="moedasArray" :updated="updateSelectMoeda"></multiselectAdiantamento>
+
+        <multiselectAdiantamento elClass="col-md-2 mb-2" :vmodel="adiantamento.unidadeSelected" elPlaceholder="Unidade" :optionsArray="unidadesArray" :updated="updateSelectUnidade"></multiselectAdiantamento>
+
+        <multiselectAdiantamento elClass="col-md-3 mb-3" elPlaceholder="Centro de custo" :optionsArray="unidadesArray" :updated="updateSelectUnidade"></multiselectAdiantamento>
+
+        <inputAdiantamento elClass="col-md-3 mb-3" typeinput="text" elPlaceholder="Evento" :vmodel.sync="adiantamento.evento"></inputAdiantamento>
       </div>
     </div>
 		
@@ -59,24 +36,17 @@
             <option value="CNPJ">CNPJ</option>
           </select>
         </div>
-        <div class="col-md-2 mb-2">
-          <input type="text" class="form-control" placeholder="Nome" v-model="deposito.nome">
-        </div>
-        <div class="col-md-1 mb-1">
-          <input type="text" class="form-control" placeholder="Banco" v-model="deposito.banco">
-        </div>
-        <div class="col-md-2 mb-2">
-          <input type="text" class="form-control" placeholder="Tipo da conta" v-model="deposito.tipoconta">
-        </div>
-        <div class="col-md-2 mb-2">
-          <input type="number" class="form-control" placeholder="Agência" v-model="deposito.agencia">
-        </div>
-        <div class="col-md-2 mb-2">
-          <input type="number" class="form-control" placeholder="Conta" v-model="deposito.conta">
-        </div>
-        <div class="col-md-2 mb-2">
-          <input class="form-control" placeholder="Valor" v-model.lazy="deposito.cpfcnpjvalor" v-money="moneyConfig">
-        </div>
+        <inputAdiantamento elClass="col-md-2 mb-2" typeinput="text" elPlaceholder="Nome" :vmodel.sync="deposito.nome"></inputAdiantamento>
+
+        <inputAdiantamento elClass="col-md-1 mb-1" typeinput="text" elPlaceholder="Banco" :vmodel.sync="deposito.banco"></inputAdiantamento>
+        
+        <inputAdiantamento elClass="col-md-2 mb-2" typeinput="text" elPlaceholder="Tipo da conta" :vmodel.sync="deposito.tipoconta"></inputAdiantamento>
+        
+        <inputAdiantamento elClass="col-md-2 mb-2" typeinput="text" elPlaceholder="Agência" :vmodel.sync="deposito.agencia"></inputAdiantamento>
+        
+        <inputAdiantamento elClass="col-md-2 mb-2" typeinput="text" elPlaceholder="Conta" :vmodel.sync="deposito.conta"></inputAdiantamento>
+
+        <inputAdiantamento elClass="col-md-2 mb-2" typeinput="text" elPlaceholder="Valor" :vmodel.sync="deposito.cpfcnpjvalor" v-money="moneyConfig"></inputAdiantamento>
       </div>
     </div>
 
@@ -121,6 +91,8 @@
 import { Money } from 'v-money'
 import Multiselect from 'vue-multiselect'
 import addItem from './add-item'
+import inputAdiantamento from './input-adiantamento'
+import multiselectAdiantamento from './multiselect-adiantamento'
 import * as service from '../services'
 import { SweetModal, SweetModalTab } from 'sweet-modal-vue'
 import currentDate from '../../../utils/date/currentDate'
@@ -130,7 +102,7 @@ import JSPDFTABLE from 'jspdf-autotable'
 export default {
   name: 'adiantamento',
 
-  components: { Multiselect, addItem, Money, SweetModal, SweetModalTab, currentDate, JSPDF, JSPDFTABLE },
+  components: { Multiselect, addItem, inputAdiantamento, multiselectAdiantamento, Money, SweetModal, SweetModalTab, currentDate, JSPDF, JSPDFTABLE },
 
   data () {
     return {
@@ -166,7 +138,7 @@ export default {
 
       moneyConfig: {
         decimal: '.',
-        thousands: '',
+        thousands: '.',
         prefix: '',
         suffix: '',
         precision: 2,
@@ -187,10 +159,6 @@ export default {
 
   watch: {
     'adiantamento.contaOrcamentariaSelected': function(newValue, oldValue) {
-      if (oldValue !== null) {
-        if (newValue !== oldValue) this.adiantamento.aprovadorSelected = ''
-      }
-
       if (newValue !== null) {
         const contaOrcamentariaID = newValue.split(' ')[0]
 
@@ -204,9 +172,10 @@ export default {
             this.aprovadores = data
           })
       } else {
+        console.log('aqui')
+        this.idContaOrcamentoFiltraAprovadores = 'Escolha um aprovador'
         this.adiantamento.aprovadorSelected = ''
         this.aprovadores = []
-        this.idContaOrcamentoFiltraAprovadores = 'Escolha um aprovador'
       }
     },
 
@@ -281,6 +250,10 @@ export default {
 
     updateSelectMoeda (newSelected) {
       this.adiantamento.moedaSelected = newSelected
+    },
+
+    updateSelectPagamento (newSelected) {
+      this.adiantamento.pagamentoSelected = newSelected
     },
 
     registrarAdiantamento () {

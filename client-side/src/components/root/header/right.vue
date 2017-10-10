@@ -5,7 +5,7 @@
 				<a style="color: #fff;"><strong>Login</strong></a>
 			</router-link>
 			<li class="dropdown" :class="{ open: isOpenUser }" v-if="isAuthenticated">
-				<a href="javascript:;" @click="toggleUserMenu" class="dropdown-toggle" style="color: #fff;"><i class="glyphicon glyphicon-user"></i> <strong>{{ currentUser }}</strong><span class="caret"></span></a>
+				<a href="javascript:;" @click="toggleUserMenu" class="dropdown-toggle" style="color: #fff;"><i class="glyphicon glyphicon-user"></i> <strong>{{ currentUser | truncateNomeLogin }}</strong><span class="caret"></span></a>
 				<ul class="dropdown-menu">
 					<li><a href="javascript:;" @click="showModalMudarSenha=true"><i class="glyphicon glyphicon-wrench"></i> Mudar a senha</a></li>
 					<li role="separator" class="divider"></li>
